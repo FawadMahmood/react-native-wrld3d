@@ -117,10 +117,18 @@ public class Wrld3dViewManager extends ViewGroupManager<FrameLayout> {
             Toast.LENGTH_SHORT).show();
   }
 
-//  @Override
-//  public void removeView(FrameLayout parent, View view) {
-//    super.removeView(parent, view);
-//  }
+
+
+
+  WrldMapFragment wrldMapFragment;
+
+
+  @Override
+  public void removeView(FrameLayout parent, View view) {
+    Toast.makeText(parent.getContext(),(String)"removed some views?",
+            Toast.LENGTH_SHORT).show();
+//    wrldMapFragment.m_mapView.removeView(view);
+  }
 
   @ReactPropGroup(names = {"width", "height"}, customType = "Style")
   public void setStyle(FrameLayout view, int index, Integer value) {
@@ -143,7 +151,7 @@ public class Wrld3dViewManager extends ViewGroupManager<FrameLayout> {
     ViewGroup parentView = (ViewGroup) root.findViewById(reactNativeViewId);
     setupLayout(parentView);
 
-    final WrldMapFragment wrldMapFragment = new WrldMapFragment();
+    wrldMapFragment = new WrldMapFragment();
     FragmentActivity activity = (FragmentActivity) reactContext.getCurrentActivity();
     activity.getSupportFragmentManager()
             .beginTransaction()
@@ -161,16 +169,24 @@ public class Wrld3dViewManager extends ViewGroupManager<FrameLayout> {
                     @Override
                     public void onMapReady(EegeoMap map) {
                       m_eegeoMap = map;
-                      Toast.makeText(wrldMapFragment.getContext(),(String)"on Map is ready?",
-                              Toast.LENGTH_SHORT).show();
 
-                      wrldMapFragment.m_mapView.addView(addedView);
-                      m_positionerChangedListener = new ViewAnchorAdapter(addedView, 0.5f, 0.5f);
-                      m_eegeoMap.addPositionerChangedListener(m_positionerChangedListener);
+                      if(addedView != null){
+                        Toast.makeText(wrldMapFragment.getContext(),(String)"on Map is ready?",
+                                Toast.LENGTH_SHORT).show();
 
-                      m_eegeoMap.addPositioner(new PositionerOptions()
-                              .position(new LatLng(37.802355, -122.405848))
-                      );
+
+                        addedView.setLayoutParams(new ViewGroup.LayoutParams(addedView.getWidth(), addedView.getHeight()));
+
+                        wrldMapFragment.m_mapView.addView(addedView);
+                        m_positionerChangedListener = new ViewAnchorAdapter(addedView, 0.5f, 0.5f);
+                        m_eegeoMap.addPositionerChangedListener(m_positionerChangedListener);
+
+                        m_eegeoMap.addPositioner(new PositionerOptions()
+                                .position(new LatLng(37.802355, -122.405848))
+                        );
+                      }
+
+
 
                     }
                   });

@@ -27,6 +27,7 @@ const createFragment = (viewId: number) =>
 
 type MapTypes = {
   style?: ViewStyle,
+  children?: Element;
 }
 
 export const Wrld3dView = (props: MapTypes) => {
@@ -60,11 +61,12 @@ export const Wrld3dView = (props: MapTypes) => {
         // @ts-ignore
         ref={ref}
       >
-        <View style={{ width: 100, height: 100, backgroundColor: "transparent" }}>
-          <View style={{ width: 100, height: 100, backgroundColor: "red", position: "absolute", bottom: 0, right: 10 }}></View>
-        </View>
+        {props.children}
       </WrldMap3d>
     </View>
 
   )
 }
+
+
+{/* <View style={{ width: 100, height: 100, backgroundColor: "red", borderRadius: 50 }}></View> */ }
