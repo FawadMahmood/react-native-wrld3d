@@ -13,9 +13,11 @@ import android.widget.Toast;
 import androidx.fragment.app.Fragment;
 
 import com.eegeo.mapapi.EegeoApi;
+import com.eegeo.mapapi.MapView;
 
 public class WrldMapFragment extends Fragment {
     CustomView customView;
+    MapView m_mapView;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup parent, Bundle savedInstanceState) {
@@ -34,8 +36,8 @@ public class WrldMapFragment extends Fragment {
         EegeoApi.init(this.getContext(), API_KEY);
 
         View view = inflater.inflate(R.layout.fragment_map_screen, parent, false);
+        m_mapView = (MapView)view.findViewById(R.id.mapView);
         return view;
-
 //        customView = new CustomView(this.getContext());
 //        return customView; // this CustomView could be any view that you want to render
     }

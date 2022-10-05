@@ -1,8 +1,11 @@
 import React, { useEffect, useRef, useState } from 'react';
 import {
+  Alert,
   findNodeHandle,
   LayoutChangeEvent,
   PixelRatio,
+  Text,
+  TouchableOpacity,
   UIManager,
   View,
   ViewStyle,
@@ -56,7 +59,11 @@ export const Wrld3dView = (props: MapTypes) => {
         style={mapStyles}
         // @ts-ignore
         ref={ref}
-      />
+      >
+        <View style={{ width: 100, height: 100, backgroundColor: "transparent" }}>
+          <View style={{ width: 100, height: 100, backgroundColor: "red", position: "absolute", bottom: 0, right: 10 }}></View>
+        </View>
+      </WrldMap3d>
     </View>
 
   )

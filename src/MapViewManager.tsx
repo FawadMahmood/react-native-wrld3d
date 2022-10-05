@@ -9,6 +9,7 @@ const LINKING_ERROR =
 
 export type Wrld3dProps = {
     style: ViewStyle;
+    children: Element;
 };
 
 

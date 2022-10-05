@@ -10,6 +10,7 @@ import androidx.annotation.NonNull;
 public class CustomView extends FrameLayout {
   public CustomView(@NonNull Context context) {
     super(context);
+
     // set padding and background color
     this.setPadding(16,16,16,16);
     this.setBackgroundColor(Color.parseColor("#5FD3F3"));
