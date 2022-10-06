@@ -1,11 +1,8 @@
 import React, { useEffect, useRef, useState } from 'react';
 import {
-  Alert,
   findNodeHandle,
   LayoutChangeEvent,
   PixelRatio,
-  Text,
-  TouchableOpacity,
   UIManager,
   View,
   ViewStyle,
