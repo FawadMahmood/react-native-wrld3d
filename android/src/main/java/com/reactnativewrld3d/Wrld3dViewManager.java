@@ -35,6 +35,7 @@ import com.facebook.react.uimanager.annotations.ReactPropGroup;
 import com.facebook.react.uimanager.ViewGroupManager;
 import com.facebook.react.uimanager.ThemedReactContext;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -63,7 +64,7 @@ public class Wrld3dViewManager extends ViewGroupManager<FrameLayout> {
    */
   @Override
   public FrameLayout createViewInstance(ThemedReactContext reactContext) {
-    return new FrameLayout(reactContext);
+       return new FrameLayout(reactContext);
   }
 
   /**
@@ -96,39 +97,42 @@ public class Wrld3dViewManager extends ViewGroupManager<FrameLayout> {
     }
   }
 
-//  @Override
-//  public void addViews(FrameLayout parent, List<View> views) {
-////    super.addViews(parent, views);
-//
+  WrldMapFragment wrldMapFragment;
 
-//  }
-
-
-  View addedView;
+  List<View> addedView = new ArrayList<View>();
 
   @Override
   public void addView(FrameLayout parent, View child, int index) {
-//    super.addView(parent, child, index);
-
-//    parent.addView(child);
-    addedView= child;
-
-    Toast.makeText(parent.getContext(),(String)"added some views?",
-            Toast.LENGTH_SHORT).show();
+    addedView.add(child);
   }
 
 
 
+//  @Override
+//  public void addView(FrameLayout parent, View child, int index) {
+////    super.addView(parent, child, index);
+//
+////    parent.addView(child);
+//    addedView= child;
+//
 
-  WrldMapFragment wrldMapFragment;
-
-
-  @Override
-  public void removeView(FrameLayout parent, View view) {
-    Toast.makeText(parent.getContext(),(String)"removed some views?",
-            Toast.LENGTH_SHORT).show();
-//    wrldMapFragment.m_mapView.removeView(view);
-  }
+//  }
+//
+//
+//
+//
+//
+//
+//
+//
+//  @Override
+//  public void removeView(FrameLayout parent, View view) {
+//    Toast.makeText(parent.getContext(),(String)"removed some views?",
+//            Toast.LENGTH_SHORT).show();
+//
+//
+////    wrldMapFragment.m_mapView.removeView(view);
+//  }
 
   @ReactPropGroup(names = {"width", "height"}, customType = "Style")
   public void setStyle(FrameLayout view, int index, Integer value) {
@@ -142,6 +146,8 @@ public class Wrld3dViewManager extends ViewGroupManager<FrameLayout> {
   }
 
   private OnPositionerChangedListener m_positionerChangedListener = null;
+
+  List<Positioner> _positioners = new ArrayList<Positioner>();
 
 
   /**
@@ -170,24 +176,53 @@ public class Wrld3dViewManager extends ViewGroupManager<FrameLayout> {
                     public void onMapReady(EegeoMap map) {
                       m_eegeoMap = map;
 
-                      if(addedView != null){
-                        Toast.makeText(wrldMapFragment.getContext(),(String)"on Map is ready?",
-                                Toast.LENGTH_SHORT).show();
+                      if(addedView != null) {
+                        Toast.makeText(wrldMapFragment.getContext(), (String) "on Map is ready?" + addedView.size(), Toast.LENGTH_SHORT).show();
+
+                        for (int i = 0; i < addedView.size(); i++) {
+                          if (addedView.get(i) != null) {
+                            View _addedView = addedView.get(i);
+                            _addedView.setLayoutParams(new ViewGroup.LayoutParams(_addedView.getWidth(), _addedView.getHeight()));
+
+//                            if(m_positionerChangedListener == null){
+                              m_positionerChangedListener = new ViewAnchorAdapter(_addedView, 0.5f, 0.5f,i);
+                              m_eegeoMap.addPositionerChangedListener(m_positionerChangedListener);
+//                            }
+
+                            if(i ==0){
+                              _positioners.add(
+                                      m_eegeoMap.addPositioner(new PositionerOptions()
+                                              .position(new LatLng(37.802355,-122.405848))
+                                      )
+                              );
+                            }else if(i ==1){
+                              _positioners.add(
+                                      m_eegeoMap.addPositioner(new PositionerOptions()
+                                              .position(new LatLng(39.802355,-122.405848))
+                                      )
+                              );
+                            }else if(i == 2){
+                              _positioners.add(
+                                      m_eegeoMap.addPositioner(new PositionerOptions()
+                                              .position(new LatLng(40.802355,-122.405848))
+                                      )
+                              );
+                            }
+
+                            wrldMapFragment.m_mapView.addView(_addedView);
+
+//                            try {
+//                              Thread.sleep(1000);
+//                            } catch (InterruptedException e) {
+//                              e.printStackTrace();
+//                            }
 
 
-                        addedView.setLayoutParams(new ViewGroup.LayoutParams(addedView.getWidth(), addedView.getHeight()));
+                          }
+                        }
 
-                        wrldMapFragment.m_mapView.addView(addedView);
-                        m_positionerChangedListener = new ViewAnchorAdapter(addedView, 0.5f, 0.5f);
-                        m_eegeoMap.addPositionerChangedListener(m_positionerChangedListener);
 
-                        m_eegeoMap.addPositioner(new PositionerOptions()
-                                .position(new LatLng(37.802355, -122.405848))
-                        );
                       }
-
-
-
                     }
                   });
 
@@ -232,24 +267,35 @@ public class Wrld3dViewManager extends ViewGroupManager<FrameLayout> {
 
     private View m_view;
     private PointF m_anchorUV;
+    private int index;
 
-    ViewAnchorAdapter(@NonNull View view, float u, float v)
+    ViewAnchorAdapter(@NonNull View view, float u, float v,int _index)
     {
       m_view = view;
       m_anchorUV = new PointF(u, v);
+      index = _index;
     }
 
     @UiThread
     public void onPositionerChanged(Positioner positioner) {
-      if(positioner.isScreenPointProjectionDefined()) {
+      Positioner _positioner = _positioners.get(index);
+      if(_positioner.isScreenPointProjectionDefined()){
         m_view.setVisibility(View.VISIBLE);
-        Point screenPoint = positioner.getScreenPointOrNull();
+        Point screenPoint = _positioner.getScreenPointOrNull();
         if(screenPoint != null)
           ViewAnchor.positionView(m_view, screenPoint, m_anchorUV);
-      }
-      else {
+      }else{
         m_view.setVisibility(View.INVISIBLE);
       }
+//      if(positioner.isScreenPointProjectionDefined()) {
+//        m_view.setVisibility(View.VISIBLE);
+//        Point screenPoint = positioner.getScreenPointOrNull();
+//        if(screenPoint != null)
+//          ViewAnchor.positionView(m_view, screenPoint, m_anchorUV);
+//      }
+//      else {
+//        m_view.setVisibility(View.INVISIBLE);
+//      }
     }
   }
 }
