@@ -167,6 +167,7 @@ public class Wrld3dViewManager extends ViewGroupManager<FrameLayout> {
         if(addedView != null) {
             for (int i = atIndex; i < addedView.size(); i++) {
                 if (addedView.get(i) != null && addedView.get(i).getParent() == null) {
+
                     View _addedView = addedView.get(i);
                     _addedView.setVisibility(View.INVISIBLE);
                     _addedView.setLayoutParams(new ViewGroup.LayoutParams(300, 300));

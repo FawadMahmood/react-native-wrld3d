@@ -29,6 +29,8 @@ type MapTypes = {
 
 
 export const Marker = MarkerView;
+
+
 export const Wrld3dView = (props: MapTypes) => {
   const [dimensions, setDimensions] = useState({ width: 0, height: 0 });
   const ref = useRef(null);

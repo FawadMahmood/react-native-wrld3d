@@ -1,17 +1,13 @@
 package com.reactnativewrld3d;
 
-import android.content.Context;
-import android.graphics.Color;
-import android.view.View;
-import android.widget.LinearLayout;
-
 import com.facebook.react.uimanager.ThemedReactContext;
+import com.facebook.react.views.view.ReactViewGroup;
 
-public class MarkerView extends LinearLayout {
+public class MarkerView extends ReactViewGroup {
     public MarkerView(ThemedReactContext context) {
         super(context);
 
-        this.setBackgroundColor(Color.parseColor("#5FD3F3"));
+//        this.setBackgroundColor(Color.parseColor("#5FD3F3"));
     }
 
 }

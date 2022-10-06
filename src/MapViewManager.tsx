@@ -14,8 +14,12 @@ export type Wrld3dProps = {
 
 
 export type MarkerProps = {
-    style: ViewStyle;
+    style?: ViewStyle;
     children: Element | undefined;
+    location: {
+        latitude: number,
+        longitude: number,
+    }
 };
 
 export const ComponentName = 'Wrld3dView';
