@@ -104,9 +104,29 @@ public class Wrld3dViewManager extends ViewGroupManager<FrameLayout> {
 
   @Override
   public void addView(FrameLayout parent, View child, int index) {
-    Toast.makeText(wrldMapFragment.getContext(), (String) "added more views?" + addedView.size(), Toast.LENGTH_SHORT).show();
-    addedView.add(child);
-  }
+    if(wrldMapFragment != null && wrldMapFragment.m_mapView != null){
+      Toast.makeText(parent.getContext(), (String) "added more views wrldMapFragment?" + addedView.size(), Toast.LENGTH_SHORT).show();
+      addViewToMap(child);
+    }else{
+      //Toast.makeText(parent.getContext(), (String) "added more views?" + addedView.size(), Toast.LENGTH_SHORT).show();
+      addedView.add(child);
+
+    }
+   }
+
+   private void addViewToMap(View child){
+     child.setLayoutParams(new ViewGroup.LayoutParams(child.getWidth(), child.getHeight()));
+     m_positionerChangedListener = new ViewAnchorAdapter(child, 0.5f, 0.5f,addedView.size());
+     m_eegeoMap.addPositionerChangedListener(m_positionerChangedListener);
+     _positioners.add(
+             m_eegeoMap.addPositioner(new PositionerOptions()
+                     .position(new LatLng(20.802355,-122.405848))
+             )
+     );
+
+     addedView.add(child);
+     wrldMapFragment.m_mapView.addView(child);
+   }
 
   @Override
   public void removeViewAt(FrameLayout parent, int index) {
@@ -225,14 +245,6 @@ public class Wrld3dViewManager extends ViewGroupManager<FrameLayout> {
                             }
 
                             wrldMapFragment.m_mapView.addView(_addedView);
-
-//                            try {
-//                              Thread.sleep(1000);
-//                            } catch (InterruptedException e) {
-//                              e.printStackTrace();
-//                            }
-
-
                           }
                         }
 
