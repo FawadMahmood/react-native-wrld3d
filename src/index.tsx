@@ -9,7 +9,7 @@ import {
 } from 'react-native';
 
 
-import { WrldMap3d } from './MapViewManager';
+import { WrldMap3d, Marker as MarkerView } from './MapViewManager';
 
 
 
@@ -27,6 +27,8 @@ type MapTypes = {
   children?: Element;
 }
 
+
+export const Marker = MarkerView;
 export const Wrld3dView = (props: MapTypes) => {
   const [dimensions, setDimensions] = useState({ width: 0, height: 0 });
   const ref = useRef(null);

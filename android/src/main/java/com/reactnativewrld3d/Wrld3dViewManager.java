@@ -51,6 +51,10 @@ public class Wrld3dViewManager extends ViewGroupManager<FrameLayout> {
     private EegeoMap m_eegeoMap = null;
     ReactApplicationContext reactContext;
 
+    private WrldMapFragment wrldMapFragment;
+    private List<View> addedView = new ArrayList<View>();
+    private List<OnPositionerChangedListener> listPotionersListeners = new ArrayList<OnPositionerChangedListener>();
+
 
     public Wrld3dViewManager(ReactApplicationContext reactContext) {
         this.reactContext = reactContext;
@@ -99,43 +103,121 @@ public class Wrld3dViewManager extends ViewGroupManager<FrameLayout> {
         }
     }
 
-    private WrldMapFragment wrldMapFragment;
-    private List<View> addedView = new ArrayList<View>();
+    @Override
+    public void addViews(FrameLayout parent, List<View> views) {
+        Log.d("VIEWS CHANGED","OPERATION addViews " + views.size());
+    }
 
     @Override
     public void addView(FrameLayout parent, View child, int index) {
-        Log.d("REMOVING","removing all views addView");
+        Log.d("VIEWS CHANGED","OPERATION addView " + index + " views size " + addedView.size());
+        addedView.add(child);
+
         if(wrldMapFragment != null && wrldMapFragment.m_mapView != null){
-            Toast.makeText(parent.getContext(), (String) "added more views wrldMapFragment?" + addedView.size(), Toast.LENGTH_SHORT).show();
-            addViewToMap(child);
-        }else{
-            addedView.add(child);
+            UpdateMapCustomViews(index);
         }
-    }
-
-    private void addViewToMap(View child){
-        View newView = child;
-//        newView.setVisibility(View.INVISIBLE);
-        newView.setLayoutParams(new ViewGroup.LayoutParams(newView.getWidth(), newView.getHeight()));
-        OnPositionerChangedListener m_positionerChangedListener = new ViewAnchorAdapter(newView, 0.5f, 0.5f,_positioners.size());
-        m_eegeoMap.addPositionerChangedListener(m_positionerChangedListener);
-        _positioners.add(
-                m_eegeoMap.addPositioner(new PositionerOptions().position(new LatLng(50.802355,-122.405848)))
-        );
-
-//        m_eegeoMap.removePositioner(_positioners.get(_positioners.size()-1));
-        addedView.add(newView);
-        parent.addView(newView);
     }
 
     @Override
     public void removeViewAt(FrameLayout parent, int index) {
-        Log.d("REMOVING","came to remove view");
-        if(wrldMapFragment != null && parent!=null){
-            parent.removeViewAt(index);
-//            addedView.remove(index);
-//            m_eegeoMap.removePositioner(_positioners.get(index));
-//          _positioners.remove(index);
+        Log.d("VIEWS CHANGED","OPERATION removeViewAt "+index + " views size " + addedView.size());
+        addedView.remove(index);
+        m_eegeoMap.removePositioner(_positioners.get(index));
+        _positioners.remove(index);
+        if(parent.getChildCount() > index+1)  super.removeViewAt(parent, index+1);
+//        UpdateMapCustomViews(0);
+    }
+
+
+    //    @Override
+//    public void removeViewAt(FrameLayout _parent, int index) {
+//        Log.d("VIEWS CHANGED","OPERATION removeViewAt "+index + " views size " + addedView.size());
+//        if(wrldMapFragment != null){
+//                m_eegeoMap.removePositioner(_positioners.get(index));
+//                addedView.remove(index);
+//                _positioners.remove(index);
+//                parent.removeViewAt(index + 1);
+//
+//
+//            UpdateMapCustomViews(0);
+//        }
+//
+//    }
+
+
+    private void addViewToMap(View child){
+//        View newView = child;
+////        newView.setVisibility(View.INVISIBLE);
+//        newView.setLayoutParams(new ViewGroup.LayoutParams(200, 200));
+////        newView.setBackground();
+//        OnPositionerChangedListener m_positionerChangedListener = new ViewAnchorAdapter(newView, 0.5f, 0.5f,_positioners.size());
+//        m_eegeoMap.addPositionerChangedListener(m_positionerChangedListener);
+//        _positioners.add(
+//                m_eegeoMap.addPositioner(new PositionerOptions().position(new LatLng(50.802355,-122.405848)))
+//        );
+//
+////        m_eegeoMap.removePositioner(_positioners.get(_positioners.size()-1));
+//        addedView.add(newView);
+//        parent.addView(newView);
+    }
+
+
+    private void UpdateMapCustomViews(int atIndex){
+
+        if(addedView != null) {
+            for (int i = atIndex; i < addedView.size(); i++) {
+                if (addedView.get(i) != null && addedView.get(i).getParent() == null) {
+                    View _addedView = addedView.get(i);
+                    _addedView.setVisibility(View.INVISIBLE);
+                    _addedView.setLayoutParams(new ViewGroup.LayoutParams(300, 300));
+                    OnPositionerChangedListener m_positionerChangedListener  = new ViewAnchorAdapter(_addedView, 0.5f, 0.5f,i);
+
+                    listPotionersListeners.add(m_positionerChangedListener);
+                    m_eegeoMap.addPositionerChangedListener(m_positionerChangedListener);
+
+
+                    if(i ==0){
+                        _positioners.add(
+                                m_eegeoMap.addPositioner(new PositionerOptions()
+                                        .position(new LatLng(37.802355,-122.405848))
+                                )
+                        );
+
+                    }else if(i ==1){
+                        _positioners.add(
+                                m_eegeoMap.addPositioner(new PositionerOptions()
+                                        .position(new LatLng(39.802355,-122.405848))
+                                )
+                        );
+                    }else if(i == 2){
+                        _positioners.add(
+                                m_eegeoMap.addPositioner(new PositionerOptions()
+                                        .position(new LatLng(40.802355,-122.405848))
+                                )
+                        );
+                    }else if(i == 3){
+                        _positioners.add(
+                                m_eegeoMap.addPositioner(new PositionerOptions()
+                                        .position(new LatLng(45.802355,-122.405848))
+                                )
+                        );
+                    }else if(i == 4){
+                        _positioners.add(
+                                m_eegeoMap.addPositioner(new PositionerOptions()
+                                        .position(new LatLng(50.802355,-122.405848))
+                                )
+                        );
+                    }else if(i == 5){
+                        _positioners.add(
+                                m_eegeoMap.addPositioner(new PositionerOptions()
+                                        .position(new LatLng(55.802355,-122.405848))
+                                )
+                        );
+                    }
+//                                                m_eegeoMap.removePositioner(_positioners.get(_positioners.size()-1));
+                    parent.addView(_addedView);
+                }
+            }
         }
     }
 
@@ -183,50 +265,7 @@ public class Wrld3dViewManager extends ViewGroupManager<FrameLayout> {
                                 @Override
                                 public void onMapReady(EegeoMap map) {
                                     m_eegeoMap = map;
-
-                                    if(addedView != null) {
-                                        for (int i = 0; i < addedView.size(); i++) {
-                                            if (addedView.get(i) != null) {
-                                                View _addedView = addedView.get(i);
-                                                _addedView.setVisibility(View.INVISIBLE);
-                                                _addedView.setLayoutParams(new ViewGroup.LayoutParams(_addedView.getWidth(), _addedView.getHeight()));
-
-                                                m_positionerChangedListener = new ViewAnchorAdapter(_addedView, 0.5f, 0.5f,i);
-                                                m_eegeoMap.addPositionerChangedListener(m_positionerChangedListener);
-
-                                                if(i ==0){
-                                                    _positioners.add(
-                                                            m_eegeoMap.addPositioner(new PositionerOptions()
-                                                                    .position(new LatLng(37.802355,-122.405848))
-                                                            )
-                                                    );
-
-                                                }else if(i ==1){
-                                                    _positioners.add(
-                                                            m_eegeoMap.addPositioner(new PositionerOptions()
-                                                                    .position(new LatLng(39.802355,-122.405848))
-                                                            )
-                                                    );
-                                                }else if(i == 2){
-                                                    _positioners.add(
-                                                            m_eegeoMap.addPositioner(new PositionerOptions()
-                                                                    .position(new LatLng(40.802355,-122.405848))
-                                                            )
-                                                    );
-                                                }else if(i == 3){
-                                                    _positioners.add(
-                                                            m_eegeoMap.addPositioner(new PositionerOptions()
-                                                                    .position(new LatLng(45.802355,-122.405848))
-                                                            )
-                                                    );
-                                                }
-//                                                m_eegeoMap.removePositioner(_positioners.get(_positioners.size()-1));
-                                                parent.addView(_addedView);
-                                            }
-                                        }
-
-
-                                    }
+                                    UpdateMapCustomViews(0);
                                 }
                             });
                         }
@@ -275,15 +314,25 @@ public class Wrld3dViewManager extends ViewGroupManager<FrameLayout> {
 
         @UiThread
         public void onPositionerChanged(Positioner positioner) {
-            Positioner _positioner = _positioners.get(index);
-            if(_positioner.isScreenPointProjectionDefined()){
-                m_view.setVisibility(View.VISIBLE);
-                Point screenPoint = _positioner.getScreenPointOrNull();
-                if(screenPoint != null)
-                    ViewAnchor.positionView(m_view, screenPoint, m_anchorUV);
+            if(_positioners.size() > index){
+                Positioner _positioner = _positioners.get(index);
+                if(_positioner.isScreenPointProjectionDefined()){
+//                Log.d("onPositionerChanged", "Positional follows at event :" + index + " isScreenPointProjectionDefined");
+                    m_view.setVisibility(View.VISIBLE);
+                    Point screenPoint = _positioner.getScreenPointOrNull();
+                    if(screenPoint != null)
+                        ViewAnchor.positionView(m_view, screenPoint, m_anchorUV);
+//                else
+//                    Log.d("onPositionerChanged", "Positional follows at event :" + index + " screenPoint is null");
+                }else{
+//                Log.d("onPositionerChanged", "Positional follows at event :" + index + " gone invisible");
+                    m_view.setVisibility(View.INVISIBLE);
+                }
             }else{
                 m_view.setVisibility(View.INVISIBLE);
             }
+//            Log.d("onPositionerChanged", "Positional follows at event :" + index);
+
         }
     }
 }

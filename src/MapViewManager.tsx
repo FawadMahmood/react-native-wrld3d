@@ -13,11 +13,24 @@ export type Wrld3dProps = {
 };
 
 
+export type MarkerProps = {
+    style: ViewStyle;
+    children: Element | undefined;
+};
 
 export const ComponentName = 'Wrld3dView';
+
+export const ComponentNameMarker = 'MarkerView';
+
 
 const WrldMap3d = UIManager.getViewManagerConfig(ComponentName) != null ? requireNativeComponent<Wrld3dProps>(ComponentName) : () => {
     throw new Error(LINKING_ERROR);
 };
 
-export { WrldMap3d }
+
+const Marker = UIManager.getViewManagerConfig(ComponentNameMarker) != null ? requireNativeComponent<MarkerProps>(ComponentNameMarker) : () => {
+    throw new Error(LINKING_ERROR);
+};
+
+
+export { WrldMap3d, Marker }
