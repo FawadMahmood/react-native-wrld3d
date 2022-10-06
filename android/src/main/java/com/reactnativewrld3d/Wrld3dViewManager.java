@@ -5,6 +5,7 @@ import android.graphics.Color;
 import android.graphics.Point;
 import android.graphics.PointF;
 import android.os.Looper;
+import android.util.Log;
 import android.view.Choreographer;
 import android.view.View;
 import android.view.ViewGroup;
@@ -103,12 +104,26 @@ public class Wrld3dViewManager extends ViewGroupManager<FrameLayout> {
 
   @Override
   public void addView(FrameLayout parent, View child, int index) {
+    Toast.makeText(wrldMapFragment.getContext(), (String) "added more views?" + addedView.size(), Toast.LENGTH_SHORT).show();
     addedView.add(child);
   }
 
+  @Override
+  public void removeViewAt(FrameLayout parent, int index) {
+    Log.d("REMOVING","came to remove view");
+    if(wrldMapFragment != null){
+      if(wrldMapFragment.m_mapView != null && this.getChildCount(parent) > index){
+        wrldMapFragment.m_mapView.removeView(addedView.get(index));
+      }
+    }
+  }
 
+  @Override
+  public int getChildCount(FrameLayout parent) {
+    return super.getChildCount(parent);
+  }
 
-//  @Override
+  //  @Override
 //  public void addView(FrameLayout parent, View child, int index) {
 ////    super.addView(parent, child, index);
 //
