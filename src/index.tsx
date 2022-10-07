@@ -56,7 +56,7 @@ export const Wrld3dView = (props: MapTypes) => {
   }
 
   return (
-    <View onLayout={onlayout.bind(null)} style={props.style}>
+    <View onLayout={onlayout.bind(null)} style={[props.style, { overflow: "hidden" }]}>
       <WrldMap3d
         style={mapStyles}
         // @ts-ignore
