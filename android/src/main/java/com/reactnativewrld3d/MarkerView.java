@@ -23,6 +23,7 @@ import com.facebook.react.uimanager.annotations.ReactProp;
 import com.facebook.react.views.view.ReactViewGroup;
 
 public class MarkerView extends LinearLayout {
+    EegeoMap m_eegeoMap;
     private ReadableMap region;
     OnPositionerChangedListener m_positionerChangedListener=null;
     Positioner positioner;
@@ -40,12 +41,8 @@ public class MarkerView extends LinearLayout {
         this.region = region;
     }
 
-    @Override
-    public void onViewRemoved(View child) {
-        Log.d("ON VIEW REMOVED", "CHILD REMOVED YO");
-    }
-
     public void AddItToView(EegeoMap m_eegeoMap, ViewGroup parent){
+       this.m_eegeoMap = m_eegeoMap;
        this.setLayoutParams(new ViewGroup.LayoutParams(300, 300));
         double latitude = region.hasKey("latitude") ? region.getDouble("latitude") : 40.802355;
         double longitude = region.hasKey("longitude") ? region.getDouble("longitude") : -122.405848;
@@ -57,6 +54,21 @@ public class MarkerView extends LinearLayout {
         parent.addView(this);
     }
 
+    @Override
+    public void onViewRemoved(View child) {
+        if(m_positionerChangedListener != null){
+            this.m_eegeoMap.removePositionerChangedListener(m_positionerChangedListener);
+        }
+
+        if(positioner != null){
+            this.m_eegeoMap.removePositioner(positioner);
+        }
+    }
+
+//    public void viewWillBeRemoved(){
+//        Log.d("ON VIEW REMOVED", "CHILD REMOVED YO ViewRemoved");
+//
+//    }
 
 
     private class ViewAnchorAdapter implements OnPositionerChangedListener {

@@ -1,6 +1,7 @@
 package com.reactnativewrld3d;
 
 import android.util.Log;
+import android.view.View;
 
 import androidx.annotation.NonNull;
 
@@ -37,7 +38,6 @@ public class MarkerViewManager extends ViewGroupManager<MarkerView> {
     public void setLocation(MarkerView view, ReadableMap region) {
         view.setLocation(region);
     }
-
 
     @Override
     public void updateExtraData(MarkerView root, Object extraData) {

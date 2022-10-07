@@ -121,6 +121,10 @@ public class Wrld3dViewManager extends ViewGroupManager<FrameLayout> {
 
     @Override
     public void removeViewAt(FrameLayout parent, int index) {
+//        if(parent.getChildAt(index+1) instanceof MarkerView){
+//            ((MarkerView) parent.getChildAt(index + 1)).viewWillBeRemoved();
+//        }
+
         super.removeViewAt(parent, index+1);
     }
 
