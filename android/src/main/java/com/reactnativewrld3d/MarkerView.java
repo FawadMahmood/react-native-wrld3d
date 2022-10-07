@@ -24,6 +24,7 @@ import com.facebook.react.views.view.ReactViewGroup;
 
 public class MarkerView extends LinearLayout {
     EegeoMap m_eegeoMap;
+    ViewGroup parent;
     private ReadableMap region;
     OnPositionerChangedListener m_positionerChangedListener=null;
     Positioner positioner;
@@ -38,12 +39,28 @@ public class MarkerView extends LinearLayout {
     }
 
     public void setLocation(ReadableMap region) {
-        this.region = region;
+        if(this.region != null){
+            this.region = region;
+            update();
+        }else{
+            this.region = region;
+        }
     }
 
-    public void AddItToView(EegeoMap m_eegeoMap, ViewGroup parent){
+    public void update(){
+        this.setVisibility(View.INVISIBLE);
+        onViewRemoved(this);
+        if(m_eegeoMap != null && parent != null){
+            AddItToView(m_eegeoMap,parent,false);
+        }
+    }
+
+    public void AddItToView(EegeoMap m_eegeoMap, ViewGroup parent,boolean isNew){
        this.m_eegeoMap = m_eegeoMap;
-       this.setLayoutParams(new ViewGroup.LayoutParams(300, 300));
+       this.parent = parent;
+        if(isNew){
+            this.setLayoutParams(new ViewGroup.LayoutParams(300, 300));
+        }
         double latitude = region.hasKey("latitude") ? region.getDouble("latitude") : 40.802355;
         double longitude = region.hasKey("longitude") ? region.getDouble("longitude") : -122.405848;
         m_positionerChangedListener = new ViewAnchorAdapter(this, 0.5f, 0.5f);
@@ -51,7 +68,9 @@ public class MarkerView extends LinearLayout {
         positioner =  m_eegeoMap.addPositioner(new PositionerOptions()
                 .position(new LatLng(latitude,longitude))
         );
-        parent.addView(this);
+        if(isNew){
+            parent.addView(this);
+        }
     }
 
     @Override
@@ -64,6 +83,8 @@ public class MarkerView extends LinearLayout {
             this.m_eegeoMap.removePositioner(positioner);
         }
     }
+
+
 
 //    public void viewWillBeRemoved(){
 //        Log.d("ON VIEW REMOVED", "CHILD REMOVED YO ViewRemoved");

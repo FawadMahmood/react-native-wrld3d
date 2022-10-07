@@ -54,7 +54,6 @@ public class Wrld3dViewManager extends ViewGroupManager<FrameLayout> {
 
     private WrldMapFragment wrldMapFragment;
     private List<View> addedView = new ArrayList<View>();
-    private List<OnPositionerChangedListener> listPotionersListeners = new ArrayList<OnPositionerChangedListener>();
 
 
     public Wrld3dViewManager(ReactApplicationContext reactContext) {
@@ -105,11 +104,6 @@ public class Wrld3dViewManager extends ViewGroupManager<FrameLayout> {
     }
 
     @Override
-    public void addViews(FrameLayout parent, List<View> views) {
-        Log.d("VIEWS CHANGED","OPERATION addViews " + views.size());
-    }
-
-    @Override
     public void addView(FrameLayout parent, View child, int index) {
         Log.d("VIEWS CHANGED","OPERATION addView " + index + " views size " + addedView.size());
         addedView.add(child);
@@ -121,10 +115,6 @@ public class Wrld3dViewManager extends ViewGroupManager<FrameLayout> {
 
     @Override
     public void removeViewAt(FrameLayout parent, int index) {
-//        if(parent.getChildAt(index+1) instanceof MarkerView){
-//            ((MarkerView) parent.getChildAt(index + 1)).viewWillBeRemoved();
-//        }
-
         super.removeViewAt(parent, index+1);
     }
 
@@ -134,7 +124,7 @@ public class Wrld3dViewManager extends ViewGroupManager<FrameLayout> {
                 if (addedView.get(i) != null && addedView.get(i).getParent() == null) {
                     View _addedView = addedView.get(i);
                     if(_addedView instanceof MarkerView){
-                        ((MarkerView) _addedView).AddItToView(m_eegeoMap,parent);
+                        ((MarkerView) _addedView).AddItToView(m_eegeoMap,parent,true);
                     }
                 }
             }
@@ -218,37 +208,5 @@ public class Wrld3dViewManager extends ViewGroupManager<FrameLayout> {
         view.layout(0, 0, width, height);
     }
 
-
-    private class ViewAnchorAdapter implements OnPositionerChangedListener {
-
-        private View m_view;
-        private PointF m_anchorUV;
-        private int index;
-
-        ViewAnchorAdapter(@NonNull View view, float u, float v,int _index)
-        {
-            m_view = view;
-            m_anchorUV = new PointF(u, v);
-            index = _index;
-        }
-
-        @UiThread
-        public void onPositionerChanged(Positioner positioner) {
-            if(_positioners.size() > index){
-                Positioner _positioner = _positioners.get(index);
-                if(_positioner.isScreenPointProjectionDefined()){
-                    m_view.setVisibility(View.VISIBLE);
-                    Point screenPoint = _positioner.getScreenPointOrNull();
-                    if(screenPoint != null)
-                        ViewAnchor.positionView(m_view, screenPoint, m_anchorUV);
-                }else{
-                    m_view.setVisibility(View.INVISIBLE);
-                }
-            }else{
-                m_view.setVisibility(View.INVISIBLE);
-            }
-
-        }
-    }
 }
 
