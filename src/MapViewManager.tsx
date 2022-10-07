@@ -19,7 +19,9 @@ export type MarkerProps = {
     location: {
         latitude: number,
         longitude: number,
-    }
+    },
+    elevationMode?: "HeightAboveGround" | "HeightAboveSeaLevel",
+    elevation?: number;
 };
 
 export const ComponentName = 'Wrld3dView';

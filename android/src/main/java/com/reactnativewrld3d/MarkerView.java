@@ -12,6 +12,7 @@ import androidx.annotation.UiThread;
 
 import com.eegeo.mapapi.EegeoMap;
 import com.eegeo.mapapi.MapView;
+import com.eegeo.mapapi.geometry.ElevationMode;
 import com.eegeo.mapapi.geometry.LatLng;
 import com.eegeo.mapapi.positioner.OnPositionerChangedListener;
 import com.eegeo.mapapi.positioner.Positioner;
@@ -25,9 +26,15 @@ import com.facebook.react.views.view.ReactViewGroup;
 public class MarkerView extends LinearLayout {
     EegeoMap m_eegeoMap;
     ViewGroup parent;
+    int width;
+    int height;
     private ReadableMap region;
     OnPositionerChangedListener m_positionerChangedListener=null;
     Positioner positioner;
+    double elevation = 10;
+    ElevationMode elevationMode = ElevationMode.HeightAboveGround;
+
+
     public ReadableMap getRegion(){
             return region;
     }
@@ -47,6 +54,15 @@ public class MarkerView extends LinearLayout {
         }
     }
 
+
+    public void setElevationMode(ElevationMode elevationMode){
+            this.elevationMode = elevationMode;
+    }
+
+    public void setElevation(double elevation){
+        this.elevation= elevation;
+    }
+
     public void update(){
         this.setVisibility(View.INVISIBLE);
         onViewRemoved(this);
@@ -59,18 +75,26 @@ public class MarkerView extends LinearLayout {
        this.m_eegeoMap = m_eegeoMap;
        this.parent = parent;
         if(isNew){
-            this.setLayoutParams(new ViewGroup.LayoutParams(300, 300));
+            this.setLayoutParams(new ViewGroup.LayoutParams(250, 250));
         }
         double latitude = region.hasKey("latitude") ? region.getDouble("latitude") : 40.802355;
         double longitude = region.hasKey("longitude") ? region.getDouble("longitude") : -122.405848;
         m_positionerChangedListener = new ViewAnchorAdapter(this, 0.5f, 0.5f);
         m_eegeoMap.addPositionerChangedListener(m_positionerChangedListener);
         positioner =  m_eegeoMap.addPositioner(new PositionerOptions()
-                .position(new LatLng(latitude,longitude))
+                .position(new LatLng(latitude,longitude)).elevation(this.elevation).elevationMode(this.elevationMode)
         );
         if(isNew){
             parent.addView(this);
         }
+    }
+
+    public void setWidth(int width){
+        this.width = width;
+    }
+
+    public void setHeight(int height){
+        this.height = height;
     }
 
     @Override
@@ -83,14 +107,6 @@ public class MarkerView extends LinearLayout {
             this.m_eegeoMap.removePositioner(positioner);
         }
     }
-
-
-
-//    public void viewWillBeRemoved(){
-//        Log.d("ON VIEW REMOVED", "CHILD REMOVED YO ViewRemoved");
-//
-//    }
-
 
     private class ViewAnchorAdapter implements OnPositionerChangedListener {
 
