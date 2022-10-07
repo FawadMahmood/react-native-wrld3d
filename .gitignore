@@ -131,3 +131,4 @@ dist
 
 /example/android/app/build
 /example/ios/Pods
+example/android/app/src/main/AndroidManifest.xml
