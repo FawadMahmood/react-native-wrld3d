@@ -121,14 +121,8 @@ public class Wrld3dViewManager extends ViewGroupManager<FrameLayout> {
 
     @Override
     public void removeViewAt(FrameLayout parent, int index) {
-        Log.d("VIEWS CHANGED","OPERATION removeViewAt "+index + " views size " + addedView.size());
-        addedView.remove(index);
-        m_eegeoMap.removePositioner(_positioners.get(index));
-        _positioners.remove(index);
-        if(parent.getChildCount() > index+1)  super.removeViewAt(parent, index+1);
+        super.removeViewAt(parent, index+1);
     }
-
-
 
     private void UpdateMapCustomViews(int atIndex){
         if(addedView != null) {

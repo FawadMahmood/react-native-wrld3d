@@ -40,6 +40,11 @@ public class MarkerView extends LinearLayout {
         this.region = region;
     }
 
+    @Override
+    public void onViewRemoved(View child) {
+        Log.d("ON VIEW REMOVED", "CHILD REMOVED YO");
+    }
+
     public void AddItToView(EegeoMap m_eegeoMap, ViewGroup parent){
        this.setLayoutParams(new ViewGroup.LayoutParams(300, 300));
         double latitude = region.hasKey("latitude") ? region.getDouble("latitude") : 40.802355;
