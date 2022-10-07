@@ -126,41 +126,8 @@ public class Wrld3dViewManager extends ViewGroupManager<FrameLayout> {
         m_eegeoMap.removePositioner(_positioners.get(index));
         _positioners.remove(index);
         if(parent.getChildCount() > index+1)  super.removeViewAt(parent, index+1);
-//        UpdateMapCustomViews(0);
     }
 
-
-    //    @Override
-//    public void removeViewAt(FrameLayout _parent, int index) {
-//        Log.d("VIEWS CHANGED","OPERATION removeViewAt "+index + " views size " + addedView.size());
-//        if(wrldMapFragment != null){
-//                m_eegeoMap.removePositioner(_positioners.get(index));
-//                addedView.remove(index);
-//                _positioners.remove(index);
-//                parent.removeViewAt(index + 1);
-//
-//
-//            UpdateMapCustomViews(0);
-//        }
-//
-//    }
-
-
-    private void addViewToMap(View child){
-//        View newView = child;
-////        newView.setVisibility(View.INVISIBLE);
-//        newView.setLayoutParams(new ViewGroup.LayoutParams(200, 200));
-////        newView.setBackground();
-//        OnPositionerChangedListener m_positionerChangedListener = new ViewAnchorAdapter(newView, 0.5f, 0.5f,_positioners.size());
-//        m_eegeoMap.addPositionerChangedListener(m_positionerChangedListener);
-//        _positioners.add(
-//                m_eegeoMap.addPositioner(new PositionerOptions().position(new LatLng(50.802355,-122.405848)))
-//        );
-//
-////        m_eegeoMap.removePositioner(_positioners.get(_positioners.size()-1));
-//        addedView.add(newView);
-//        parent.addView(newView);
-    }
 
 
     private void UpdateMapCustomViews(int atIndex){

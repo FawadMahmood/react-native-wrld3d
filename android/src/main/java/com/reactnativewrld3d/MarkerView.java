@@ -33,7 +33,7 @@ public class MarkerView extends LinearLayout {
 
     public MarkerView(ThemedReactContext context) {
         super(context);
-        this.setVisibility(View.VISIBLE);
+        this.setVisibility(View.INVISIBLE);
     }
 
     public void setLocation(ReadableMap region) {
