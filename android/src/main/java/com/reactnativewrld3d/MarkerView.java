@@ -1,13 +1,83 @@
 package com.reactnativewrld3d;
 
+import android.graphics.Point;
+import android.graphics.PointF;
+import android.util.Log;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.LinearLayout;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.UiThread;
+
+import com.eegeo.mapapi.EegeoMap;
+import com.eegeo.mapapi.MapView;
+import com.eegeo.mapapi.geometry.LatLng;
+import com.eegeo.mapapi.positioner.OnPositionerChangedListener;
+import com.eegeo.mapapi.positioner.Positioner;
+import com.eegeo.mapapi.positioner.PositionerOptions;
+import com.eegeo.ui.util.ViewAnchor;
+import com.facebook.react.bridge.ReadableMap;
 import com.facebook.react.uimanager.ThemedReactContext;
+import com.facebook.react.uimanager.annotations.ReactProp;
 import com.facebook.react.views.view.ReactViewGroup;
 
-public class MarkerView extends ReactViewGroup {
-    public MarkerView(ThemedReactContext context) {
-        super(context);
-
-//        this.setBackgroundColor(Color.parseColor("#5FD3F3"));
+public class MarkerView extends LinearLayout {
+    private ReadableMap region;
+    OnPositionerChangedListener m_positionerChangedListener=null;
+    Positioner positioner;
+    public ReadableMap getRegion(){
+            return region;
     }
 
+
+    public MarkerView(ThemedReactContext context) {
+        super(context);
+        this.setVisibility(View.VISIBLE);
+    }
+
+    public void setLocation(ReadableMap region) {
+        this.region = region;
+    }
+
+    public void AddItToView(EegeoMap m_eegeoMap, ViewGroup parent){
+       this.setLayoutParams(new ViewGroup.LayoutParams(300, 300));
+        double latitude = region.hasKey("latitude") ? region.getDouble("latitude") : 40.802355;
+        double longitude = region.hasKey("longitude") ? region.getDouble("longitude") : -122.405848;
+        m_positionerChangedListener = new ViewAnchorAdapter(this, 0.5f, 0.5f);
+        m_eegeoMap.addPositionerChangedListener(m_positionerChangedListener);
+        positioner =  m_eegeoMap.addPositioner(new PositionerOptions()
+                .position(new LatLng(latitude,longitude))
+        );
+        parent.addView(this);
+    }
+
+
+
+    private class ViewAnchorAdapter implements OnPositionerChangedListener {
+
+        private View m_view;
+        private PointF m_anchorUV;
+        private int index;
+
+        ViewAnchorAdapter(@NonNull View view, float u, float v)
+        {
+            m_view = view;
+            m_anchorUV = new PointF(u, v);
+        }
+
+        @UiThread
+        public void onPositionerChanged(Positioner __positioner) {
+                Positioner _positioner =positioner;
+                if(_positioner.isScreenPointProjectionDefined()){
+                    m_view.setVisibility(View.VISIBLE);
+                    Point screenPoint = _positioner.getScreenPointOrNull();
+                    if(screenPoint != null)
+                        ViewAnchor.positionView(m_view, screenPoint, m_anchorUV);
+                }else{
+                    m_view.setVisibility(View.INVISIBLE);
+                }
+
+        }
+    }
 }

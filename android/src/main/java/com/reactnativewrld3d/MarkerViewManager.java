@@ -13,8 +13,6 @@ import com.facebook.react.uimanager.annotations.ReactProp;
 public class MarkerViewManager extends ViewGroupManager<MarkerView> {
     public static final String REACT_CLASS = "MarkerView";
 
-    double latitude;
-    double longitude;
 
     ReactApplicationContext reactContext;
 
@@ -37,7 +35,13 @@ public class MarkerViewManager extends ViewGroupManager<MarkerView> {
 
     @ReactProp(name = "location")
     public void setLocation(MarkerView view, ReadableMap region) {
-        this.latitude = region.getDouble("latitude");
-        this.longitude = region.getDouble("longitude");
+        view.setLocation(region);
+    }
+
+
+    @Override
+    public void updateExtraData(MarkerView root, Object extraData) {
+//        super.updateExtraData(root, extraData);
+         Log.d("EXTRA DATA", String.valueOf(extraData));
     }
 }

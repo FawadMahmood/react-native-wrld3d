@@ -29,6 +29,7 @@ import com.eegeo.mapapi.positioner.PositionerOptions;
 import com.eegeo.ui.util.ViewAnchor;
 import com.facebook.react.bridge.ReactApplicationContext;
 import com.facebook.react.bridge.ReadableArray;
+import com.facebook.react.bridge.ReadableMap;
 import com.facebook.react.common.MapBuilder;
 import com.facebook.react.uimanager.SimpleViewManager;
 import com.facebook.react.uimanager.annotations.ReactProp;
@@ -163,60 +164,13 @@ public class Wrld3dViewManager extends ViewGroupManager<FrameLayout> {
 
 
     private void UpdateMapCustomViews(int atIndex){
-
         if(addedView != null) {
             for (int i = atIndex; i < addedView.size(); i++) {
                 if (addedView.get(i) != null && addedView.get(i).getParent() == null) {
-
                     View _addedView = addedView.get(i);
-                    _addedView.setVisibility(View.INVISIBLE);
-                    _addedView.setLayoutParams(new ViewGroup.LayoutParams(300, 300));
-                    OnPositionerChangedListener m_positionerChangedListener  = new ViewAnchorAdapter(_addedView, 0.5f, 0.5f,i);
-
-                    listPotionersListeners.add(m_positionerChangedListener);
-                    m_eegeoMap.addPositionerChangedListener(m_positionerChangedListener);
-
-
-                    if(i ==0){
-                        _positioners.add(
-                                m_eegeoMap.addPositioner(new PositionerOptions()
-                                        .position(new LatLng(37.802355,-122.405848))
-                                )
-                        );
-
-                    }else if(i ==1){
-                        _positioners.add(
-                                m_eegeoMap.addPositioner(new PositionerOptions()
-                                        .position(new LatLng(39.802355,-122.405848))
-                                )
-                        );
-                    }else if(i == 2){
-                        _positioners.add(
-                                m_eegeoMap.addPositioner(new PositionerOptions()
-                                        .position(new LatLng(40.802355,-122.405848))
-                                )
-                        );
-                    }else if(i == 3){
-                        _positioners.add(
-                                m_eegeoMap.addPositioner(new PositionerOptions()
-                                        .position(new LatLng(45.802355,-122.405848))
-                                )
-                        );
-                    }else if(i == 4){
-                        _positioners.add(
-                                m_eegeoMap.addPositioner(new PositionerOptions()
-                                        .position(new LatLng(50.802355,-122.405848))
-                                )
-                        );
-                    }else if(i == 5){
-                        _positioners.add(
-                                m_eegeoMap.addPositioner(new PositionerOptions()
-                                        .position(new LatLng(55.802355,-122.405848))
-                                )
-                        );
+                    if(_addedView instanceof MarkerView){
+                        ((MarkerView) _addedView).AddItToView(m_eegeoMap,parent);
                     }
-//                                                m_eegeoMap.removePositioner(_positioners.get(_positioners.size()-1));
-                    parent.addView(_addedView);
                 }
             }
         }
@@ -318,21 +272,16 @@ public class Wrld3dViewManager extends ViewGroupManager<FrameLayout> {
             if(_positioners.size() > index){
                 Positioner _positioner = _positioners.get(index);
                 if(_positioner.isScreenPointProjectionDefined()){
-//                Log.d("onPositionerChanged", "Positional follows at event :" + index + " isScreenPointProjectionDefined");
                     m_view.setVisibility(View.VISIBLE);
                     Point screenPoint = _positioner.getScreenPointOrNull();
                     if(screenPoint != null)
                         ViewAnchor.positionView(m_view, screenPoint, m_anchorUV);
-//                else
-//                    Log.d("onPositionerChanged", "Positional follows at event :" + index + " screenPoint is null");
                 }else{
-//                Log.d("onPositionerChanged", "Positional follows at event :" + index + " gone invisible");
                     m_view.setVisibility(View.INVISIBLE);
                 }
             }else{
                 m_view.setVisibility(View.INVISIBLE);
             }
-//            Log.d("onPositionerChanged", "Positional follows at event :" + index);
 
         }
     }
