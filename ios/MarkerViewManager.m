@@ -1,21 +1,15 @@
 #import <React/RCTViewManager.h>
-#import "MyView.h"
 
-@interface Wrld3dViewManager : RCTViewManager
-
+@interface MarkerViewManager : RCTViewManager
 @end
 
-@implementation Wrld3dViewManager
+@implementation MarkerViewManager
 
-RCT_EXPORT_MODULE(Wrld3dView)
+RCT_EXPORT_MODULE(MarkerView)
 
 - (UIView *)view
 {
-    return [[MyView alloc] init];
-//    UIView  *view =  [[UIView alloc] init];
-//
-//    view.backgroundColor = UIColor.blueColor;
-//    return view;
+  return [[UIView alloc] init];
 }
 
 RCT_CUSTOM_VIEW_PROPERTY(color, NSString, UIView)

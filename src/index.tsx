@@ -3,6 +3,7 @@ import {
   findNodeHandle,
   LayoutChangeEvent,
   PixelRatio,
+  Platform,
   UIManager,
   View,
   ViewStyle,
@@ -36,8 +37,10 @@ export const Wrld3dView = (props: MapTypes) => {
   const ref = useRef(null);
 
   useEffect(() => {
-    const viewId = findNodeHandle(ref.current);
-    createFragment(viewId as number);
+    if (Platform.OS === "android") {
+      const viewId = findNodeHandle(ref.current);
+      createFragment(viewId as number);
+    }
   }, []);
 
   const mapStyles = {
