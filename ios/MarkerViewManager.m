@@ -1,4 +1,5 @@
 #import <React/RCTViewManager.h>
+#import "MarkerView.h"
 
 @interface MarkerViewManager : RCTViewManager
 @end
@@ -9,7 +10,8 @@ RCT_EXPORT_MODULE(MarkerView)
 
 - (UIView *)view
 {
-  return [[UIView alloc] init];
+    return [[MarkerView alloc] init];
+//  return [[UIView alloc] init];
 }
 
 RCT_CUSTOM_VIEW_PROPERTY(color, NSString, UIView)

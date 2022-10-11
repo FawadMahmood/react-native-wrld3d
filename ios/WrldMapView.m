@@ -1,11 +1,13 @@
-#import "MyView.h"
+#import "WrldMapView.h"
 #import <AVFoundation/AVFoundation.h>
 #import <AVKit/AVKit.h>
+#import "MarkerView.h"
+
 
 @import Wrld;
 
 
-@implementation MyView
+@implementation WrldMapView
 
 - (instancetype)init
 {
@@ -39,6 +41,19 @@
     }
 }
 
+-(void) addSubview:(UIView *)view{
+    if([view isKindOfClass:[MarkerView class]]){
+        NSLog(@"Added some markers yo");
+    }else{
+        [super addSubview:(UIView*)view];
+    }
+}
+
+
+//-(void) removeReactSubview:(UIView *)subview{
+//    NSLog(@"Added some markers yo removeReactSubview");
+//}
+
 -(void)addViewControllerAsSubView
 {
     NSLog(@"Adding view controller");
@@ -60,7 +75,7 @@
              [mapView setCenterCoordinate:CLLocationCoordinate2DMake(37.7858, -122.401)
                                  zoomLevel:15
                                   animated:NO];
-           [self addSubview:mapView];
+        [_myViewController.view insertSubview:mapView atIndex:0];
     });
    
     

@@ -8,6 +8,6 @@
 #import <AVKit/AVKit.h>
 
 
-@interface MyView : UIView
+@interface WrldMapView : UIView
 @property(nonatomic, strong)UIViewController* myViewController;
 @end

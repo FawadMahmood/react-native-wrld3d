@@ -1,5 +1,5 @@
 #import <React/RCTViewManager.h>
-#import "MyView.h"
+#import "WrldMapView.h"
 
 @interface Wrld3dViewManager : RCTViewManager
 
@@ -11,12 +11,13 @@ RCT_EXPORT_MODULE(Wrld3dView)
 
 - (UIView *)view
 {
-    return [[MyView alloc] init];
+    return [[WrldMapView alloc] init];
 //    UIView  *view =  [[UIView alloc] init];
 //
 //    view.backgroundColor = UIColor.blueColor;
 //    return view;
 }
+
 
 RCT_CUSTOM_VIEW_PROPERTY(color, NSString, UIView)
 {
