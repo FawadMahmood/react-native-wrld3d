@@ -68,19 +68,19 @@
          [self.map setCenterCoordinate:CLLocationCoordinate2DMake(37.7858, -122.401)
                              zoomLevel:15
                               animated:NO];
+    self.map.delegate = self;
     [_myViewController.view insertSubview:self.map atIndex:0];
-    
-    [self addMarkers];
+     [self addMarkers];
     
 }
 
 -(void) addMarkers{
+    NSUInteger index = 0;
     for (MarkerView* marker in _markers)
     {
         [marker setMap:self.map];
-        
-//        NSLog(@"%@", marker);
         [self addSubview:marker];
+        index++;
     }
 }
 
@@ -100,6 +100,25 @@
     });
     
     [_myViewController didMoveToParentViewController:window.rootViewController];
+}
+
+- (void)mapView:(WRLDMapView *)mapView positionerDidChange: (WRLDPositioner*)positioner
+{
+    NSLog(@"positioner calls");
+//    if([positioner screenPointProjectionDefined])
+//    {
+//        CGPoint *screenPoint = [positioner screenPointOrNull];
+//        if(screenPoint != nil)
+//        {
+//            CGPoint anchorUV = CGPointMake(0.5f, 0.5f);
+//            [WRLDViewAnchor positionView:_imageView screenPoint:screenPoint anchorUV:&anchorUV];
+//        }
+//        [_imageView setHidden: false];
+//    }
+//    else
+//    {
+//        [_imageView setHidden: true];
+//    }
 }
 
 

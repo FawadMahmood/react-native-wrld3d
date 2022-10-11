@@ -18,5 +18,6 @@
 
 @interface MarkerView : UIView
 @property (nonatomic, strong) WRLDMapView *map;
+@property (nonatomic) WRLDPositioner *positioner;
 @end
 
