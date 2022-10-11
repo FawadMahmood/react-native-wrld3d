@@ -12,8 +12,8 @@
 - (instancetype)init
 {
     self = [super init];
+    _markers = [NSMutableArray<MarkerView *> array];
     [self addViewControllerAsSubView];
-//    NSLog(@"Adding view init");
     return self;
 }
 
@@ -42,8 +42,10 @@
 }
 
 -(void) addSubview:(UIView *)view{
-    if([view isKindOfClass:[MarkerView class]]){
+    if([view isKindOfClass:[MarkerView class]] && !self.map){
         NSLog(@"Added some markers yo");
+        MarkerView *marker = (MarkerView*)view;
+        [self.markers addObject:marker];
     }else{
         [super addSubview:(UIView*)view];
     }
@@ -54,6 +56,31 @@
 //    NSLog(@"Added some markers yo removeReactSubview");
 //}
 
+-(void) viewDidLoad{
+    
+}
+
+-(void)addMapView{
+    UIWindow *window = (UIWindow*)[[UIApplication sharedApplication] keyWindow];
+    self.map = [[WRLDMapView alloc] initWithFrame:window.frame];
+    self.map.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
+         // set the center of the map and the zoom level
+         [self.map setCenterCoordinate:CLLocationCoordinate2DMake(37.7858, -122.401)
+                             zoomLevel:15
+                              animated:NO];
+    [_myViewController.view insertSubview:self.map atIndex:0];
+    [self addMarkers];
+    
+}
+
+-(void) addMarkers{
+    for (MarkerView* marker in _markers)
+    {
+//        NSLog(@"%@", marker);
+        [self addSubview:marker];
+    }
+}
+
 -(void)addViewControllerAsSubView
 {
     NSLog(@"Adding view controller");
@@ -63,23 +90,14 @@
     _myViewController.view.frame = self.superview.frame;
     _myViewController.view.backgroundColor = UIColor.brownColor;
     [self addSubview:_myViewController.view];
-    
-    
-    dispatch_time_t delay = dispatch_time(DISPATCH_TIME_NOW, NSEC_PER_SEC * 1.2);
+    dispatch_time_t delay = dispatch_time(DISPATCH_TIME_NOW, NSEC_PER_SEC * .2);
     dispatch_after(delay, dispatch_get_main_queue(), ^(void){
         // do work in the UI thread here
-        
-        WRLDMapView *mapView = [[WRLDMapView alloc] initWithFrame:window.frame];
-             mapView.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
-             // set the center of the map and the zoom level
-             [mapView setCenterCoordinate:CLLocationCoordinate2DMake(37.7858, -122.401)
-                                 zoomLevel:15
-                                  animated:NO];
-        [_myViewController.view insertSubview:mapView atIndex:0];
+        [self addMapView];
     });
-   
     
     [_myViewController didMoveToParentViewController:window.rootViewController];
 }
+
 
 @end

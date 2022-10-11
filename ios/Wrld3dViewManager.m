@@ -1,8 +1,10 @@
 #import <React/RCTViewManager.h>
 #import "WrldMapView.h"
+#import "MarkerView.h"
 
 @interface Wrld3dViewManager : RCTViewManager
 
+//    @property(nonatomic, strong)NSMutableArray* markers;
 @end
 
 @implementation Wrld3dViewManager

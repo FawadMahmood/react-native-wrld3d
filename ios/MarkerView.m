@@ -18,5 +18,9 @@
     self = [super init];
     return self;
 }
+
++(void) setMapReference{
+    
+}
 @end
 

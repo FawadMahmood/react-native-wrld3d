@@ -4,10 +4,16 @@
 #import "RCTViewManager.h"
 #endif
 
+#import "MarkerView.h"
+
 #import <UIKit/UIKit.h>
 #import <AVKit/AVKit.h>
+
+@import Wrld;
 
 
 @interface WrldMapView : UIView
 @property(nonatomic, strong)UIViewController* myViewController;
+@property (nonatomic, strong) NSMutableArray<MarkerView *> *markers;
+@property (nonatomic, strong) WRLDMapView *map;
 @end

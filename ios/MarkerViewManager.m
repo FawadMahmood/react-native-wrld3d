@@ -2,6 +2,7 @@
 #import "MarkerView.h"
 
 @interface MarkerViewManager : RCTViewManager
+
 @end
 
 @implementation MarkerViewManager
