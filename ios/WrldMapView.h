@@ -12,7 +12,7 @@
 @import Wrld;
 
 
-@interface WrldMapView : UIView
+@interface WrldMapView: UIView <WRLDMapViewDelegate>
 @property(nonatomic, strong)UIViewController* myViewController;
 @property (nonatomic, strong) NSMutableArray<MarkerView *> *markers;
 @property (nonatomic, strong) WRLDMapView *map;

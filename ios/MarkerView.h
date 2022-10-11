@@ -14,10 +14,18 @@
 #import <UIKit/UIKit.h>
 #import <AVKit/AVKit.h>
 
+#import "MapCoordinates.h"
+
 @import Wrld;
 
 @interface MarkerView : UIView
 @property (nonatomic, strong) WRLDMapView *map;
 @property (nonatomic) WRLDPositioner *positioner;
+@property (nonatomic) MapCoordinates *coordinates;
+
+-(void) initializePointerWithPositioner;
+-(void) positionerDidChange;
+
+
 @end
 

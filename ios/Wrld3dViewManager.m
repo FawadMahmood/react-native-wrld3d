@@ -4,7 +4,7 @@
 
 @interface Wrld3dViewManager : RCTViewManager
 
-//    @property(nonatomic, strong)NSMutableArray* markers;
+@property(nonatomic, strong)WrldMapView* mapView;
 @end
 
 @implementation Wrld3dViewManager
@@ -13,7 +13,8 @@ RCT_EXPORT_MODULE(Wrld3dView)
 
 - (UIView *)view
 {
-    return [[WrldMapView alloc] init];
+    self.mapView =[[WrldMapView alloc] init];
+    return  self.mapView;
 //    UIView  *view =  [[UIView alloc] init];
 //
 //    view.backgroundColor = UIColor.blueColor;

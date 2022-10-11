@@ -80,6 +80,7 @@
     {
         [marker setMap:self.map];
         [self addSubview:marker];
+        [marker initializePointerWithPositioner];
         index++;
     }
 }
@@ -105,6 +106,19 @@
 - (void)mapView:(WRLDMapView *)mapView positionerDidChange: (WRLDPositioner*)positioner
 {
     NSLog(@"positioner calls");
+    
+    
+    for (UIView* child in self.subviews)
+    {
+        if([child isKindOfClass:[MarkerView class]]){
+            MarkerView *marker = (MarkerView*)child;
+            [marker positionerDidChange];
+        }
+//        [marker setMap:self.map];
+//        [self addSubview:marker];
+//        [marker initializePointerWithPositioner];
+//        index++;
+    }
 //    if([positioner screenPointProjectionDefined])
 //    {
 //        CGPoint *screenPoint = [positioner screenPointOrNull];
