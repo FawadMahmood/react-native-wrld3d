@@ -18,10 +18,15 @@
 
 @import Wrld;
 
+
+
 @interface MarkerView : UIView
 @property (nonatomic, strong) WRLDMapView *map;
 @property (nonatomic) WRLDPositioner *positioner;
-@property (nonatomic) MapCoordinates *coordinates;
+@property (nonatomic,assign) MapCoordinates *location;
+
+@property (nonatomic,assign) CLLocationDegrees longitude;
+@property (nonatomic,assign) CLLocationDegrees latitude;
 
 -(void) initializePointerWithPositioner;
 -(void) positionerDidChange;

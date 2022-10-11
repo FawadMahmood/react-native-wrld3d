@@ -24,11 +24,18 @@
 }
 
 -(void) initializePointerWithPositioner{
-    NSLog(@"creating marker with positioner %@",self.coordinates);
-//    self.positioner = [WRLDPositioner positionerAtCoordinate:CLLocationCoordinate2DMake(self.coordinates.latitude,self.coordinates.longitude)];
-    self.positioner = [WRLDPositioner positionerAtCoordinate:CLLocationCoordinate2DMake(37.802355, -122.405848)];
+   
+    
+    CLLocationDegrees latitude = self.location.latitude;
+    CLLocationDegrees longitude =self.location.longitude;
+    
+    NSLog(@"creating marker with positioner %f",latitude);
+    NSLog(@"creating marker with positioner %f",longitude);
+    
+    self.positioner = [WRLDPositioner positionerAtCoordinate:CLLocationCoordinate2DMake(self.latitude,self.longitude)];
+//    self.positioner = [WRLDPositioner positionerAtCoordinate:CLLocationCoordinate2DMake(37.802355, -122.405848)];
     [self.map addPositioner:self.positioner];
-    NSLog(@"creating marker with positioner %@",self.map);
+//    NSLog(@"creating marker with positioner %@",self.map);
 }
 
 //- (void)mapView:(WRLDMapView *)mapView positionerDidChange: (WRLDPositioner*)positioner

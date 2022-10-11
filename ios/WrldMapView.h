@@ -9,11 +9,14 @@
 #import <UIKit/UIKit.h>
 #import <AVKit/AVKit.h>
 
+#import "MapCoordinates.h"
+
 @import Wrld;
 
 
 @interface WrldMapView: UIView <WRLDMapViewDelegate>
 @property(nonatomic, strong)UIViewController* myViewController;
 @property (nonatomic, strong) NSMutableArray<MarkerView *> *markers;
+@property (nonatomic, strong) NSMutableArray<MapCoordinates *> *markersCoords;
 @property (nonatomic, strong) WRLDMapView *map;
 @end
