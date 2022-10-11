@@ -57,10 +57,16 @@
     if([view isKindOfClass:[MarkerView class]] && !self.map){
             MarkerView *marker = (MarkerView*)view;
 //            marker = [marker init];
-            NSLog(@"found in a subview %@" ,marker.location);
+//            NSLog(@"found in a subview %@" ,marker.location);
 //            [marker setLocation:marker.location];
 
             [self.markers addObject:marker];
+    }else if(self.map && [view isKindOfClass:[MarkerView class]]){
+        MarkerView *marker = (MarkerView*)view;
+        [marker setMap:self.map];
+        [marker setLocation:marker.location];
+        [super addSubview:(UIView*)marker];
+        [marker initializePointerWithPositioner];
     }else{
         [super addSubview:(UIView*)view];
     }
@@ -81,7 +87,7 @@
     self.map.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
          // set the center of the map and the zoom level
          [self.map setCenterCoordinate:CLLocationCoordinate2DMake(37.7858, -122.401)
-                             zoomLevel:9
+                             zoomLevel:2
                               animated:NO];
     self.map.delegate = self;
     [_myViewController.view insertSubview:self.map atIndex:0];
