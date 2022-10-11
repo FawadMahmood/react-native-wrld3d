@@ -69,6 +69,7 @@
                              zoomLevel:15
                               animated:NO];
     [_myViewController.view insertSubview:self.map atIndex:0];
+    
     [self addMarkers];
     
 }
