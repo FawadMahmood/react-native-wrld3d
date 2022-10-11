@@ -14,8 +14,9 @@
 #import <UIKit/UIKit.h>
 #import <AVKit/AVKit.h>
 
+@import Wrld;
 
 @interface MarkerView : UIView
-
+@property (nonatomic, strong) WRLDMapView *map;
 @end
 

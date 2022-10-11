@@ -7,7 +7,7 @@
 #import "MarkerView.h"
 #import <AVFoundation/AVFoundation.h>
 #import <AVKit/AVKit.h>
-
+@import Wrld;
 
 
 #import <Foundation/Foundation.h>
@@ -19,8 +19,10 @@
     return self;
 }
 
-+(void) setMapReference{
-    
+-(void) setMapReference:(WRLDMapView *)mapView{
+    _map =mapView;
 }
+
+
 @end
 

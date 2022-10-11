@@ -76,6 +76,8 @@
 -(void) addMarkers{
     for (MarkerView* marker in _markers)
     {
+        [marker setMap:self.map];
+        
 //        NSLog(@"%@", marker);
         [self addSubview:marker];
     }
