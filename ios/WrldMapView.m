@@ -89,7 +89,7 @@
     self.map.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
          // set the center of the map and the zoom level
          [self.map setCenterCoordinate:CLLocationCoordinate2DMake(self.latitude, self.longitude)
-                             zoomLevel:2
+                             zoomLevel:self.zoomLevel
                               animated:NO];
     
     self.map.delegate = self;

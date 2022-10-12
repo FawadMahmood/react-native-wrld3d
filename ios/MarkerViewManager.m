@@ -62,7 +62,7 @@ RCT_CUSTOM_VIEW_PROPERTY(location,NSDictionary,UIView){
     
 }
 
-//RCT_EXPORT_VIEW_PROPERTY(location, MapCoordinates)
+RCT_EXPORT_VIEW_PROPERTY(zoomLevel, double)
 
 - hexStringToColor:(NSString *)stringToConvert
 {

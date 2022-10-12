@@ -28,6 +28,13 @@ RCT_CUSTOM_VIEW_PROPERTY(initialCenter,NSDictionary,UIView){
     [mapView setLongitude:longitude];
 }
 
+RCT_CUSTOM_VIEW_PROPERTY(zoomLevel,NSString,UIView){
+    double _zoomLevel =[json doubleValue];
+    WrldMapView *mapView =(WrldMapView*) view;
+    [mapView setZoomLevel:_zoomLevel];
+}
+
+
 
 RCT_CUSTOM_VIEW_PROPERTY(color, NSString, UIView)
 {

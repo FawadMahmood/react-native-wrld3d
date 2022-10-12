@@ -21,4 +21,5 @@
 @property (nonatomic, strong) WRLDMapView *map;
 @property (nonatomic, assign) CLLocationDegrees longitude;
 @property (nonatomic, assign) CLLocationDegrees latitude;
+@property (nonatomic, assign) double zoomLevel;
 @end
