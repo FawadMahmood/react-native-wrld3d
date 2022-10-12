@@ -53,7 +53,7 @@ Under Build Options ensure that Enable Bitcode is set to No.
 
 ## Android
 
-**Add following meta tag into your android/app/src/main/AndroidManifest.xml**
+**Add following meta-data into your android/app/src/main/AndroidManifest.xml**
 ```
 <application ...>
  <meta-data android:name="com.wrld3d.API_KEY" android:value="YOUR MAP KEY HERE"/>
