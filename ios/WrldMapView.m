@@ -14,6 +14,8 @@
     self = [super init];
     _markers = [NSMutableArray<MarkerView *> array];
     _markersCoords = [NSMutableArray<MapCoordinates *> array];
+    _latitude = 37.7858;
+    _longitude = -122.401;
     [self addViewControllerAsSubView];
     return self;
 }
@@ -86,7 +88,7 @@
     self.map = [[WRLDMapView alloc] initWithFrame:window.frame];
     self.map.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
          // set the center of the map and the zoom level
-         [self.map setCenterCoordinate:CLLocationCoordinate2DMake(37.7858, -122.401)
+         [self.map setCenterCoordinate:CLLocationCoordinate2DMake(self.latitude, self.longitude)
                              zoomLevel:2
                               animated:NO];
     

@@ -15,10 +15,16 @@ RCT_EXPORT_MODULE(Wrld3dView)
 {
     self.mapView =[[WrldMapView alloc] init];
     return  self.mapView;
-//    UIView  *view =  [[UIView alloc] init];
-//
-//    view.backgroundColor = UIColor.blueColor;
-//    return view;
+}
+
+
+RCT_CUSTOM_VIEW_PROPERTY(initialCenter,NSDictionary,UIView){
+    CLLocationDegrees latitude =(CLLocationDegrees) [[json objectForKey:@"latitude"] doubleValue];
+    CLLocationDegrees longitude =(CLLocationDegrees) [[json objectForKey:@"longitude"] doubleValue];
+    
+    WrldMapView *mapView =(WrldMapView*) view;
+    [mapView setLatitude:latitude];
+    [mapView setLongitude:longitude];
 }
 
 

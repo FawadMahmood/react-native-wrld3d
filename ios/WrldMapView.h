@@ -19,4 +19,6 @@
 @property (nonatomic, strong) NSMutableArray<MarkerView *> *markers;
 @property (nonatomic, strong) NSMutableArray<MapCoordinates *> *markersCoords;
 @property (nonatomic, strong) WRLDMapView *map;
+@property (nonatomic, assign) CLLocationDegrees longitude;
+@property (nonatomic, assign) CLLocationDegrees latitude;
 @end
