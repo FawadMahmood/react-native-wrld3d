@@ -50,3 +50,13 @@ Under Build Options ensure that Enable Bitcode is set to No.
 
 ![](https://www.wrld3d.com/ios/latest/static/images/iOS-EnableBitcode.gif)
 
+
+## Android
+
+**Add following meta tag into your android/app/src/main/AndroidManifest.xml**
+```
+<application ...>
+ <meta-data android:name="com.wrld3d.API_KEY" android:value="YOUR MAP KEY HERE"/>
+</application>
+```
+
