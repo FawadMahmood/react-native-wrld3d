@@ -2,6 +2,8 @@
 This repo is not production ready yet
  react-wrld3d Sdk integration
  
+ ![](https://www.wrld3d.com/ios/latest/static/images/iOS-Simulator.png)
+ 
  
  # Installation
 
@@ -43,4 +45,6 @@ Currently the WRLD iOS SDK does not support Bitcode. Depending on the version of
 Select Build Settings in Project Editor.
 Under Build Options ensure that Enable Bitcode is set to No.
 ```
+
+![](https://www.wrld3d.com/ios/latest/static/images/iOS-EnableBitcode.gif)
 
