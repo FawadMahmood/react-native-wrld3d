@@ -10,7 +10,7 @@ export default function App() {
         latitude: 37.802355,
         longitude: -122.405848
       },
-      image: "https://i.pinimg.com/564x/5a/6b/16/5a6b16956a2753892d9ee5714f6f112a.jpg"
+      image: "https://www.seekpng.com/png/full/205-2056556_monday-august-24-2015-heat-map-overlay-png.png"
     },
     {
       location: {
@@ -96,17 +96,17 @@ export default function App() {
     <View>
       <Wrld3dView
         initialCenter={{
-          latitude: 37.7858,
-          longitude: -122.401
+          latitude: 37.802355,
+          longitude: -122.405848
         }}
-        zoomLevel={5}
+        zoomLevel={20}
         key={'Wrld3dView'} style={{ width: "100%", height: "80%" }}>
         {markets.map((marker, index) => {
           if (index > 3) {
             return (
               <Marker elevationMode="HeightAboveGround" elevation={150} key={index} location={marker.location} style={{ width: 90, height: 90 }}>
                 <TouchableOpacity style={{ overflow: "hidden", width: "100%", height: "100%", borderRadius: 50, justifyContent: "center", alignItems: "center" }}>
-                  <Image resizeMode='cover' source={{ uri: marker.image }} style={{ width: "100%", height: "100%" }} />
+                  <Image resizeMode='cover' source={{ uri: marker.image }} style={{ width: "100%", height: "100%", opacity: .4 }} />
                 </TouchableOpacity>
               </Marker>
             )
@@ -117,7 +117,7 @@ export default function App() {
             <Marker elevationMode="HeightAboveGround" elevation={150} key={index} location={marker.location} style={{ width: 90, height: 90 }}>
               <TouchableOpacity style={{ overflow: "hidden", width: "100%", height: "100%", borderRadius: 50, justifyContent: "center", alignItems: "center" }}>
 
-                <Image resizeMode='cover' source={{ uri: marker.image }} style={{ width: "100%", height: "100%" }} />
+                <Image resizeMode='cover' source={{ uri: marker.image }} style={{ width: "100%", height: "100%", opacity: .4 }} />
               </TouchableOpacity>
             </Marker>
           )

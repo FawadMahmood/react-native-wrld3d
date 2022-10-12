@@ -91,7 +91,6 @@
          [self.map setCenterCoordinate:CLLocationCoordinate2DMake(self.latitude, self.longitude)
                              zoomLevel:self.zoomLevel
                               animated:NO];
-    
     self.map.delegate = self;
     [_myViewController.view insertSubview:self.map atIndex:0];
     dispatch_time_t delay = dispatch_time(DISPATCH_TIME_NOW, NSEC_PER_SEC * .2);
