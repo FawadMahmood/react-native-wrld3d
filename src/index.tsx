@@ -6,11 +6,10 @@ import {
   Platform,
   UIManager,
   View,
-  ViewStyle,
 } from 'react-native';
 
 
-import { WrldMap3d, Marker as MarkerView } from './MapViewManager';
+import { WrldMap3d, Marker as MarkerView, Wrld3dProps } from './MapViewManager';
 
 
 
@@ -23,16 +22,17 @@ const createFragment = (viewId: number) =>
     [viewId]
   );
 
-type MapTypes = {
-  style?: ViewStyle,
-  children?: Element;
-}
+// type MapTypes = {
+//   style?: ViewStyle,
+//   children?: Element;
+//   zoomLevel?: number
+// }
 
 
 export const Marker = MarkerView;
 
 
-export const Wrld3dView = (props: MapTypes) => {
+export const Wrld3dView = (props: Wrld3dProps) => {
   const [dimensions, setDimensions] = useState({ width: 0, height: 0 });
   const ref = useRef(null);
 
@@ -52,10 +52,8 @@ export const Wrld3dView = (props: MapTypes) => {
 
 
   const onlayout = (event: LayoutChangeEvent) => {
-    // if (!dimensions.width && !dimensions.height) {
     const { width, height } = event.nativeEvent.layout;
-    setDimensions({ width: width, height: height })
-    // }
+    setDimensions({ width: width, height: height });
   }
 
   return (
@@ -64,6 +62,8 @@ export const Wrld3dView = (props: MapTypes) => {
         style={mapStyles}
         // @ts-ignore
         ref={ref}
+        zoomLevel={props.zoomLevel ? props.zoomLevel : 12}
+
       >
         {props.children}
       </WrldMap3d>
