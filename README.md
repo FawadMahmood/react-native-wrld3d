@@ -1,4 +1,7 @@
 # react-native-wrld3d (Work in Progress)
+# This is unofficial implementation (not powered by wrld3d) just to help others who are looking to integrate wrld3d maps in their React Native App.
+
+
 This repo is not production ready yet
  react-wrld3d Sdk integration
  
