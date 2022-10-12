@@ -2,6 +2,8 @@
 This repo is not production ready yet
  react-wrld3d Sdk integration
  
+ ![](https://www.wrld3d.com/ios/latest/static/images/iOS-Simulator.png)
+ 
  
  # Installation
 
@@ -24,6 +26,8 @@ After installing the npm package, we need to install the pod.
 <string>YOUR WRLD3D Map Api Key</string>
 ```
 
+![](https://www.wrld3d.com/ios/latest/static/images/iOS-PList.gif)
+
 # Add following pod into podspec
 ```
 <key>WrldApiKey</key>
@@ -42,5 +46,17 @@ Currently the WRLD iOS SDK does not support Bitcode. Depending on the version of
 
 Select Build Settings in Project Editor.
 Under Build Options ensure that Enable Bitcode is set to No.
+```
+
+![](https://www.wrld3d.com/ios/latest/static/images/iOS-EnableBitcode.gif)
+
+
+## Android
+
+**Add following meta tag into your android/app/src/main/AndroidManifest.xml**
+```
+<application ...>
+ <meta-data android:name="com.wrld3d.API_KEY" android:value="YOUR MAP KEY HERE"/>
+</application>
 ```
 
