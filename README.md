@@ -26,6 +26,8 @@ After installing the npm package, we need to install the pod.
 <string>YOUR WRLD3D Map Api Key</string>
 ```
 
+![](https://www.wrld3d.com/ios/latest/static/images/iOS-PList.gif)
+
 # Add following pod into podspec
 ```
 <key>WrldApiKey</key>
