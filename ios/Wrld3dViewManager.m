@@ -19,6 +19,7 @@ RCT_EXPORT_MODULE(Wrld3dView)
 
 
 RCT_CUSTOM_VIEW_PROPERTY(initialCenter,NSDictionary,UIView){
+    NSLog(@"received initial region %@",json);
     CLLocationDegrees latitude =(CLLocationDegrees) [[json objectForKey:@"latitude"] doubleValue];
     CLLocationDegrees longitude =(CLLocationDegrees) [[json objectForKey:@"longitude"] doubleValue];
     

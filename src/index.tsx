@@ -63,7 +63,10 @@ export const Wrld3dView = (props: Wrld3dProps) => {
         // @ts-ignore
         ref={ref}
         zoomLevel={props.zoomLevel ? props.zoomLevel : 12}
-
+        initialCenter={props.initialCenter ? props.initialCenter : {
+          latitude: 37.7858,
+          longitude: -122.401
+        }}
       >
         {props.children}
       </WrldMap3d>

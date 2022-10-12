@@ -97,7 +97,7 @@ export default function App() {
       <Wrld3dView
         initialCenter={{
           latitude: 37.7858,
-          longitude: -122.401,
+          longitude: -122.401
         }}
         zoomLevel={12}
         key={'Wrld3dView'} style={{ width: "100%", height: "80%" }}>
