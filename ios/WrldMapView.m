@@ -89,6 +89,7 @@
          [self.map setCenterCoordinate:CLLocationCoordinate2DMake(37.7858, -122.401)
                              zoomLevel:2
                               animated:NO];
+    
     self.map.delegate = self;
     [_myViewController.view insertSubview:self.map atIndex:0];
     

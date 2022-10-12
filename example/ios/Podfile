@@ -1,6 +1,6 @@
 require_relative '../node_modules/react-native/scripts/react_native_pods'
 require_relative '../node_modules/@react-native-community/cli-platform-ios/native_modules'
-WRLDPodspecUrl='https://github.com/wrld3d/ios-api/releases/download/v0.0.1449/WRLD.podspec'
+# WRLDPodspecUrl='https://github.com/wrld3d/ios-api/releases/download/v0.0.1449/WRLD.podspec'
 
 
 platform :ios, '11.0'
@@ -22,7 +22,7 @@ target 'Wrld3dExample' do
     :app_path => "#{Pod::Config.instance.installation_root}/.."
   )
 
-  pod 'WRLD', :podspec => WRLDPodspecUrl
+  # pod 'WRLD', :podspec => 'https://github.com/wrld3d/ios-api/releases/download/v0.0.1449/WRLD.podspec'
 
   # Enables Flipper.
   #

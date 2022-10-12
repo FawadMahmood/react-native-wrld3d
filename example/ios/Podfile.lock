@@ -369,7 +369,7 @@ PODS:
     - React-logger (= 0.68.2)
     - React-perflogger (= 0.68.2)
   - SocketRocket (0.6.0)
-  - WRLD (0.0.1449)
+  - WRLD (0.0.1576)
   - Yoga (1.14.0)
   - YogaKit (1.18.1):
     - Yoga (~> 1.14)
@@ -433,7 +433,6 @@ DEPENDENCIES:
   - React-RCTVibration (from `../node_modules/react-native/Libraries/Vibration`)
   - React-runtimeexecutor (from `../node_modules/react-native/ReactCommon/runtimeexecutor`)
   - ReactCommon/turbomodule/core (from `../node_modules/react-native/ReactCommon`)
-  - WRLD (from `https://github.com/wrld3d/ios-api/releases/download/v0.0.1449/WRLD.podspec`)
   - Yoga (from `../node_modules/react-native/ReactCommon/yoga`)
 
 SPEC REPOS:
@@ -453,6 +452,7 @@ SPEC REPOS:
     - libevent
     - OpenSSL-Universal
     - SocketRocket
+    - WRLD
     - YogaKit
 
 EXTERNAL SOURCES:
@@ -520,8 +520,6 @@ EXTERNAL SOURCES:
     :path: "../node_modules/react-native/ReactCommon/runtimeexecutor"
   ReactCommon:
     :path: "../node_modules/react-native/ReactCommon"
-  WRLD:
-    :podspec: https://github.com/wrld3d/ios-api/releases/download/v0.0.1449/WRLD.podspec
   Yoga:
     :path: "../node_modules/react-native/ReactCommon/yoga"
 
@@ -573,10 +571,10 @@ SPEC CHECKSUMS:
   React-runtimeexecutor: b960b687d2dfef0d3761fbb187e01812ebab8b23
   ReactCommon: 095366164a276d91ea704ce53cb03825c487a3f2
   SocketRocket: fccef3f9c5cedea1353a9ef6ada904fde10d6608
-  WRLD: b8881b89fa6b54912763eb3af6fb855e769b8a02
+  WRLD: bf8fd509cd5c58a445d225d560e4978411c33efd
   Yoga: 99652481fcd320aefa4a7ef90095b95acd181952
   YogaKit: f782866e155069a2cca2517aafea43200b01fd5a
 
-PODFILE CHECKSUM: 84f101cf4a06f2cc172c715f67a74f83090e887b
+PODFILE CHECKSUM: 4c900297bd14ad732dec07d0eee9f7a281967dbe
 
 COCOAPODS: 1.11.3
