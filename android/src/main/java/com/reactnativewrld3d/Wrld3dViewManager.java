@@ -21,8 +21,19 @@ import androidx.fragment.app.FragmentActivity;
 
 import com.eegeo.mapapi.EegeoMap;
 import com.eegeo.mapapi.MapView;
+import com.eegeo.mapapi.buildings.BuildingContour;
+import com.eegeo.mapapi.buildings.BuildingDimensions;
+import com.eegeo.mapapi.buildings.BuildingHighlight;
+import com.eegeo.mapapi.buildings.BuildingHighlightOptions;
+import com.eegeo.mapapi.buildings.BuildingInformation;
+import com.eegeo.mapapi.buildings.OnBuildingInformationReceivedListener;
+import com.eegeo.mapapi.camera.CameraPosition;
+import com.eegeo.mapapi.camera.CameraUpdateFactory;
+import com.eegeo.mapapi.geometry.ElevationMode;
 import com.eegeo.mapapi.geometry.LatLng;
 import com.eegeo.mapapi.map.OnMapReadyCallback;
+import com.eegeo.mapapi.markers.MarkerOptions;
+import com.eegeo.mapapi.polylines.PolylineOptions;
 import com.eegeo.mapapi.positioner.OnPositionerChangedListener;
 import com.eegeo.mapapi.positioner.Positioner;
 import com.eegeo.mapapi.positioner.PositionerOptions;
@@ -49,7 +60,14 @@ public class Wrld3dViewManager extends ViewGroupManager<FrameLayout> {
     public final int COMMAND_CREATE = 1;
     private int propWidth;
     private int propHeight;
+    private double latitude=37.7952;
+    private double longitude=-122.4028;
+    private int zoomLevel=10;
+    private ReadableMap initialCenter;
+
+//    37.7952,
     private EegeoMap m_eegeoMap = null;
+    private MapView map;
     ReactApplicationContext reactContext;
 
     private WrldMapFragment wrldMapFragment;
@@ -139,6 +157,8 @@ public class Wrld3dViewManager extends ViewGroupManager<FrameLayout> {
 
     @ReactPropGroup(names = {"width", "height"}, customType = "Style")
     public void setStyle(FrameLayout view, int index, Integer value) {
+        Log.w("setStyle","setStyle");
+
         if (index == 0) {
             propWidth = value;
         }
@@ -148,6 +168,32 @@ public class Wrld3dViewManager extends ViewGroupManager<FrameLayout> {
         }
     }
 
+
+//    @ReactPropGroup(names = {"latitude", "longitude"}, customType = "initialCenter")
+//    public void setInitialRegion(FrameLayout view, int index, float value) {
+//        Log.w("initialCenter","initialCenter");
+//        if (index == 0) {
+//            this.latitude = value;
+//        }
+//
+//        if (index == 1) {
+//            this.longitude = value;
+//        }
+//    }
+
+    @ReactProp(name = "initialCenter")
+    public void setInitialRegion(FrameLayout view, ReadableMap initialCenter) {
+        this.initialCenter = initialCenter;
+    }
+
+    @ReactProp(name = "zoomLevel", defaultFloat = 10)
+    public void setinitialZoom(FrameLayout view, int zoomLevel) {
+        Log.w("zoomLevel","zoomLevel");
+        this.zoomLevel = zoomLevel;
+    }
+
+
+    private BuildingHighlight m_highlight = null;
 
     /**
      * Replace your React Native view with a custom fragment
@@ -176,6 +222,63 @@ public class Wrld3dViewManager extends ViewGroupManager<FrameLayout> {
                                 public void onMapReady(EegeoMap map) {
                                     m_eegeoMap = map;
                                     UpdateMapCustomViews(0);
+
+                                    if(initialCenter != null){
+                                        Log.w("initialCenter","initialCenter");
+                                        latitude = initialCenter.getDouble("latitude");
+                                        longitude = initialCenter.getDouble("longitude");
+                                    }
+
+
+                                    CameraPosition position = new CameraPosition.Builder()
+                                            .target(latitude, longitude)
+                                            .zoom(zoomLevel)
+                                            .build();
+
+                                    map.moveCamera(CameraUpdateFactory.newCameraPosition(position));
+
+
+
+                                    m_highlight = m_eegeoMap.addBuildingHighlight(new BuildingHighlightOptions()
+                                            .highlightBuildingAtLocation(new LatLng(latitude, longitude))
+                                            .informationOnly()
+                                            .buildingInformationReceivedListener(new OnBuildingInformationReceivedListener() {
+                                                @Override
+                                                public void onBuildingInformationReceived(BuildingHighlight buildingHighlight) {
+                                                    BuildingInformation buildingInformation = buildingHighlight.getBuildingInformation();
+                                                    if (buildingInformation == null) {
+                                                        Toast.makeText(wrldMapFragment.getContext(), String.format("No building information was received for building highlight"), Toast.LENGTH_LONG).show();
+                                                        return;
+                                                    }
+
+                                                    Toast.makeText(wrldMapFragment.getContext(), buildingInformation.buildingId, Toast.LENGTH_LONG).show();
+
+                                                    BuildingDimensions buildingDimensions = buildingInformation.buildingDimensions;
+                                                    double buildingHeight = buildingDimensions.topAltitude - buildingDimensions.baseAltitude;
+                                                    String title = String.format("Height: %1$.2f m", buildingHeight);
+                                                    m_eegeoMap.addMarker(new MarkerOptions()
+                                                            .labelText(title)
+                                                            .position(buildingDimensions.centroid)
+                                                            .elevation(buildingDimensions.topAltitude)
+                                                            .elevationMode(ElevationMode.HeightAboveSeaLevel)
+                                                    );
+
+                                                    for (BuildingContour contour : buildingInformation.contours)
+                                                    {
+                                                        m_eegeoMap.addPolyline(new PolylineOptions()
+                                                                .add(contour.points)
+                                                                .add(contour.points[0])
+                                                                .elevationMode(ElevationMode.HeightAboveSeaLevel)
+                                                                .elevation(contour.topAltitude)
+                                                                .color(Color.BLUE)
+                                                        );
+
+                                                    }
+                                                }
+                                            })
+
+                                    );
+
                                 }
                             });
                         }

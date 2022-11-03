@@ -2,6 +2,11 @@ import { ViewStyle } from 'react-native';
 export declare type Wrld3dProps = {
     style: ViewStyle;
     children: Element | undefined;
+    zoomLevel?: number;
+    initialCenter?: {
+        latitude: number;
+        longitude: number;
+    };
 };
 export declare type MarkerProps = {
     style?: ViewStyle;

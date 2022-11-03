@@ -4,27 +4,44 @@ import { Image, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import { Wrld3dView, Marker } from 'react-native-wrld3d';
 // , 1, 2
 export default function App() {
+
+  let markers = [];
+  for (let i = 0; i < 100; i++) {
+
+    markers.push(
+      {
+        location: {
+          latitude: 37.802355,
+          longitude: -122.405848
+        },
+        image: "https://github.com/stasgora/round-spot/blob/master/assets/logo.png?raw=true"
+      },
+    )
+  }
+
+
   const [markets, setMarkers] = React.useState([
+    ...markers,
     {
       location: {
         latitude: 37.802355,
         longitude: -122.405848
       },
-      image: "https://www.seekpng.com/png/full/205-2056556_monday-august-24-2015-heat-map-overlay-png.png"
+      image: "https://github.com/stasgora/round-spot/blob/master/assets/logo.png?raw=true"
     },
     {
       location: {
-        latitude: 39.802355,
+        latitude: 37.802380,
         longitude: -122.405848
       },
-      image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTXYQ_eIl5X_voFg97k86FOzaNAj2-5ext_Jq-5AhcTDJlCcbJjjhqhHc_Vw4JO_Q8CLTc&usqp=CAU"
+      image: "https://github.com/stasgora/round-spot/blob/master/assets/logo.png?raw=true"
     },
     {
       location: {
-        latitude: 40.802355,
+        latitude: 37.802395,
         longitude: -122.405848
       },
-      image: "https://i.pinimg.com/736x/46/46/3f/46463f00c0db960a677c04f072238b82.jpg"
+      image: "https://github.com/stasgora/round-spot/blob/master/assets/logo.png?raw=true"
     }
   ]);
 
@@ -91,22 +108,22 @@ export default function App() {
     ]);
   }
   //  key={index}
-  //  key={index}
+  //  key={index} 24.882613347789693, 67.05802695237224
   return (
     <View>
       <Wrld3dView
         initialCenter={{
-          latitude: 37.802355,
-          longitude: -122.405848
+          latitude: 24.882613347789693,
+          longitude: 67.05802695237224
         }}
-        zoomLevel={20}
+        zoomLevel={15}
         key={'Wrld3dView'} style={{ width: "100%", height: "80%" }}>
         {markets.map((marker, index) => {
           if (index > 3) {
             return (
               <Marker elevationMode="HeightAboveGround" elevation={150} key={index} location={marker.location} style={{ width: 90, height: 90 }}>
                 <TouchableOpacity style={{ overflow: "hidden", width: "100%", height: "100%", borderRadius: 50, justifyContent: "center", alignItems: "center" }}>
-                  <Image resizeMode='cover' source={{ uri: marker.image }} style={{ width: "100%", height: "100%", opacity: .4 }} />
+                  <Image resizeMode='cover' source={{ uri: marker.image }} style={{ width: "100%", height: "100%" }} />
                 </TouchableOpacity>
               </Marker>
             )
@@ -117,7 +134,7 @@ export default function App() {
             <Marker elevationMode="HeightAboveGround" elevation={150} key={index} location={marker.location} style={{ width: 90, height: 90 }}>
               <TouchableOpacity style={{ overflow: "hidden", width: "100%", height: "100%", borderRadius: 50, justifyContent: "center", alignItems: "center" }}>
 
-                <Image resizeMode='cover' source={{ uri: marker.image }} style={{ width: "100%", height: "100%", opacity: .4 }} />
+                <Image resizeMode='cover' source={{ uri: marker.image }} style={{ width: "100%", height: "100%" }} />
               </TouchableOpacity>
             </Marker>
           )

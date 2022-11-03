@@ -34,9 +34,9 @@ public class WrldMapFragment extends Fragment {
         }
 
         EegeoApi.init(this.getContext(), API_KEY);
-
         View view = inflater.inflate(R.layout.fragment_map_screen, parent, false);
         m_mapView = (MapView)view.findViewById(R.id.mapView);
+
         return view;
 //        customView = new CustomView(this.getContext());
 //        return customView; // this CustomView could be any view that you want to render
