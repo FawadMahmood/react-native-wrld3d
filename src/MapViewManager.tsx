@@ -1,4 +1,4 @@
-import { Platform, requireNativeComponent, UIManager, ViewStyle } from 'react-native';
+import { NativeSyntheticEvent, Platform, requireNativeComponent, UIManager, ViewStyle } from 'react-native';
 
 
 const LINKING_ERROR =
@@ -15,6 +15,10 @@ export type Wrld3dProps = {
         latitude: number,
         longitude: number,
     },
+    precache?: boolean
+    precacheDistance?: number;
+    onMapReady?: () => void;
+    onMapCacheCompleted?: (props: NativeSyntheticEvent<{ success: boolean, }>) => void
 };
 
 

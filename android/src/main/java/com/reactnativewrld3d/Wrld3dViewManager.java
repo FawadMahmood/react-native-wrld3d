@@ -1,6 +1,7 @@
 // replace with your package
 package com.reactnativewrld3d;
 
+import android.app.AlertDialog;
 import android.graphics.Color;
 import android.graphics.Point;
 import android.graphics.PointF;
@@ -38,26 +39,40 @@ import com.eegeo.mapapi.polylines.PolylineOptions;
 import com.eegeo.mapapi.positioner.OnPositionerChangedListener;
 import com.eegeo.mapapi.positioner.Positioner;
 import com.eegeo.mapapi.positioner.PositionerOptions;
+import com.eegeo.mapapi.precaching.OnPrecacheOperationCompletedListener;
+import com.eegeo.mapapi.precaching.PrecacheOperationResult;
 import com.eegeo.ui.util.ViewAnchor;
+import com.facebook.react.bridge.Arguments;
+import com.facebook.react.bridge.Callback;
+import com.facebook.react.bridge.Promise;
 import com.facebook.react.bridge.ReactApplicationContext;
+import com.facebook.react.bridge.ReactMethod;
 import com.facebook.react.bridge.ReadableArray;
 import com.facebook.react.bridge.ReadableMap;
+import com.facebook.react.bridge.WritableMap;
 import com.facebook.react.common.MapBuilder;
+import com.facebook.react.modules.core.DeviceEventManagerModule;
+import com.facebook.react.uimanager.NativeViewHierarchyManager;
 import com.facebook.react.uimanager.SimpleViewManager;
+import com.facebook.react.uimanager.UIBlock;
+import com.facebook.react.uimanager.UIManagerModule;
 import com.facebook.react.uimanager.annotations.ReactProp;
 import com.facebook.react.uimanager.annotations.ReactPropGroup;
 import com.facebook.react.uimanager.ViewGroupManager;
 import com.facebook.react.uimanager.ThemedReactContext;
+import com.facebook.react.uimanager.events.RCTEventEmitter;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 
-public class Wrld3dViewManager extends ViewGroupManager<FrameLayout> {
+public class Wrld3dViewManager extends ViewGroupManager<FrameLayout> implements OnPrecacheOperationCompletedListener {
     //*****************
     //***ALL COMMANDS CONSTANTS
     public final int COMMAND_CREATE = 1;
     public final int ANIMATE_TO_REGION = 2;
+    public final int MOVE_TO_BUILDING=3;
     //*****************
     //***ALL COMMANDS CONSTANTS
 
@@ -76,8 +91,11 @@ public class Wrld3dViewManager extends ViewGroupManager<FrameLayout> {
     private int zoomLevel=10;
     private ReadableMap initialCenter;
     private int viewId=0;
+    private boolean precache=false;
+    private double cacheDistance=100.0f;
 
-    private EegeoMap m_eegeoMap = null;
+
+    public EegeoMap m_eegeoMap = null;
 
 
     ReactApplicationContext reactContext;
@@ -111,7 +129,28 @@ public class Wrld3dViewManager extends ViewGroupManager<FrameLayout> {
     @Nullable
     @Override
     public Map<String, Integer> getCommandsMap() {
-        return MapBuilder.of("create", COMMAND_CREATE,"animateToRegion",ANIMATE_TO_REGION);
+        return MapBuilder.of("create", COMMAND_CREATE,"animateToRegion",ANIMATE_TO_REGION,"moveToBuilding",MOVE_TO_BUILDING);
+    }
+
+
+    void bubbleOnMapReadyEvent(){
+        WritableMap event = Arguments.createMap();
+        event.putString("ready", "true");
+        pushEvent(reactContext,viewId,"onMapReady",event);
+    }
+
+
+
+
+    @Override
+    @Nullable
+    public Map getExportedCustomDirectEventTypeConstants() {
+        Map<String, Map<String, String>> map = MapBuilder.of(
+                "onMapReady", MapBuilder.of("registrationName", "onMapReady"),
+                "onMapCacheCompleted", MapBuilder.of("registrationName", "onMapCacheCompleted")
+        );
+
+        return map;
     }
 
     /**
@@ -132,8 +171,6 @@ public class Wrld3dViewManager extends ViewGroupManager<FrameLayout> {
                 if(viewId != 0 && viewId != reactNativeViewId){
                     addedView.clear();
                 }
-
-
                 viewId = reactNativeViewId;
                 createFragment(root, reactNativeViewId);
                 break;
@@ -141,21 +178,35 @@ public class Wrld3dViewManager extends ViewGroupManager<FrameLayout> {
                 ReadableMap location = args.getMap(0);
                 boolean animated = args.getBoolean(1);
                 int duration = args.getInt(2);
-                moveToRegion(location,animated,duration);
+                int zoomLevel = args.getInt(3);
+                if(zoomLevel ==-1){
+                    zoomLevel = this.zoomLevel;
+                }
+                if(m_eegeoMap != null){
+                    moveToRegion(location,animated,duration,zoomLevel);
+                }
             break;
+            case MOVE_TO_BUILDING:
+//[location, highlight, zoomLevel, animated, duration]
+                ReadableMap _location = args.getMap(0);
+                boolean highlight = args.getBoolean(1);
+                int _zoomLevel =args.getInt(2) == -1 ? this.zoomLevel:args.getInt(2) ;
+                boolean _animated = args.getBoolean(3);
+                int _duration = args.getInt(4);
+
+
+                break;
             default: {}
         }
     }
 
-
-
-    void moveToRegion(ReadableMap region,boolean animate,int duration){
-        double lattitude = region.getDouble("latitude");
+    void moveToBuilding(ReadableMap region,boolean highlight,int zoomLevel,boolean animate,int duration){
+        double latitude = region.getDouble("latitude");
         double longitude = region.getDouble("longitude");
 
         if(animate){
             CameraPosition position = new CameraPosition.Builder()
-                    .target(lattitude, longitude)
+                    .target(latitude, longitude)
                     .zoom(zoomLevel)
                     .bearing(270)
                     .build();
@@ -163,7 +214,36 @@ public class Wrld3dViewManager extends ViewGroupManager<FrameLayout> {
             m_eegeoMap.animateCamera(CameraUpdateFactory.newCameraPosition(position), duration);
         }else{
             CameraPosition position = new CameraPosition.Builder()
-                    .target(lattitude, longitude)
+                    .target(latitude, longitude)
+                    .zoom(zoomLevel)
+                    .build();
+            m_eegeoMap.moveCamera(CameraUpdateFactory.newCameraPosition(position));
+        }
+
+
+        if(highlight){
+
+        }else{
+
+        }
+    }
+
+
+    void moveToRegion(ReadableMap region,boolean animate,int duration,int zoomLevel){
+        double latitude = region.getDouble("latitude");
+        double longitude = region.getDouble("longitude");
+
+        if(animate){
+            CameraPosition position = new CameraPosition.Builder()
+                    .target(latitude, longitude)
+                    .zoom(zoomLevel)
+                    .bearing(270)
+                    .build();
+
+            m_eegeoMap.animateCamera(CameraUpdateFactory.newCameraPosition(position), duration);
+        }else{
+            CameraPosition position = new CameraPosition.Builder()
+                    .target(latitude, longitude)
                     .zoom(zoomLevel)
                     .build();
             m_eegeoMap.moveCamera(CameraUpdateFactory.newCameraPosition(position));
@@ -221,6 +301,20 @@ public class Wrld3dViewManager extends ViewGroupManager<FrameLayout> {
         }
     }
 
+
+
+    @ReactProp(name = "precacheDistance",defaultDouble =100f)
+    public void setPrecacheDistance(FrameLayout view, double distance) {
+        Log.w("CACHE STARTED","CACHE STATING"+distance);
+        this.cacheDistance = distance;
+    }
+
+    @ReactProp(name = "precache",defaultBoolean = false)
+    public void setPrecache(FrameLayout view, boolean precache) {
+        Log.w("CACHE STARTED","CACHE STATING"+precache);
+        this.precache = precache;
+    }
+
     @ReactProp(name = "initialCenter")
     public void setInitialRegion(FrameLayout view, ReadableMap initialCenter) {
         this.initialCenter = initialCenter;
@@ -231,7 +325,6 @@ public class Wrld3dViewManager extends ViewGroupManager<FrameLayout> {
         Log.w("zoomLevel","zoomLevel");
         this.zoomLevel = zoomLevel;
     }
-
 
     private BuildingHighlight m_highlight = null;
 
@@ -279,6 +372,9 @@ public class Wrld3dViewManager extends ViewGroupManager<FrameLayout> {
                                 @Override
                                 public void onMapReady(EegeoMap map) {
                                     m_eegeoMap = map;
+
+
+
                                     if(_oldFrag != null){
                                         Log.w("FRAGMENT EXIST ALREADY","MAP READY STILL WORKED WITH LIST SIZE: "+ addedView.size());
                                     }
@@ -290,6 +386,13 @@ public class Wrld3dViewManager extends ViewGroupManager<FrameLayout> {
                                         longitude = initialCenter.getDouble("longitude");
                                     }
 
+                                    if(precache){
+                                        Log.w("CACHE STARTED","CACHE STATING");
+                                        m_eegeoMap.precache(
+                                                new LatLng(latitude, longitude),
+                                                cacheDistance,
+                                                Wrld3dViewManager.this);
+                                    }
 
                                     CameraPosition position = new CameraPosition.Builder()
                                             .target(latitude, longitude)
@@ -297,6 +400,11 @@ public class Wrld3dViewManager extends ViewGroupManager<FrameLayout> {
                                             .build();
 
                                     map.moveCamera(CameraUpdateFactory.newCameraPosition(position));
+
+
+                                    bubbleOnMapReadyEvent();
+
+
                                 }
                             });
                         }
@@ -334,6 +442,25 @@ public class Wrld3dViewManager extends ViewGroupManager<FrameLayout> {
     public void onDropViewInstance(@NonNull FrameLayout view) {
         Log.w("View Has Been destroyed","OH");
         super.onDropViewInstance(view);
+    }
+
+
+    @Override
+    public void onPrecacheOperationCompleted(PrecacheOperationResult precacheOperationResult) {
+        WritableMap event = Arguments.createMap();
+
+        if(precacheOperationResult.succeeded()){
+            event.putString("success", "true");
+        }else{
+            event.putString("success", "false");
+        }
+        
+        pushEvent(reactContext,viewId,"onMapCacheCompleted",event);
+    }
+
+
+    void pushEvent(ReactApplicationContext context, int viewId, String name, WritableMap data) {
+        context.getJSModule(RCTEventEmitter.class).receiveEvent(viewId, name, data);
     }
 
 

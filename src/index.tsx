@@ -8,10 +8,14 @@ import {
   UIManager,
   View,
 } from 'react-native';
+import { NativeModules } from 'react-native';
+
+const { Wrld3dView: Wrld3dViewNativeView } = NativeModules;
+
 
 
 import { WrldMap3d, Marker as MarkerView, Wrld3dProps } from './MapViewManager';
-import type { MapViewNativeComponentType, Region } from './type';
+import { Commands, MapViewNativeComponentType, Region } from './type';
 
 
 
@@ -41,16 +45,19 @@ const MapComponent: React.ForwardRefRenderFunction<MapViewNativeComponentType, W
 ) => {
 
   const viewId = useRef<number>(0)
+  const isMapReady = useRef<boolean>();
 
 
-  const moveToRegion = (location: Region, animated: boolean, duration?: number) => {
+  const moveToRegion = ({ location, animated = false, duration = 5000, zoomLevel = -1 }: { location: Region, animated: boolean, duration?: number, zoomLevel?: number }) => {
     if (Platform.OS === "android") {
-      processCommand(viewId.current, 'animateToRegion', [location, animated, duration ? duration : 5000]);
+      processCommand(viewId.current, Commands.animateToRegion, [location, animated, duration, zoomLevel]);
     }
   }
 
-  const moveToBuilding = (location: Region, highlight: boolean, zoomLevel: number) => {
-
+  const moveToBuilding = ({ location, highlight = false, zoomLevel = -1, animated = false, duration = 3000 }: { location: Region, highlight?: boolean, zoomLevel?: number, animated?: boolean, duration?: number }) => {
+    if (Platform.OS === "android") {
+      processCommand(viewId.current, Commands.moveToBuilding, [location, highlight, zoomLevel, animated, duration]);
+    }
   }
 
 
@@ -79,19 +86,37 @@ const MapComponent: React.ForwardRefRenderFunction<MapViewNativeComponentType, W
   }
 
 
+  const getMapCenter = async () => {
+    const message = await NativeModules['MapViewModule'].getCameraBounds(viewId.current);
+    return message;
+  }
 
   //mapevents
   const publicRef = {
     moveToRegion,
-    moveToBuilding
+    moveToBuilding,
+    getMapCenter
   };
 
 
   useImperativeHandle(forwardedRef, () => publicRef);
 
+
+  // useEffect(() => {
+  //   setTimeout(async () => {
+  //     const message = await NativeModules['MapViewModule'].getCameraBounds(viewId.current);
+  //     console.log("getCameraBounds", message);
+
+  //     // const message = await ref.current.getBuildingInformation({ success: true });
+  //     // console.log("getBuildingInformation", message);
+
+  //   }, 5000);
+  // }, [' '])
+
   return (
     <View onLayout={onlayout.bind(null)} style={[props.style, { overflow: "hidden" }]}>
       <WrldMap3d
+        {...props}
         style={mapStyles}
         // @ts-ignore
         ref={ref}
@@ -100,6 +125,15 @@ const MapComponent: React.ForwardRefRenderFunction<MapViewNativeComponentType, W
           latitude: 24.8620495,
           longitude: 67.070877
         }}
+        onMapReady={() => {
+          isMapReady.current = true;
+          if (props.onMapReady) {
+            props.onMapReady();
+          }
+        }}
+
+        precache={props.precache}
+        precacheDistance={props.precacheDistance}
       >
         {props.children}
       </WrldMap3d>

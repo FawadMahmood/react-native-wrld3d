@@ -8,17 +8,6 @@ export default function App() {
   const ref = React.useRef<MapViewRefPropsType>();
 
 
-  React.useEffect(() => {
-    setTimeout(() => {
-      ref.current?.moveToRegion({
-        latitude: 30.802355,
-        longitude: -122.405848
-      },
-        true,
-      )
-    }, 3000);
-  }, [' '])
-
   let markers = [];
   for (let i = 0; i < 100; i++) {
 
@@ -62,6 +51,7 @@ export default function App() {
 
 
   const onAddMarker = () => {
+
     setMarkers([
       {
         location: {
@@ -121,6 +111,32 @@ export default function App() {
       }
     ]);
   }
+
+
+  const animateToRegion = async () => {
+
+    // move to region
+    // ref.current?.moveToRegion({
+    //   location: {
+    //     latitude: 121.000,
+    //     longitude: -100.405848
+    //   },
+    //   animated: true,
+
+    // })
+    // move to region
+
+
+    //getMapCenter
+    const details = await ref.current?.getMapCenter();
+    console.log("got map center", details);
+    //getMapCenter
+
+
+
+
+  }
+
   //  key={index}
   //  key={index} 24.882613347789693, 67.05802695237224
   return (
@@ -131,6 +147,8 @@ export default function App() {
           latitude: 24.882613347789693,
           longitude: 67.05802695237224
         }}
+        precache
+        precacheDistance={5000}
         zoomLevel={15}
         key={'Wrld3dView'}
         style={{ width: "100%", height: "80%" }}
@@ -164,6 +182,10 @@ export default function App() {
 
       <TouchableOpacity onPress={removeMarker.bind(null)} style={{ width: "100%", height: 45, backgroundColor: "blue" }}>
         <Text style={{ fontSize: 30, color: "white" }}>{"Add a marker"}</Text>
+      </TouchableOpacity>
+
+      <TouchableOpacity onPress={animateToRegion.bind(null)} style={{ width: "100%", height: 45, backgroundColor: "blue" }}>
+        <Text style={{ fontSize: 30, color: "white" }}>{"Animate to region"}</Text>
       </TouchableOpacity>
     </View>
 
