@@ -210,6 +210,8 @@ public class Wrld3dViewManager extends ViewGroupManager<FrameLayout> {
                 .replace(reactNativeViewId, wrldMapFragment, String.valueOf(reactNativeViewId))
                 .commit();
 
+
+
         new android.os.Handler(Looper.getMainLooper()).postDelayed(
                 new Runnable() {
                     public void run() {
@@ -236,49 +238,6 @@ public class Wrld3dViewManager extends ViewGroupManager<FrameLayout> {
                                             .build();
 
                                     map.moveCamera(CameraUpdateFactory.newCameraPosition(position));
-
-
-
-                                    m_highlight = m_eegeoMap.addBuildingHighlight(new BuildingHighlightOptions()
-                                            .highlightBuildingAtLocation(new LatLng(latitude, longitude))
-                                            .informationOnly()
-                                            .buildingInformationReceivedListener(new OnBuildingInformationReceivedListener() {
-                                                @Override
-                                                public void onBuildingInformationReceived(BuildingHighlight buildingHighlight) {
-                                                    BuildingInformation buildingInformation = buildingHighlight.getBuildingInformation();
-                                                    if (buildingInformation == null) {
-                                                        Toast.makeText(wrldMapFragment.getContext(), String.format("No building information was received for building highlight"), Toast.LENGTH_LONG).show();
-                                                        return;
-                                                    }
-
-                                                    Toast.makeText(wrldMapFragment.getContext(), buildingInformation.buildingId, Toast.LENGTH_LONG).show();
-
-                                                    BuildingDimensions buildingDimensions = buildingInformation.buildingDimensions;
-                                                    double buildingHeight = buildingDimensions.topAltitude - buildingDimensions.baseAltitude;
-                                                    String title = String.format("Height: %1$.2f m", buildingHeight);
-                                                    m_eegeoMap.addMarker(new MarkerOptions()
-                                                            .labelText(title)
-                                                            .position(buildingDimensions.centroid)
-                                                            .elevation(buildingDimensions.topAltitude)
-                                                            .elevationMode(ElevationMode.HeightAboveSeaLevel)
-                                                    );
-
-                                                    for (BuildingContour contour : buildingInformation.contours)
-                                                    {
-                                                        m_eegeoMap.addPolyline(new PolylineOptions()
-                                                                .add(contour.points)
-                                                                .add(contour.points[0])
-                                                                .elevationMode(ElevationMode.HeightAboveSeaLevel)
-                                                                .elevation(contour.topAltitude)
-                                                                .color(Color.BLUE)
-                                                        );
-
-                                                    }
-                                                }
-                                            })
-
-                                    );
-
                                 }
                             });
                         }

@@ -74,6 +74,3 @@ export const Wrld3dView = (props: Wrld3dProps) => {
 
   )
 }
-
-
-{/* <View style={{ width: 100, height: 100, backgroundColor: "red", borderRadius: 50 }}></View> */ }
