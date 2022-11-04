@@ -168,7 +168,6 @@ export default function App() {
           return (
             <Marker elevationMode="HeightAboveGround" elevation={150} key={index} location={marker.location} style={{ width: 90, height: 90 }}>
               <TouchableOpacity style={{ overflow: "hidden", width: "100%", height: "100%", borderRadius: 50, justifyContent: "center", alignItems: "center" }}>
-
                 <Image resizeMode='cover' source={{ uri: marker.image }} style={{ width: "100%", height: "100%" }} />
               </TouchableOpacity>
             </Marker>
