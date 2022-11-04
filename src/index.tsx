@@ -1,6 +1,5 @@
-import React, { forwardRef, useEffect, useImperativeHandle, useRef, useState } from 'react';
+import React, { useEffect, useImperativeHandle, useRef, useState } from 'react';
 import {
-  Alert,
   findNodeHandle,
   LayoutChangeEvent,
   PixelRatio,
@@ -9,9 +8,6 @@ import {
   View,
 } from 'react-native';
 import { NativeModules } from 'react-native';
-
-const { Wrld3dView: Wrld3dViewNativeView } = NativeModules;
-
 
 
 import { WrldMap3d, Marker as MarkerView, Wrld3dProps } from './MapViewManager';
@@ -100,18 +96,6 @@ const MapComponent: React.ForwardRefRenderFunction<MapViewNativeComponentType, W
 
 
   useImperativeHandle(forwardedRef, () => publicRef);
-
-
-  // useEffect(() => {
-  //   setTimeout(async () => {
-  //     const message = await NativeModules['MapViewModule'].getCameraBounds(viewId.current);
-  //     console.log("getCameraBounds", message);
-
-  //     // const message = await ref.current.getBuildingInformation({ success: true });
-  //     // console.log("getBuildingInformation", message);
-
-  //   }, 5000);
-  // }, [' '])
 
   return (
     <View onLayout={onlayout.bind(null)} style={[props.style, { overflow: "hidden" }]}>
