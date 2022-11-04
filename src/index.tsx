@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { forwardRef, useEffect, useImperativeHandle, useRef, useState } from 'react';
 import {
   findNodeHandle,
   LayoutChangeEvent,
@@ -10,6 +10,7 @@ import {
 
 
 import { WrldMap3d, Marker as MarkerView, Wrld3dProps } from './MapViewManager';
+import type { MapViewNativeComponentType } from './type';
 
 
 
@@ -32,9 +33,22 @@ const createFragment = (viewId: number) =>
 export const Marker = MarkerView;
 
 
-export const Wrld3dView = (props: Wrld3dProps) => {
+
+const MapComponent: React.ForwardRefRenderFunction<MapViewNativeComponentType, Wrld3dProps> = (
+  props,
+  forwardedRef,
+) => {
+
+
+
+  const moveToRegion = () => {
+
+  }
+
+
+
   const [dimensions, setDimensions] = useState({ width: 0, height: 0 });
-  const ref = useRef(null);
+  const ref = useRef<any>(null);
 
   useEffect(() => {
     if (Platform.OS === "android") {
@@ -56,6 +70,18 @@ export const Wrld3dView = (props: Wrld3dProps) => {
     setDimensions({ width: width, height: height });
   }
 
+
+
+  //mapevents
+  const publicRef = {
+    // add any methods or properties here
+    // add any methods or properties here
+    moveToRegion
+  };
+
+
+  useImperativeHandle(forwardedRef, () => publicRef);
+
   return (
     <View onLayout={onlayout.bind(null)} style={[props.style, { overflow: "hidden" }]}>
       <WrldMap3d
@@ -74,3 +100,6 @@ export const Wrld3dView = (props: Wrld3dProps) => {
 
   )
 }
+
+
+export const Wrld3dView = React.forwardRef(MapComponent);

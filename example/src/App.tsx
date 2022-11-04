@@ -117,7 +117,9 @@ export default function App() {
           longitude: 67.05802695237224
         }}
         zoomLevel={15}
-        key={'Wrld3dView'} style={{ width: "100%", height: "80%" }}>
+        key={'Wrld3dView'}
+        style={{ width: "100%", height: "80%" }}
+      >
         {markets.map((marker, index) => {
           if (index > 3) {
             return (

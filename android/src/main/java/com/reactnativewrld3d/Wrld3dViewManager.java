@@ -17,6 +17,7 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.annotation.UiThread;
+import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentActivity;
 
 import com.eegeo.mapapi.EegeoMap;
@@ -64,10 +65,12 @@ public class Wrld3dViewManager extends ViewGroupManager<FrameLayout> {
     private double longitude=-122.4028;
     private int zoomLevel=10;
     private ReadableMap initialCenter;
+    private int viewId=0;
 
-//    37.7952,
     private EegeoMap m_eegeoMap = null;
     private MapView map;
+
+
     ReactApplicationContext reactContext;
 
     private WrldMapFragment wrldMapFragment;
@@ -83,6 +86,7 @@ public class Wrld3dViewManager extends ViewGroupManager<FrameLayout> {
         return REACT_CLASS;
     }
 
+
     /**
      * Return a FrameLayout which will later hold the Fragment
      */
@@ -90,6 +94,7 @@ public class Wrld3dViewManager extends ViewGroupManager<FrameLayout> {
     public FrameLayout createViewInstance(ThemedReactContext reactContext) {
         return new FrameLayout(this.reactContext);
     }
+
 
     /**
      * Map the "create" command to an integer
@@ -115,6 +120,12 @@ public class Wrld3dViewManager extends ViewGroupManager<FrameLayout> {
         switch (commandIdInt) {
             case COMMAND_CREATE:
                 int reactNativeViewId = args.getInt(0);
+                if(viewId != 0 && viewId != reactNativeViewId){
+                    addedView.clear();
+                }
+
+
+                viewId = reactNativeViewId;
                 createFragment(root, reactNativeViewId);
                 break;
             default: {}
@@ -123,7 +134,11 @@ public class Wrld3dViewManager extends ViewGroupManager<FrameLayout> {
 
     @Override
     public void addView(FrameLayout parent, View child, int index) {
-        Log.d("VIEWS CHANGED","OPERATION addView " + index + " views size " + addedView.size());
+
+        if(index ==0 &&  addedView.size()>0){
+            addedView.clear();
+        }
+
         addedView.add(child);
 
         if(wrldMapFragment != null && wrldMapFragment.m_mapView != null){
@@ -133,7 +148,7 @@ public class Wrld3dViewManager extends ViewGroupManager<FrameLayout> {
 
     @Override
     public void removeViewAt(FrameLayout parent, int index) {
-        super.removeViewAt(parent, index+1);
+            super.removeViewAt(parent, index + 1);
     }
 
     private void UpdateMapCustomViews(int atIndex){
@@ -168,19 +183,6 @@ public class Wrld3dViewManager extends ViewGroupManager<FrameLayout> {
         }
     }
 
-
-//    @ReactPropGroup(names = {"latitude", "longitude"}, customType = "initialCenter")
-//    public void setInitialRegion(FrameLayout view, int index, float value) {
-//        Log.w("initialCenter","initialCenter");
-//        if (index == 0) {
-//            this.latitude = value;
-//        }
-//
-//        if (index == 1) {
-//            this.longitude = value;
-//        }
-//    }
-
     @ReactProp(name = "initialCenter")
     public void setInitialRegion(FrameLayout view, ReadableMap initialCenter) {
         this.initialCenter = initialCenter;
@@ -200,11 +202,27 @@ public class Wrld3dViewManager extends ViewGroupManager<FrameLayout> {
      */
     public void createFragment(FrameLayout root, int reactNativeViewId) {
         parent = (ViewGroup) root.findViewById(reactNativeViewId);
+
+
         setupLayout(parent);
 
 
         wrldMapFragment = new WrldMapFragment();
+
+//        Fragment fragmentA = fragmentManager.findFragmentByTag("frag1");
+
+
         FragmentActivity activity = (FragmentActivity) reactContext.getCurrentActivity();
+
+        Fragment _oldFrag = activity.getSupportFragmentManager().findFragmentByTag(String.valueOf(reactNativeViewId));
+        if(_oldFrag != null){
+            activity.getSupportFragmentManager().beginTransaction().remove(_oldFrag);
+            Log.w("FRAGMENT EXIST ALREADY","FRAGMENT WAS THERE AND REMOVED"+parent.getId());
+        }
+
+
+
+
         activity.getSupportFragmentManager()
                 .beginTransaction()
                 .replace(reactNativeViewId, wrldMapFragment, String.valueOf(reactNativeViewId))
@@ -223,10 +241,13 @@ public class Wrld3dViewManager extends ViewGroupManager<FrameLayout> {
                                 @Override
                                 public void onMapReady(EegeoMap map) {
                                     m_eegeoMap = map;
+                                    if(_oldFrag != null){
+                                        Log.w("FRAGMENT EXIST ALREADY","MAP READY STILL WORKED WITH LIST SIZE: "+ addedView.size());
+                                    }
+
                                     UpdateMapCustomViews(0);
 
                                     if(initialCenter != null){
-                                        Log.w("initialCenter","initialCenter");
                                         latitude = initialCenter.getDouble("latitude");
                                         longitude = initialCenter.getDouble("longitude");
                                     }
@@ -270,5 +291,18 @@ public class Wrld3dViewManager extends ViewGroupManager<FrameLayout> {
         view.layout(0, 0, width, height);
     }
 
+
+    @Override
+    public void onDropViewInstance(@NonNull FrameLayout view) {
+        Log.w("View Has Been destroyed","OH");
+        super.onDropViewInstance(view);
+    }
+
+
+    @Override
+    public void removeAllViews(FrameLayout parent) {
+        Log.w("View Has Been destroyed","OH");
+        super.removeAllViews(parent);
+    }
 }
 
