@@ -54,11 +54,21 @@ import java.util.List;
 import java.util.Map;
 
 public class Wrld3dViewManager extends ViewGroupManager<FrameLayout> {
+    //*****************
+    //***ALL COMMANDS CONSTANTS
+    public final int COMMAND_CREATE = 1;
+    public final int ANIMATE_TO_REGION = 2;
+    //*****************
+    //***ALL COMMANDS CONSTANTS
+
+
+
+
+
     ViewGroup parent;
     private OnPositionerChangedListener m_positionerChangedListener = null;
     List<Positioner> _positioners = new ArrayList<Positioner>();
     public static final String REACT_CLASS = "Wrld3dView";
-    public final int COMMAND_CREATE = 1;
     private int propWidth;
     private int propHeight;
     private double latitude=37.7952;
@@ -68,7 +78,6 @@ public class Wrld3dViewManager extends ViewGroupManager<FrameLayout> {
     private int viewId=0;
 
     private EegeoMap m_eegeoMap = null;
-    private MapView map;
 
 
     ReactApplicationContext reactContext;
@@ -102,7 +111,7 @@ public class Wrld3dViewManager extends ViewGroupManager<FrameLayout> {
     @Nullable
     @Override
     public Map<String, Integer> getCommandsMap() {
-        return MapBuilder.of("create", COMMAND_CREATE);
+        return MapBuilder.of("create", COMMAND_CREATE,"animateToRegion",ANIMATE_TO_REGION);
     }
 
     /**
@@ -128,7 +137,36 @@ public class Wrld3dViewManager extends ViewGroupManager<FrameLayout> {
                 viewId = reactNativeViewId;
                 createFragment(root, reactNativeViewId);
                 break;
+            case ANIMATE_TO_REGION:
+                ReadableMap location = args.getMap(0);
+                boolean animated = args.getBoolean(1);
+                int duration = args.getInt(2);
+                moveToRegion(location,animated,duration);
+            break;
             default: {}
+        }
+    }
+
+
+
+    void moveToRegion(ReadableMap region,boolean animate,int duration){
+        double lattitude = region.getDouble("latitude");
+        double longitude = region.getDouble("longitude");
+
+        if(animate){
+            CameraPosition position = new CameraPosition.Builder()
+                    .target(lattitude, longitude)
+                    .zoom(zoomLevel)
+                    .bearing(270)
+                    .build();
+
+            m_eegeoMap.animateCamera(CameraUpdateFactory.newCameraPosition(position), duration);
+        }else{
+            CameraPosition position = new CameraPosition.Builder()
+                    .target(lattitude, longitude)
+                    .zoom(zoomLevel)
+                    .build();
+            m_eegeoMap.moveCamera(CameraUpdateFactory.newCameraPosition(position));
         }
     }
 

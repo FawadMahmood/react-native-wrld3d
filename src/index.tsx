@@ -1,5 +1,6 @@
 import React, { forwardRef, useEffect, useImperativeHandle, useRef, useState } from 'react';
 import {
+  Alert,
   findNodeHandle,
   LayoutChangeEvent,
   PixelRatio,
@@ -10,7 +11,7 @@ import {
 
 
 import { WrldMap3d, Marker as MarkerView, Wrld3dProps } from './MapViewManager';
-import type { MapViewNativeComponentType } from './type';
+import type { MapViewNativeComponentType, Region } from './type';
 
 
 
@@ -23,25 +24,32 @@ const createFragment = (viewId: number) =>
     [viewId]
   );
 
-// type MapTypes = {
-//   style?: ViewStyle,
-//   children?: Element;
-//   zoomLevel?: number
-// }
+const processCommand = (viewId: number, command: string, args: any[]) => UIManager.dispatchViewManagerCommand(
+  viewId,
+  command,
+  args
+);
 
 
 export const Marker = MarkerView;
 
-
+export type MapViewRefPropsType = MapViewNativeComponentType;
 
 const MapComponent: React.ForwardRefRenderFunction<MapViewNativeComponentType, Wrld3dProps> = (
   props,
   forwardedRef,
 ) => {
 
+  const viewId = useRef<number>(0)
 
 
-  const moveToRegion = () => {
+  const moveToRegion = (location: Region, animated: boolean, duration?: number) => {
+    if (Platform.OS === "android") {
+      processCommand(viewId.current, 'animateToRegion', [location, animated, duration ? duration : 5000]);
+    }
+  }
+
+  const moveToBuilding = (location: Region, highlight: boolean, zoomLevel: number) => {
 
   }
 
@@ -52,8 +60,8 @@ const MapComponent: React.ForwardRefRenderFunction<MapViewNativeComponentType, W
 
   useEffect(() => {
     if (Platform.OS === "android") {
-      const viewId = findNodeHandle(ref.current);
-      createFragment(viewId as number);
+      viewId.current = findNodeHandle(ref.current) as number;
+      createFragment(viewId.current as number);
     }
   }, []);
 
@@ -74,9 +82,8 @@ const MapComponent: React.ForwardRefRenderFunction<MapViewNativeComponentType, W
 
   //mapevents
   const publicRef = {
-    // add any methods or properties here
-    // add any methods or properties here
-    moveToRegion
+    moveToRegion,
+    moveToBuilding
   };
 
 

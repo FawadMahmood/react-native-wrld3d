@@ -1,9 +1,23 @@
 import * as React from 'react';
 
 import { Image, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
-import { Wrld3dView, Marker } from 'react-native-wrld3d';
+import { Wrld3dView, Marker, MapViewRefPropsType } from 'react-native-wrld3d';
 // , 1, 2
 export default function App() {
+
+  const ref = React.useRef<MapViewRefPropsType>();
+
+
+  React.useEffect(() => {
+    setTimeout(() => {
+      ref.current?.moveToRegion({
+        latitude: 30.802355,
+        longitude: -122.405848
+      },
+        true,
+      )
+    }, 3000);
+  }, [' '])
 
   let markers = [];
   for (let i = 0; i < 100; i++) {
@@ -112,6 +126,7 @@ export default function App() {
   return (
     <View>
       <Wrld3dView
+        ref={ref as { current: MapViewRefPropsType }}
         initialCenter={{
           latitude: 24.882613347789693,
           longitude: 67.05802695237224
