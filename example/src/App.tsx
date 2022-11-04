@@ -191,14 +191,3 @@ export default function App() {
 
   );
 }
-
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1
-  },
-  box: {
-    width: 200,
-    height: 200,
-  },
-});
