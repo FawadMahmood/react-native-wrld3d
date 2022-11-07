@@ -8,8 +8,8 @@ const LINKING_ERROR =
     '- You are not using Expo managed workflow\n';
 
 export type Wrld3dProps = {
-    style: ViewStyle;
-    children: Element | undefined;
+    style?: ViewStyle;
+    children?: Element | undefined;
     zoomLevel?: number,
     initialCenter?: {
         latitude: number,

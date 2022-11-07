@@ -1,4 +1,4 @@
-import { ViewStyle } from 'react-native';
+import { NativeSyntheticEvent, ViewStyle } from 'react-native';
 export declare type Wrld3dProps = {
     style: ViewStyle;
     children: Element | undefined;
@@ -7,6 +7,12 @@ export declare type Wrld3dProps = {
         latitude: number;
         longitude: number;
     };
+    precache?: boolean;
+    precacheDistance?: number;
+    onMapReady?: () => void;
+    onMapCacheCompleted?: (props: NativeSyntheticEvent<{
+        success: boolean;
+    }>) => void;
 };
 export declare type MarkerProps = {
     style?: ViewStyle;

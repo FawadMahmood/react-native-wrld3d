@@ -11,7 +11,7 @@ declare type MapCenter = {
     region: Region;
     zoom: number;
 };
-interface NativeCommands {
+export interface NativeCommands {
     moveToRegion: (args: {
         location: Region;
         animated: boolean;

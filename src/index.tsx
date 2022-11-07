@@ -98,7 +98,7 @@ const MapComponent: React.ForwardRefRenderFunction<MapViewNativeComponentType, W
   useImperativeHandle(forwardedRef, () => publicRef);
 
   return (
-    <View onLayout={onlayout.bind(null)} style={[props.style, { overflow: "hidden" }]}>
+    <View onLayout={onlayout.bind(null)} style={[props.style ? props.style : { width: "100%", height: "100%" }, { overflow: "hidden" }]}>
       <WrldMap3d
         {...props}
         style={mapStyles}
