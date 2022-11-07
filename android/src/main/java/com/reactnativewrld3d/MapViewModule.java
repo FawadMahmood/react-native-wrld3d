@@ -13,6 +13,7 @@ import com.eegeo.mapapi.buildings.BuildingHighlightOptions;
 import com.eegeo.mapapi.buildings.BuildingInformation;
 import com.eegeo.mapapi.buildings.OnBuildingInformationReceivedListener;
 import com.eegeo.mapapi.camera.CameraPosition;
+import com.eegeo.mapapi.camera.CameraUpdateFactory;
 import com.eegeo.mapapi.geometry.ElevationMode;
 import com.eegeo.mapapi.geometry.LatLng;
 import com.eegeo.mapapi.markers.MarkerOptions;
@@ -46,7 +47,7 @@ public class MapViewModule extends ReactContextBaseJavaModule {
 
 
     @ReactMethod
-    public void getBuildingInformation(final int tag,double longitude,double latitude, Promise promise){
+    public void getBuildingInformation(final int tag,double longitude,double latitude,boolean animateToBuilding,int duration,int zoomLevel,Promise promise){
         UIManagerModule uiManager = reactContext.getNativeModule(UIManagerModule.class);
 
         uiManager.addUIBlock(new UIBlock()
@@ -72,7 +73,7 @@ public class MapViewModule extends ReactContextBaseJavaModule {
 
 
                     m_highlight = map.addBuildingHighlight(new BuildingHighlightOptions()
-                            .highlightBuildingAtLocation(new LatLng(37.784079, -122.396762))
+                            .highlightBuildingAtLocation(new LatLng(longitude, latitude))
                             .informationOnly()
                             .buildingInformationReceivedListener(new OnBuildingInformationReceivedListener() {
                                 @Override
@@ -81,7 +82,6 @@ public class MapViewModule extends ReactContextBaseJavaModule {
 
                                     if (buildingInformation == null) {
                                         WritableMap event = Arguments.createMap();
-                                        event.putString("buildingId", "");
                                         event.putBoolean("buildingAvailable", false);
                                         promise.resolve(event);
                                         return;
@@ -120,6 +120,16 @@ public class MapViewModule extends ReactContextBaseJavaModule {
 
                     );
 
+
+                    if(animateToBuilding){
+                        CameraPosition position = new CameraPosition.Builder()
+                                .target(latitude, longitude)
+                                .zoom(zoomLevel)
+                                .bearing(270)
+                                .build();
+
+                        map.animateCamera(CameraUpdateFactory.newCameraPosition(position), duration);
+                    }
 
 //                    promise.resolve(event);
                 }catch (Exception e){
