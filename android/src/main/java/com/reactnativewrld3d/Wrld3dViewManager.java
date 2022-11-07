@@ -361,8 +361,12 @@ public class Wrld3dViewManager extends ViewGroupManager<FrameLayout> implements 
                                     m_eegeoMap = map;
                                     UpdateMapCustomViews(0);
                                     if(initialCenter != null){
-                                        latitude = initialCenter.getDouble("latitude");
-                                        longitude = initialCenter.getDouble("longitude");
+                                        try{
+                                            latitude = initialCenter.getDouble("latitude");
+                                            longitude = initialCenter.getDouble("longitude");
+                                        }catch (Exception e) {
+
+                                        }
                                     }
                                     if(precache){
                                         Log.w("CACHE STARTED","CACHE STATING");
@@ -382,7 +386,7 @@ public class Wrld3dViewManager extends ViewGroupManager<FrameLayout> implements 
                         }
                     }
                 },
-                1000);
+                2000);
 
     }
 

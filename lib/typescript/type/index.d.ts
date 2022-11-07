@@ -11,6 +11,10 @@ declare type MapCenter = {
     region: Region;
     zoom: number;
 };
+declare type BuildingInformation = {
+    buildingId?: string;
+    buildingAvailable: boolean;
+};
 export interface NativeCommands {
     moveToRegion: (args: {
         location: Region;
@@ -26,5 +30,12 @@ export interface NativeCommands {
         duration?: number;
     }) => void;
     getMapCenter: () => Promise<MapCenter>;
+    getBuildingInformation: (args: {
+        location: Region;
+        animateToBuilding?: boolean;
+        duration?: number;
+        zoomLevel?: number;
+        highlight?: boolean;
+    }) => Promise<BuildingInformation>;
 }
 export {};

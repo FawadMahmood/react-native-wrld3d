@@ -13,6 +13,7 @@ export declare type Wrld3dProps = {
     onMapCacheCompleted?: (props: NativeSyntheticEvent<{
         success: boolean;
     }>) => void;
+    pickBuilding?: boolean;
 };
 export declare type MarkerProps = {
     style?: ViewStyle;
