@@ -1,6 +1,6 @@
 import * as React from 'react';
 
-import { Image, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import { Image, Text, TouchableOpacity, View } from 'react-native';
 import { Wrld3dView, Marker, MapViewRefPropsType } from 'react-native-wrld3d';
 // , 1, 2
 export default function App() {
