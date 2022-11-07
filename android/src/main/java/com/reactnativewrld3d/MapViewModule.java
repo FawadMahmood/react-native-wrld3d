@@ -92,24 +92,24 @@ public class MapViewModule extends ReactContextBaseJavaModule {
                                     double buildingHeight = buildingDimensions.topAltitude - buildingDimensions.baseAltitude;
                                     String title = String.format("Height: %1$.2f m", buildingHeight);
                                     if(highlight){
-                                    map.addMarker(new MarkerOptions()
-                                            .labelText(title)
-                                            .position(buildingDimensions.centroid)
-                                            .elevation(buildingDimensions.topAltitude)
-                                            .elevationMode(ElevationMode.HeightAboveSeaLevel)
-                                    );
+                                        map.addMarker(new MarkerOptions()
+                                                .labelText(title)
+                                                .position(buildingDimensions.centroid)
+                                                .elevation(buildingDimensions.topAltitude)
+                                                .elevationMode(ElevationMode.HeightAboveSeaLevel)
+                                        );
 
 
-                                        for (BuildingContour contour : buildingInformation.contours)
-                                        {
-                                            map.addPolyline(new PolylineOptions()
-                                                    .add(contour.points)
-                                                    .add(contour.points[0])
-                                                    .elevationMode(ElevationMode.HeightAboveSeaLevel)
-                                                    .elevation(contour.topAltitude)
-                                                    .color(Color.BLUE)
-                                            );
-                                        }
+                                       for (BuildingContour contour : buildingInformation.contours)
+                                            {
+                                                map.addPolyline(new PolylineOptions()
+                                                        .add(contour.points)
+                                                        .add(contour.points[0])
+                                                        .elevationMode(ElevationMode.HeightAboveSeaLevel)
+                                                        .elevation(contour.topAltitude)
+                                                        .color(Color.BLUE)
+                                                );
+                                       }
                                     }
 
 
