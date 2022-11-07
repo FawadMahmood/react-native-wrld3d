@@ -18,7 +18,8 @@ export type Wrld3dProps = {
     precache?: boolean
     precacheDistance?: number;
     onMapReady?: () => void;
-    onMapCacheCompleted?: (props: NativeSyntheticEvent<{ success: boolean, }>) => void
+    onMapCacheCompleted?: (props: NativeSyntheticEvent<{ success: boolean, }>) => void,
+    pickBuilding?: boolean;
 };
 
 

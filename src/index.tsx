@@ -30,7 +30,6 @@ const processCommand = (viewId: number, command: string, args: any[]) => UIManag
   args
 );
 
-
 export const Marker = MarkerView;
 
 export type MapViewRefPropsType = MapViewNativeComponentType;
@@ -106,8 +105,8 @@ const MapComponent: React.ForwardRefRenderFunction<MapViewNativeComponentType, W
         ref={ref}
         zoomLevel={props.zoomLevel ? props.zoomLevel : 12}
         initialCenter={props.initialCenter ? props.initialCenter : {
-          latitude: 24.8620495,
-          longitude: 67.070877
+          latitude: 24.8620502,
+          longitude: 67.0708794
         }}
         onMapReady={() => {
           isMapReady.current = true;

@@ -93,6 +93,7 @@ public class Wrld3dViewManager extends ViewGroupManager<FrameLayout> implements 
     private int viewId=0;
     private boolean precache=false;
     private double cacheDistance=100.0f;
+    private boolean pickBuilding=false;
 
 
     public EegeoMap m_eegeoMap = null;
@@ -187,7 +188,6 @@ public class Wrld3dViewManager extends ViewGroupManager<FrameLayout> implements 
                 }
             break;
             case MOVE_TO_BUILDING:
-//[location, highlight, zoomLevel, animated, duration]
                 ReadableMap _location = args.getMap(0);
                 boolean highlight = args.getBoolean(1);
                 int _zoomLevel =args.getInt(2) == -1 ? this.zoomLevel:args.getInt(2) ;
@@ -219,7 +219,6 @@ public class Wrld3dViewManager extends ViewGroupManager<FrameLayout> implements 
                     .build();
             m_eegeoMap.moveCamera(CameraUpdateFactory.newCameraPosition(position));
         }
-
 
         if(highlight){
 
@@ -326,6 +325,11 @@ public class Wrld3dViewManager extends ViewGroupManager<FrameLayout> implements 
         this.zoomLevel = zoomLevel;
     }
 
+    @ReactProp(name = "pickBuilding", defaultBoolean = false)
+    public void setPickBuilding(FrameLayout view, boolean pickBuilding) {
+        this.pickBuilding = pickBuilding;
+    }
+
     private BuildingHighlight m_highlight = null;
 
     /**
@@ -333,59 +337,33 @@ public class Wrld3dViewManager extends ViewGroupManager<FrameLayout> implements 
      */
     public void createFragment(FrameLayout root, int reactNativeViewId) {
         parent = (ViewGroup) root.findViewById(reactNativeViewId);
-
-
         setupLayout(parent);
-
-
         wrldMapFragment = new WrldMapFragment();
-
-//        Fragment fragmentA = fragmentManager.findFragmentByTag("frag1");
-
-
         FragmentActivity activity = (FragmentActivity) reactContext.getCurrentActivity();
-
         Fragment _oldFrag = activity.getSupportFragmentManager().findFragmentByTag(String.valueOf(reactNativeViewId));
         if(_oldFrag != null){
             activity.getSupportFragmentManager().beginTransaction().remove(_oldFrag);
             Log.w("FRAGMENT EXIST ALREADY","FRAGMENT WAS THERE AND REMOVED"+parent.getId());
         }
 
-
-
-
         activity.getSupportFragmentManager()
                 .beginTransaction()
                 .replace(reactNativeViewId, wrldMapFragment, String.valueOf(reactNativeViewId))
                 .commit();
 
-
-
         new android.os.Handler(Looper.getMainLooper()).postDelayed(
                 new Runnable() {
                     public void run() {
                         if(wrldMapFragment.isAdded() && wrldMapFragment.m_mapView != null){
-                            Toast.makeText(wrldMapFragment.getContext(),(String)"fragment added and map added bro?",
-                                    Toast.LENGTH_SHORT).show();
-
                             wrldMapFragment.m_mapView.getMapAsync(new OnMapReadyCallback() {
                                 @Override
                                 public void onMapReady(EegeoMap map) {
                                     m_eegeoMap = map;
-
-
-
-                                    if(_oldFrag != null){
-                                        Log.w("FRAGMENT EXIST ALREADY","MAP READY STILL WORKED WITH LIST SIZE: "+ addedView.size());
-                                    }
-
                                     UpdateMapCustomViews(0);
-
                                     if(initialCenter != null){
                                         latitude = initialCenter.getDouble("latitude");
                                         longitude = initialCenter.getDouble("longitude");
                                     }
-
                                     if(precache){
                                         Log.w("CACHE STARTED","CACHE STATING");
                                         m_eegeoMap.precache(
@@ -393,24 +371,18 @@ public class Wrld3dViewManager extends ViewGroupManager<FrameLayout> implements 
                                                 cacheDistance,
                                                 Wrld3dViewManager.this);
                                     }
-
                                     CameraPosition position = new CameraPosition.Builder()
                                             .target(latitude, longitude)
                                             .zoom(zoomLevel)
                                             .build();
-
                                     map.moveCamera(CameraUpdateFactory.newCameraPosition(position));
-
-
                                     bubbleOnMapReadyEvent();
-
-
                                 }
                             });
                         }
                     }
                 },
-                2000);
+                1000);
 
     }
 

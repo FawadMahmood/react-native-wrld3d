@@ -116,20 +116,21 @@ export default function App() {
   const animateToRegion = async () => {
 
     // move to region
-    // ref.current?.moveToRegion({
-    //   location: {
-    //     latitude: 121.000,
-    //     longitude: -100.405848
-    //   },
-    //   animated: true,
+    ref.current?.moveToRegion({
+      location: {
+        latitude: 67.0708766,
+        longitude: 24.8620518
+      },
+      animated: true,
+      zoomLevel: 15,
 
-    // })
+    })
     // move to region
 
 
     //getMapCenter
-    const details = await ref.current?.getMapCenter();
-    console.log("got map center", details);
+    // const details = await ref.current?.getMapCenter();
+    // console.log("got map center", details);
     //getMapCenter
 
 

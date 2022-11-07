@@ -1,7 +1,7 @@
 import { NativeSyntheticEvent, ViewStyle } from 'react-native';
 export declare type Wrld3dProps = {
-    style: ViewStyle;
-    children: Element | undefined;
+    style?: ViewStyle;
+    children?: Element | undefined;
     zoomLevel?: number;
     initialCenter?: {
         latitude: number;
