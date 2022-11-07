@@ -134,7 +134,8 @@ export default function App() {
         longitude: 67.0708766,
       },
       animateToBuilding: true,
-      zoomLevel: 18
+      zoomLevel: 18,
+      highlight: true
     })
 
     console.log("got map center", building);

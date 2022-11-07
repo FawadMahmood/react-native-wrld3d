@@ -91,6 +91,7 @@ public class MapViewModule extends ReactContextBaseJavaModule {
                                     BuildingDimensions buildingDimensions = buildingInformation.buildingDimensions;
                                     double buildingHeight = buildingDimensions.topAltitude - buildingDimensions.baseAltitude;
                                     String title = String.format("Height: %1$.2f m", buildingHeight);
+                                    if(highlight){
                                     map.addMarker(new MarkerOptions()
                                             .labelText(title)
                                             .position(buildingDimensions.centroid)
@@ -98,7 +99,7 @@ public class MapViewModule extends ReactContextBaseJavaModule {
                                             .elevationMode(ElevationMode.HeightAboveSeaLevel)
                                     );
 
-                                    if(highlight){
+
                                         for (BuildingContour contour : buildingInformation.contours)
                                         {
                                             map.addPolyline(new PolylineOptions()
