@@ -47,7 +47,7 @@ public class MapViewModule extends ReactContextBaseJavaModule {
 
 
     @ReactMethod
-    public void getBuildingInformation(final int tag,double longitude,double latitude,boolean animateToBuilding,int duration,int zoomLevel,Promise promise){
+    public void getBuildingInformation(final int tag,double longitude,double latitude,boolean animateToBuilding,int duration,int zoomLevel,boolean highlight, Promise promise){
         UIManagerModule uiManager = reactContext.getNativeModule(UIManagerModule.class);
 
         uiManager.addUIBlock(new UIBlock()
@@ -70,7 +70,6 @@ public class MapViewModule extends ReactContextBaseJavaModule {
 
 
                     EegeoMap map = view.m_eegeoMap;
-
 
                     m_highlight = map.addBuildingHighlight(new BuildingHighlightOptions()
                             .highlightBuildingAtLocation(new LatLng(longitude, latitude))
@@ -99,16 +98,19 @@ public class MapViewModule extends ReactContextBaseJavaModule {
                                             .elevationMode(ElevationMode.HeightAboveSeaLevel)
                                     );
 
-                                    for (BuildingContour contour : buildingInformation.contours)
-                                    {
-                                        map.addPolyline(new PolylineOptions()
-                                                .add(contour.points)
-                                                .add(contour.points[0])
-                                                .elevationMode(ElevationMode.HeightAboveSeaLevel)
-                                                .elevation(contour.topAltitude)
-                                                .color(Color.BLUE)
-                                        );
+                                    if(highlight){
+                                        for (BuildingContour contour : buildingInformation.contours)
+                                        {
+                                            map.addPolyline(new PolylineOptions()
+                                                    .add(contour.points)
+                                                    .add(contour.points[0])
+                                                    .elevationMode(ElevationMode.HeightAboveSeaLevel)
+                                                    .elevation(contour.topAltitude)
+                                                    .color(Color.BLUE)
+                                            );
+                                        }
                                     }
+
 
 
                                     WritableMap event = Arguments.createMap();

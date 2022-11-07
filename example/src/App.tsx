@@ -134,17 +134,10 @@ export default function App() {
         longitude: 67.0708766,
       },
       animateToBuilding: true,
+      zoomLevel: 18
     })
 
     console.log("got map center", building);
-    //getMapCenter
-    // const details = await ref.current?.getMapCenter();
-    // console.log("got map center", details);
-    //getMapCenter
-
-
-
-
   }
 
   //  key={index}

@@ -86,8 +86,8 @@ const MapComponent: React.ForwardRefRenderFunction<MapViewNativeComponentType, W
     return message;
   }
 
-  const getBuildingInformation = async ({ location, animateToBuilding = false, duration = 2000, zoomLevel = 18 }: { location: Region, animateToBuilding?: boolean, duration?: number, zoomLevel?: number }) => {
-    const message = await NativeModules['MapViewModule'].getBuildingInformation(viewId.current, location.longitude, location.latitude, animateToBuilding, duration, zoomLevel);
+  const getBuildingInformation = async ({ location, animateToBuilding = false, duration = 2000, zoomLevel = 18, highlight = false }: { location: Region, animateToBuilding?: boolean, duration?: number, zoomLevel?: number, highlight?: boolean }) => {
+    const message = await NativeModules['MapViewModule'].getBuildingInformation(viewId.current, location.longitude, location.latitude, animateToBuilding, duration, zoomLevel, highlight);
     return message;
   }
 
