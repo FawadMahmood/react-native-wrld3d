@@ -49,7 +49,7 @@ public class MapViewModule extends ReactContextBaseJavaModule {
 
 
     @ReactMethod
-    public void getBuildingInformation(final int tag,double longitude,double latitude,boolean animateToBuilding,int duration,int zoomLevel,boolean highlight, Promise promise){
+    public void getBuildingInformation(final int tag,double longitude,double latitude,boolean animateToBuilding,int duration,int zoomLevel, Promise promise){
         UIManagerModule uiManager = reactContext.getNativeModule(UIManagerModule.class);
 
         uiManager.addUIBlock(new UIBlock()
@@ -71,44 +71,107 @@ public class MapViewModule extends ReactContextBaseJavaModule {
                     }
 
 
-                    EegeoMap map = view.m_eegeoMap;
+                    EegeoMap m_eegeoMap = view.m_eegeoMap;
 
-                    m_highlight = map.addBuildingHighlight(new BuildingHighlightOptions()
-                            .highlightBuildingAtLocation(new LatLng(longitude, latitude))
+                    m_highlight = m_eegeoMap.addBuildingHighlight(new BuildingHighlightOptions()
+                            .highlightBuildingAtLocation(new LatLng(latitude, longitude))
                             .informationOnly()
                             .buildingInformationReceivedListener(new OnBuildingInformationReceivedListener() {
                                 @Override
                                 public void onBuildingInformationReceived(BuildingHighlight buildingHighlight) {
                                     BuildingInformation buildingInformation = buildingHighlight.getBuildingInformation();
-
                                     if (buildingInformation == null) {
                                         WritableMap event = Arguments.createMap();
+                                        event.putString("buildingId","");
                                         event.putBoolean("buildingAvailable", false);
-                                        promise.resolve(event);
+//                                        Toast.makeText(reactContext, String.format("No building information was received for building highlight"), Toast.LENGTH_LONG).show();
                                         return;
                                     }
+
+//                                    Toast.makeText(reactContext, buildingInformation.buildingId, Toast.LENGTH_LONG).show();
+
+                                    if(animateToBuilding){
+                                        CameraPosition position = new CameraPosition.Builder()
+                                                .target(latitude, longitude)
+                                                .zoom(zoomLevel)
+                                                .bearing(270)
+                                                .build();
+
+                                        m_eegeoMap.animateCamera(CameraUpdateFactory.newCameraPosition(position), duration);
+                                    }
+
+                                    BuildingDimensions buildingDimensions = buildingInformation.buildingDimensions;
+                                    double buildingHeight = buildingDimensions.topAltitude - buildingDimensions.baseAltitude;
 
                                     WritableMap event = Arguments.createMap();
                                     event.putString("buildingId", buildingInformation.buildingId);
                                     event.putBoolean("buildingAvailable", true);
                                     promise.resolve(event);
+
+
+//                                    String title = String.format("Height: %1$.2f m", buildingHeight);
+//                                    m_eegeoMap.addMarker(new MarkerOptions()
+//                                            .labelText(title)
+//                                            .position(buildingDimensions.centroid)
+//                                            .elevation(buildingDimensions.topAltitude)
+//                                            .elevationMode(ElevationMode.HeightAboveSeaLevel)
+//                                    );
+
+//                                    for (BuildingContour contour : buildingInformation.contours)
+//                                    {
+//                                        m_eegeoMap.addPolyline(new PolylineOptions()
+//                                                .add(contour.points)
+//                                                .add(contour.points[0])
+//                                                .elevationMode(ElevationMode.HeightAboveSeaLevel)
+//                                                .elevation(contour.topAltitude)
+//                                                .color(Color.BLUE)
+//                                        );
+//
+//                                    }
                                 }
                             })
-
                     );
 
 
-                    if(animateToBuilding){
-                        CameraPosition position = new CameraPosition.Builder()
-                                .target(latitude, longitude)
-                                .zoom(zoomLevel)
-                                .bearing(270)
-                                .build();
-
-                        map.animateCamera(CameraUpdateFactory.newCameraPosition(position), duration);
-                    }
-
-//                    promise.resolve(event);
+//                    m_highlight = map.addBuildingHighlight(new BuildingHighlightOptions()
+//                            .highlightBuildingAtLocation(new LatLng(longitude, latitude))
+//                            .informationOnly()
+//                            .buildingInformationReceivedListener(new OnBuildingInformationReceivedListener() {
+//                                @Override
+//                                public void onBuildingInformationReceived(BuildingHighlight buildingHighlight) {
+//                                    Log.w("BUINDING INFO HAS","onBuildingInformationReceived");
+//                                    BuildingInformation buildingInformation = buildingHighlight.getBuildingInformation();
+//
+//                                    if (buildingInformation == null) {
+//                                        Log.w("BUINDING INFO HAS","NOT FOUND");
+//                                        WritableMap event = Arguments.createMap();
+//                                        event.putBoolean("buildingAvailable", false);
+//                                        promise.resolve(event);
+//                                        return;
+//                                    }
+//
+//                                    WritableMap event = Arguments.createMap();
+//                                    event.putString("buildingId", buildingInformation.buildingId);
+//                                    event.putBoolean("buildingAvailable", true);
+//
+//
+//
+//                                    if(animateToBuilding){
+//                                        CameraPosition position = new CameraPosition.Builder()
+//                                                .target(latitude, longitude)
+//                                                .zoom(zoomLevel)
+//                                                .bearing(270)
+//                                                .build();
+//
+//                                        map.animateCamera(CameraUpdateFactory.newCameraPosition(position), duration);
+//                                    }
+//
+//
+//
+//                                    promise.resolve(event);
+//                                }
+//                            })
+//                    );
                 }catch (Exception e){
                     promise.reject(e);
                 }

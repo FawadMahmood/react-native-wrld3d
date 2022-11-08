@@ -444,5 +444,6 @@ public class Wrld3dViewManager extends ViewGroupManager<FrameLayout> implements 
         context.getJSModule(RCTEventEmitter.class).receiveEvent(viewId, name, data);
     }
 
+
 }
 

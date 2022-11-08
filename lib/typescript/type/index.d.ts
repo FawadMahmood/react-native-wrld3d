@@ -15,6 +15,9 @@ declare type BuildingInformation = {
     buildingId?: string;
     buildingAvailable: boolean;
 };
+declare type Success = {
+    success: boolean;
+};
 export interface NativeCommands {
     moveToRegion: (args: {
         location: Region;
@@ -37,5 +40,8 @@ export interface NativeCommands {
         zoomLevel?: number;
         highlight?: boolean;
     }) => Promise<BuildingInformation>;
+    setBuildingHighlight: (args: {
+        location: Region;
+    }) => Promise<Success>;
 }
 export {};

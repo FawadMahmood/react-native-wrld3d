@@ -134,8 +134,10 @@ export default function App() {
         longitude: 67.0708766,
       },
       animateToBuilding: true,
-      zoomLevel: 18,
-      highlight: true
+      zoomLevel: 18
+    }).catch(error => {
+      console.log("error occured", error);
+
     })
 
     console.log("got map center", building);
