@@ -1,4 +1,4 @@
-import React, { createContext, Provider, useEffect, useImperativeHandle, useRef, useState } from 'react';
+import React, { useEffect, useImperativeHandle, useRef, useState } from 'react';
 import {
   findNodeHandle,
   LayoutChangeEvent,
@@ -107,7 +107,6 @@ const MapComponent: React.ForwardRefRenderFunction<MapViewNativeComponentType, W
 
 
   useImperativeHandle(forwardedRef, () => publicRef);
-  const ProviderContext = createContext<any>(undefined);
 
   return (
     // <ProviderContext.Provider value={{ provider: 'wrld3dMap' }}>
