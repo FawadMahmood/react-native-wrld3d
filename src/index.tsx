@@ -91,12 +91,18 @@ const MapComponent: React.ForwardRefRenderFunction<MapViewNativeComponentType, W
     return message;
   }
 
+  const setBuildingHighlight = async ({ location }: { location: Region }) => {
+    const message = await NativeModules['MapViewModule'].addBuildingHighlight(viewId.current, location.longitude, location.latitude);
+    return message;
+  }
+
   //mapevents
   const publicRef = {
     moveToRegion,
     moveToBuilding,
     getMapCenter,
-    getBuildingInformation
+    getBuildingInformation,
+    setBuildingHighlight
   };
 
 

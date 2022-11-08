@@ -1,9 +1,11 @@
 package com.reactnativewrld3d;
 
 import android.graphics.Color;
+import android.util.Log;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.core.graphics.ColorUtils;
 
 import com.eegeo.mapapi.EegeoMap;
 import com.eegeo.mapapi.buildings.BuildingContour;
@@ -86,34 +88,6 @@ public class MapViewModule extends ReactContextBaseJavaModule {
                                         return;
                                     }
 
-                                    Toast.makeText(reactContext, buildingInformation.buildingId, Toast.LENGTH_LONG).show();
-
-                                    BuildingDimensions buildingDimensions = buildingInformation.buildingDimensions;
-                                    double buildingHeight = buildingDimensions.topAltitude - buildingDimensions.baseAltitude;
-                                    String title = String.format("Height: %1$.2f m", buildingHeight);
-                                    if(highlight){
-                                        map.addMarker(new MarkerOptions()
-                                                .labelText(title)
-                                                .position(buildingDimensions.centroid)
-                                                .elevation(buildingDimensions.topAltitude)
-                                                .elevationMode(ElevationMode.HeightAboveSeaLevel)
-                                        );
-
-
-                                       for (BuildingContour contour : buildingInformation.contours)
-                                            {
-                                                map.addPolyline(new PolylineOptions()
-                                                        .add(contour.points)
-                                                        .add(contour.points[0])
-                                                        .elevationMode(ElevationMode.HeightAboveSeaLevel)
-                                                        .elevation(contour.topAltitude)
-                                                        .color(Color.BLUE)
-                                                );
-                                       }
-                                    }
-
-
-
                                     WritableMap event = Arguments.createMap();
                                     event.putString("buildingId", buildingInformation.buildingId);
                                     event.putBoolean("buildingAvailable", true);
@@ -135,6 +109,45 @@ public class MapViewModule extends ReactContextBaseJavaModule {
                     }
 
 //                    promise.resolve(event);
+                }catch (Exception e){
+                    promise.reject(e);
+                }
+            }
+        });
+    }
+
+
+    @ReactMethod
+    public void addBuildingHighlight(final int tag,double longitude,double latitude, Promise promise){
+        UIManagerModule uiManager = reactContext.getNativeModule(UIManagerModule.class);
+
+        uiManager.addUIBlock(new UIBlock()
+        {
+            @Override
+            public void execute(NativeViewHierarchyManager nvhm)
+            {
+                try{
+                    Wrld3dViewManager view = (Wrld3dViewManager) nvhm.resolveViewManager(tag);
+
+                    if (view == null) {
+                        promise.reject("EegeoMap not found");
+                        return;
+                    }
+
+                    if (view.m_eegeoMap == null) {
+                        promise.reject("EegeoMap.map is not valid");
+                        return;
+                    }
+                    EegeoMap map = view.m_eegeoMap;
+
+                    map.addBuildingHighlight(new BuildingHighlightOptions()
+                            .highlightBuildingAtLocation(new LatLng(latitude, longitude))
+                            .color(ColorUtils.setAlphaComponent(Color.YELLOW, 128)));
+
+                    WritableMap event = Arguments.createMap();
+                    event.putBoolean("success", true);
+                    promise.resolve(event);
+
                 }catch (Exception e){
                     promise.reject(e);
                 }

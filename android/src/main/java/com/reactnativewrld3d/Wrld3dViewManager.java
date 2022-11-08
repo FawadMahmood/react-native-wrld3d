@@ -140,9 +140,6 @@ public class Wrld3dViewManager extends ViewGroupManager<FrameLayout> implements 
         pushEvent(reactContext,viewId,"onMapReady",event);
     }
 
-
-
-
     @Override
     @Nullable
     public Map getExportedCustomDirectEventTypeConstants() {

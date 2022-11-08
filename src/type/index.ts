@@ -24,6 +24,11 @@ type BuildingInformation = {
     buildingAvailable: boolean,
 }
 
+
+type Success = {
+    success: boolean;
+}
+
 // {"region": {"latitude": 24.882613347789693, "longitude": 67.05802695237223}, "zoom": 15}
 
 export interface NativeCommands {
@@ -31,4 +36,6 @@ export interface NativeCommands {
     moveToBuilding: (args: { location: Region, highlight?: boolean, zoomLevel?: number, animated?: boolean, duration?: number }) => void
     getMapCenter: () => Promise<MapCenter>,
     getBuildingInformation: (args: { location: Region, animateToBuilding?: boolean, duration?: number, zoomLevel?: number, highlight?: boolean }) => Promise<BuildingInformation>,
+    setBuildingHighlight: (args: { location: Region }) => Promise<Success>,
+
 }
