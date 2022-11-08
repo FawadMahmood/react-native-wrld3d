@@ -316,6 +316,7 @@ public class Wrld3dViewManager extends ViewGroupManager<FrameLayout> implements 
 
     @ReactProp(name = "initialCenter")
     public void setInitialRegion(FrameLayout view, ReadableMap initialCenter) {
+        Log.w("setInitialRegion",initialCenter.toString());
         try{
             latitude = initialCenter.getDouble("latitude");
             longitude = initialCenter.getDouble("longitude");
@@ -445,6 +446,6 @@ public class Wrld3dViewManager extends ViewGroupManager<FrameLayout> implements 
     void pushEvent(ReactApplicationContext context, int viewId, String name, WritableMap data) {
         context.getJSModule(RCTEventEmitter.class).receiveEvent(viewId, name, data);
     }
-    
+
 }
 
