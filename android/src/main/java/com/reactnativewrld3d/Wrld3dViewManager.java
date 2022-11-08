@@ -422,7 +422,7 @@ public class Wrld3dViewManager extends ViewGroupManager<FrameLayout> implements 
     @Override
     public void onDropViewInstance(@NonNull FrameLayout view) {
         Log.w("View Has Been destroyed","OH");
-        super.onDropViewInstance(view);
+//        super.onDropViewInstance(view);
     }
 
 
@@ -443,7 +443,6 @@ public class Wrld3dViewManager extends ViewGroupManager<FrameLayout> implements 
     void pushEvent(ReactApplicationContext context, int viewId, String name, WritableMap data) {
         context.getJSModule(RCTEventEmitter.class).receiveEvent(viewId, name, data);
     }
-
 
 }
 

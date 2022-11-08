@@ -38,7 +38,6 @@ export interface NativeCommands {
         animateToBuilding?: boolean;
         duration?: number;
         zoomLevel?: number;
-        highlight?: boolean;
     }) => Promise<BuildingInformation>;
     setBuildingHighlight: (args: {
         location: Region;
