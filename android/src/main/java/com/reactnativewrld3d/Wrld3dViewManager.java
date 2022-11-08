@@ -316,6 +316,13 @@ public class Wrld3dViewManager extends ViewGroupManager<FrameLayout> implements 
 
     @ReactProp(name = "initialCenter")
     public void setInitialRegion(FrameLayout view, ReadableMap initialCenter) {
+        try{
+            latitude = initialCenter.getDouble("latitude");
+            longitude = initialCenter.getDouble("longitude");
+        }catch(Exception e){
+
+        }
+
         this.initialCenter = initialCenter;
     }
 
