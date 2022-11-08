@@ -1,5 +1,7 @@
 package com.reactnativewrld3d;
 
+import android.util.Log;
+
 import com.facebook.react.ReactPackage;
 import com.facebook.react.bridge.NativeModule;
 import com.facebook.react.bridge.ReactApplicationContext;
@@ -17,6 +19,7 @@ public class Wrld3dPackage implements ReactPackage {
 
     @Override
     public List<ViewManager> createViewManagers(ReactApplicationContext reactContext) {
+        Log.w("CONTEXT SET","CONTEXT");
         return Arrays.<ViewManager>asList(new Wrld3dViewManager(reactContext), new MarkerViewManager(reactContext));
     }
 }

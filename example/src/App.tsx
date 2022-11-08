@@ -1,6 +1,6 @@
 import * as React from 'react';
 
-import { Image, Text, TouchableOpacity, View } from 'react-native';
+import { Alert, Image, Text, TouchableOpacity, View } from 'react-native';
 import { Wrld3dView, Marker, MapViewRefPropsType } from 'react-native-wrld3d';
 // , 1, 2
 export default function App() {
@@ -151,10 +151,14 @@ export default function App() {
   return (
     <View>
       {visible ? <Wrld3dView
+
         ref={ref as { current: MapViewRefPropsType }}
         initialCenter={{
           latitude: 24.882613347789693,
           longitude: 67.05802695237224
+        }}
+        onMapReady={() => {
+          Alert.alert('onMap Ready');
         }}
         precache
         precacheDistance={5000}

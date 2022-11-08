@@ -1,4 +1,4 @@
-import React, { useEffect, useImperativeHandle, useRef, useState } from 'react';
+import React, { createContext, Provider, useEffect, useImperativeHandle, useRef, useState } from 'react';
 import {
   findNodeHandle,
   LayoutChangeEvent,
@@ -107,11 +107,14 @@ const MapComponent: React.ForwardRefRenderFunction<MapViewNativeComponentType, W
 
 
   useImperativeHandle(forwardedRef, () => publicRef);
+  const ProviderContext = createContext<any>(undefined);
 
   return (
+    // <ProviderContext.Provider value={{ provider: 'wrld3dMap' }}>
     <View onLayout={onlayout.bind(null)} style={[props.style ? props.style : { width: "100%", height: "100%" }, { overflow: "hidden" }]}>
       <WrldMap3d
         {...props}
+        key={new Date().toDateString()}
         style={mapStyles}
         // @ts-ignore
         ref={ref}
@@ -133,7 +136,6 @@ const MapComponent: React.ForwardRefRenderFunction<MapViewNativeComponentType, W
         {props.children}
       </WrldMap3d>
     </View>
-
   )
 }
 

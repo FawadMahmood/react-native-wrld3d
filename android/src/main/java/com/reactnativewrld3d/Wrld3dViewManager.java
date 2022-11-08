@@ -1,61 +1,35 @@
 // replace with your package
 package com.reactnativewrld3d;
 
-import android.app.AlertDialog;
-import android.graphics.Color;
-import android.graphics.Point;
-import android.graphics.PointF;
 import android.os.Looper;
 import android.util.Log;
 import android.view.Choreographer;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
-import android.widget.ListView;
-import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.annotation.UiThread;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentActivity;
 
 import com.eegeo.mapapi.EegeoMap;
-import com.eegeo.mapapi.MapView;
-import com.eegeo.mapapi.buildings.BuildingContour;
-import com.eegeo.mapapi.buildings.BuildingDimensions;
 import com.eegeo.mapapi.buildings.BuildingHighlight;
-import com.eegeo.mapapi.buildings.BuildingHighlightOptions;
-import com.eegeo.mapapi.buildings.BuildingInformation;
-import com.eegeo.mapapi.buildings.OnBuildingInformationReceivedListener;
 import com.eegeo.mapapi.camera.CameraPosition;
 import com.eegeo.mapapi.camera.CameraUpdateFactory;
-import com.eegeo.mapapi.geometry.ElevationMode;
 import com.eegeo.mapapi.geometry.LatLng;
 import com.eegeo.mapapi.map.OnMapReadyCallback;
-import com.eegeo.mapapi.markers.MarkerOptions;
-import com.eegeo.mapapi.polylines.PolylineOptions;
 import com.eegeo.mapapi.positioner.OnPositionerChangedListener;
 import com.eegeo.mapapi.positioner.Positioner;
-import com.eegeo.mapapi.positioner.PositionerOptions;
 import com.eegeo.mapapi.precaching.OnPrecacheOperationCompletedListener;
 import com.eegeo.mapapi.precaching.PrecacheOperationResult;
-import com.eegeo.ui.util.ViewAnchor;
 import com.facebook.react.bridge.Arguments;
-import com.facebook.react.bridge.Callback;
-import com.facebook.react.bridge.Promise;
 import com.facebook.react.bridge.ReactApplicationContext;
-import com.facebook.react.bridge.ReactMethod;
+import com.facebook.react.bridge.ReactContext;
 import com.facebook.react.bridge.ReadableArray;
 import com.facebook.react.bridge.ReadableMap;
 import com.facebook.react.bridge.WritableMap;
 import com.facebook.react.common.MapBuilder;
-import com.facebook.react.modules.core.DeviceEventManagerModule;
-import com.facebook.react.uimanager.NativeViewHierarchyManager;
-import com.facebook.react.uimanager.SimpleViewManager;
-import com.facebook.react.uimanager.UIBlock;
-import com.facebook.react.uimanager.UIManagerModule;
 import com.facebook.react.uimanager.annotations.ReactProp;
 import com.facebook.react.uimanager.annotations.ReactPropGroup;
 import com.facebook.react.uimanager.ViewGroupManager;
@@ -106,6 +80,7 @@ public class Wrld3dViewManager extends ViewGroupManager<FrameLayout> implements 
 
 
     public Wrld3dViewManager(ReactApplicationContext reactContext) {
+        Log.w("Contructor called","CONSTRUCTOR CALLED");
         this.reactContext = reactContext;
     }
 
@@ -137,6 +112,11 @@ public class Wrld3dViewManager extends ViewGroupManager<FrameLayout> implements 
     void bubbleOnMapReadyEvent(){
         WritableMap event = Arguments.createMap();
         event.putString("ready", "true");
+
+//        reactContext.getJSModule(DeviceEventManagerModule.RCTDeviceEventEmitter.class)
+//                .emit("onMapReady", event);
+
+
         pushEvent(reactContext,viewId,"onMapReady",event);
     }
 
@@ -248,7 +228,6 @@ public class Wrld3dViewManager extends ViewGroupManager<FrameLayout> implements 
 
     @Override
     public void addView(FrameLayout parent, View child, int index) {
-
         if(index ==0 &&  addedView.size()>0){
             addedView.clear();
         }
@@ -348,6 +327,7 @@ public class Wrld3dViewManager extends ViewGroupManager<FrameLayout> implements 
         parent = (ViewGroup) root.findViewById(reactNativeViewId);
         setupLayout(parent);
         wrldMapFragment = new WrldMapFragment();
+
         FragmentActivity activity = (FragmentActivity) reactContext.getCurrentActivity();
         Fragment _oldFrag = activity.getSupportFragmentManager().findFragmentByTag(String.valueOf(reactNativeViewId));
         if(_oldFrag != null){
@@ -423,12 +403,7 @@ public class Wrld3dViewManager extends ViewGroupManager<FrameLayout> implements 
     }
 
 
-    @Override
-    public void onDropViewInstance(@NonNull FrameLayout view) {
-        Log.w("View Has Been destroyed","OH");
-        this.removeAllViews(view);
-        super.onDropViewInstance(view);
-    }
+
 
     @Override
     public void onPrecacheOperationCompleted(PrecacheOperationResult precacheOperationResult) {
@@ -445,8 +420,31 @@ public class Wrld3dViewManager extends ViewGroupManager<FrameLayout> implements 
 
 
     void pushEvent(ReactApplicationContext context, int viewId, String name, WritableMap data) {
-        context.getJSModule(RCTEventEmitter.class).receiveEvent(viewId, name, data);
+        View parent= (View) this.parent.getParent();
+        ReactContext _reactContext = (ReactContext)parent.getContext();
+        _reactContext.getJSModule(RCTEventEmitter.class).receiveEvent(viewId, name, data);
     }
 
+    @Override
+    public void onDropViewInstance(@NonNull FrameLayout view) {
+        Log.w("View Has Been destroyed","OH");
+        this.removeAllViews(view);
+        super.onDropViewInstance(view);
+    }
+
+    @Override
+    public void removeAllViews(FrameLayout parent) {
+        super.removeAllViews(parent);
+    }
+
+    @Override
+    public void updateExtraData(FrameLayout root, Object extraData) {
+        super.updateExtraData(root, extraData);
+    }
+
+    @Override
+    public void onCatalystInstanceDestroy() {
+        super.onCatalystInstanceDestroy();
+    }
 }
 

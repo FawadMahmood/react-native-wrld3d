@@ -14,6 +14,7 @@ import androidx.fragment.app.Fragment;
 
 import com.eegeo.mapapi.EegeoApi;
 import com.eegeo.mapapi.MapView;
+import com.facebook.react.uimanager.events.RCTEventEmitter;
 
 public class WrldMapFragment extends Fragment {
     CustomView customView;
@@ -21,6 +22,7 @@ public class WrldMapFragment extends Fragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup parent, Bundle savedInstanceState) {
+        Log.w("VIEW CREATED","onCreateView");
         super.onCreateView(inflater, parent, savedInstanceState);
 
         String API_KEY = "YOUR_API_KEY";
@@ -44,6 +46,7 @@ public class WrldMapFragment extends Fragment {
 
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
+        Log.w("VIEW CREATED","onCreateView" + this.getId());
         super.onViewCreated(view, savedInstanceState);
         // do any logic that should happen in an `onCreate` method, e.g:
         // customView.onCreate(savedInstanceState);
