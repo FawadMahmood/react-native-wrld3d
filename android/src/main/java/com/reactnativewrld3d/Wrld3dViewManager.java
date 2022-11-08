@@ -445,12 +445,6 @@ public class Wrld3dViewManager extends ViewGroupManager<FrameLayout> implements 
     void pushEvent(ReactApplicationContext context, int viewId, String name, WritableMap data) {
         context.getJSModule(RCTEventEmitter.class).receiveEvent(viewId, name, data);
     }
-
-
-    @Override
-    public void removeAllViews(FrameLayout parent) {
-        Log.w("View Has Been destroyed","OH");
-        super.removeAllViews(parent);
-    }
+    
 }
 
