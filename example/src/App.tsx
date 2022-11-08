@@ -4,7 +4,7 @@ import { Image, Text, TouchableOpacity, View } from 'react-native';
 import { Wrld3dView, Marker, MapViewRefPropsType } from 'react-native-wrld3d';
 // , 1, 2
 export default function App() {
-
+  const [visible, setVisible] = React.useState(true);
   const ref = React.useRef<MapViewRefPropsType>();
 
 
@@ -128,26 +128,29 @@ export default function App() {
     // move to region
 
 
-    const building = await ref.current?.getBuildingInformation({
-      location: {
-        latitude: 24.8620518,
-        longitude: 67.0708766,
-      },
-      animateToBuilding: true,
-      zoomLevel: 18
-    }).catch(error => {
-      console.log("error occured", error);
+    setVisible(false);
 
-    })
 
-    console.log("got map center", building);
+    // const building = await ref.current?.getBuildingInformation({
+    //   location: {
+    //     latitude: 24.8620518,
+    //     longitude: 67.0708766,
+    //   },
+    //   animateToBuilding: true,
+    //   zoomLevel: 18
+    // }).catch(error => {
+    //   console.log("error occured", error);
+
+    // })
+
+    // console.log("got map center", building);
   }
 
   //  key={index}
   //  key={index} 24.882613347789693, 67.05802695237224
   return (
     <View>
-      <Wrld3dView
+      {visible ? <Wrld3dView
         ref={ref as { current: MapViewRefPropsType }}
         initialCenter={{
           latitude: 24.882613347789693,
@@ -179,7 +182,7 @@ export default function App() {
             </Marker>
           )
         })}
-      </Wrld3dView>
+      </Wrld3dView> : null}
 
       <TouchableOpacity onPress={onAddMarker.bind(null)} style={{ width: "100%", height: 45, backgroundColor: "blue" }}>
         <Text style={{ fontSize: 30, color: "white" }}>{"Add a marker"}</Text>

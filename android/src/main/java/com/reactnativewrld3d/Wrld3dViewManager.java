@@ -262,7 +262,11 @@ public class Wrld3dViewManager extends ViewGroupManager<FrameLayout> implements 
 
     @Override
     public void removeViewAt(FrameLayout parent, int index) {
-            super.removeViewAt(parent, index + 1);
+            Log.w("REMOVE VIEW AT", "REMOVEVIEW AT"+index);
+            View child = super.getChildAt(parent,index + 1);
+            if(child != null){
+                super.removeViewAt(parent, index + 1);
+            }
     }
 
     private void UpdateMapCustomViews(int atIndex){
@@ -422,9 +426,9 @@ public class Wrld3dViewManager extends ViewGroupManager<FrameLayout> implements 
     @Override
     public void onDropViewInstance(@NonNull FrameLayout view) {
         Log.w("View Has Been destroyed","OH");
-//        super.onDropViewInstance(view);
+        this.removeAllViews(view);
+        super.onDropViewInstance(view);
     }
-
 
     @Override
     public void onPrecacheOperationCompleted(PrecacheOperationResult precacheOperationResult) {
