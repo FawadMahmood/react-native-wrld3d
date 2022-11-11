@@ -1,10 +1,14 @@
 import * as React from 'react';
 
-import { Alert, Image, Text, TouchableOpacity, View } from 'react-native';
+import { Alert, Image, SafeAreaView, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import { Wrld3dView, Marker, MapViewRefPropsType } from 'react-native-wrld3d';
 // , 1, 2
 export default function App() {
   const [visible, setVisible] = React.useState(true);
+  const [ready, setReady] = React.useState(false);
+  const [cache, setCache] = React.useState(false);
+
+
   const ref = React.useRef<MapViewRefPropsType>();
 
 
@@ -112,94 +116,92 @@ export default function App() {
     ]);
   }
 
-
-  const animateToRegion = async () => {
-
-    // move to region
-    // ref.current?.moveToRegion({
-    //   location: {
-    //     latitude: 67.0708766,
-    //     longitude: 24.8620518
-    //   },
-    //   animated: true,
-    //   zoomLevel: 15,
-
-    // })
-    // move to region
-
-
-    setVisible(false);
-
-
-    // const building = await ref.current?.getBuildingInformation({
-    //   location: {
-    //     latitude: 24.8620518,
-    //     longitude: 67.0708766,
-    //   },
-    //   animateToBuilding: true,
-    //   zoomLevel: 18
-    // }).catch(error => {
-    //   console.log("error occured", error);
-
-    // })
-
-    // console.log("got map center", building);
+  const onMapReady = () => {
+    setReady(true);
   }
 
-  //  key={index}
-  //  key={index} 24.882613347789693, 67.05802695237224
+  const onMapCacheCompleted = () => {
+    setCache(true);
+  }
+
+  const animateToRegion = async () => {
+    setVisible(false);
+  }
+
+
+
   return (
-    <View>
-      {visible ? <Wrld3dView
+    <SafeAreaView>
+      <View>
+        <View style={styles.header}>
+          <Text style={styles.statusTxt}>{ready ? "Map Ready" : "Map Not Ready"}</Text>
+          <Text style={styles.statusTxt}>{cache ? "Cache Completed" : "Cache In Progress"}</Text>
+        </View>
+        {visible ?
+          <Wrld3dView
 
-        ref={ref as { current: MapViewRefPropsType }}
-        initialCenter={{
-          latitude: 24.882613347789693,
-          longitude: 67.05802695237224
-        }}
-        onMapReady={() => {
-          Alert.alert('onMap Ready');
-        }}
-        precache
-        precacheDistance={5000}
-        zoomLevel={15}
-        key={'Wrld3dView'}
-        style={{ width: "100%", height: "80%" }}
-      >
-        {markets.map((marker, index) => {
-          if (index > 3) {
-            return (
-              <Marker elevationMode="HeightAboveGround" elevation={150} key={index} location={marker.location} style={{ width: 90, height: 90 }}>
-                <TouchableOpacity style={{ overflow: "hidden", width: "100%", height: "100%", borderRadius: 50, justifyContent: "center", alignItems: "center" }}>
-                  <Image resizeMode='cover' source={{ uri: marker.image }} style={{ width: "100%", height: "100%" }} />
-                </TouchableOpacity>
-              </Marker>
-            )
-          }
+            ref={ref as { current: MapViewRefPropsType }}
+            initialCenter={{
+              latitude: 24.882613347789693,
+              longitude: 67.05802695237224
+            }}
+            onMapReady={onMapReady.bind(null)}
+            onMapCacheCompleted={onMapCacheCompleted.bind(null)}
+            precache
+            precacheDistance={5000}
+            zoomLevel={15}
+            key={'Wrld3dView'}
+            style={{ width: "100%", height: "80%" }}
+          >
+            {markets.map((marker, index) => {
+              if (index > 3) {
+                return (
+                  <Marker elevationMode="HeightAboveGround" elevation={150} key={index} location={marker.location} style={{ width: 90, height: 90 }}>
+                    <TouchableOpacity style={{ overflow: "hidden", width: "100%", height: "100%", borderRadius: 50, justifyContent: "center", alignItems: "center" }}>
+                      <Image resizeMode='cover' source={{ uri: marker.image }} style={{ width: "100%", height: "100%" }} />
+                    </TouchableOpacity>
+                  </Marker>
+                )
+              }
 
 
-          return (
-            <Marker elevationMode="HeightAboveGround" elevation={150} key={index} location={marker.location} style={{ width: 90, height: 90 }}>
-              <TouchableOpacity style={{ overflow: "hidden", width: "100%", height: "100%", borderRadius: 50, justifyContent: "center", alignItems: "center" }}>
-                <Image resizeMode='cover' source={{ uri: marker.image }} style={{ width: "100%", height: "100%" }} />
-              </TouchableOpacity>
-            </Marker>
-          )
-        })}
-      </Wrld3dView> : null}
+              return (
+                <Marker elevationMode="HeightAboveGround" elevation={150} key={index} location={marker.location} style={{ width: 90, height: 90 }}>
+                  <TouchableOpacity style={{ overflow: "hidden", width: "100%", height: "100%", borderRadius: 50, justifyContent: "center", alignItems: "center" }}>
+                    <Image resizeMode='cover' source={{ uri: marker.image }} style={{ width: "100%", height: "100%" }} />
+                  </TouchableOpacity>
+                </Marker>
+              )
+            })}
+          </Wrld3dView> : null}
 
-      <TouchableOpacity onPress={onAddMarker.bind(null)} style={{ width: "100%", height: 45, backgroundColor: "blue" }}>
-        <Text style={{ fontSize: 30, color: "white" }}>{"Add a marker"}</Text>
-      </TouchableOpacity>
+        <TouchableOpacity onPress={onAddMarker.bind(null)} style={{ width: "100%", height: 45, backgroundColor: "blue" }}>
+          <Text style={{ fontSize: 30, color: "white" }}>{"Add a marker"}</Text>
+        </TouchableOpacity>
 
-      <TouchableOpacity onPress={removeMarker.bind(null)} style={{ width: "100%", height: 45, backgroundColor: "blue" }}>
-        <Text style={{ fontSize: 30, color: "white" }}>{"Add a marker"}</Text>
-      </TouchableOpacity>
+        <TouchableOpacity onPress={removeMarker.bind(null)} style={{ width: "100%", height: 45, backgroundColor: "blue" }}>
+          <Text style={{ fontSize: 30, color: "white" }}>{"Add a marker"}</Text>
+        </TouchableOpacity>
 
-      <TouchableOpacity onPress={animateToRegion.bind(null)} style={{ width: "100%", height: 45, backgroundColor: "blue" }}>
-        <Text style={{ fontSize: 30, color: "white" }}>{"Animate to region"}</Text>
-      </TouchableOpacity>
-    </View>
-
+        <TouchableOpacity onPress={animateToRegion.bind(null)} style={{ width: "100%", height: 45, backgroundColor: "blue" }}>
+          <Text style={{ fontSize: 30, color: "white" }}>{"Animate to region"}</Text>
+        </TouchableOpacity>
+      </View>
+    </SafeAreaView>
   );
 }
+
+
+const styles = StyleSheet.create({
+  header: {
+    height: 40,
+    justifyContent: "space-between",
+    alignItems: "center",
+    flexDirection: "row",
+    paddingHorizontal: 10
+  },
+  statusTxt: {
+    fontWeight: "400"
+
+  }
+});
