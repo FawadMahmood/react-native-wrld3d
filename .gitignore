@@ -134,3 +134,6 @@ dist
 ./example/android/app/src/main/AndroidManifest.xml
 
 AndroidManifest.xml
+example/android/app/src/main/AndroidManifest.xml
+example/ios/Wrld3dExample/Info.plist
+example/ios/Wrld3dExample/Info.plist
