@@ -11,3 +11,17 @@
 0	4339	1668218069	CMakeFiles/wrld3dexample_appmodules.dir/Users/game/Documents/GitHub/react-native-wrld3d/example/android/app/build/generated/rncli/src/main/jni/rncli.cpp.o	7dda60a7aef203c7
 1	5128	1668218070	CMakeFiles/wrld3dexample_appmodules.dir/MainComponentsRegistry.cpp.o	4e90ab87c2f60afe
 5128	5220	1668218070	/Users/game/Documents/GitHub/react-native-wrld3d/example/android/app/build/intermediates/cxx/Debug/4h6r6r1n/obj/x86/libwrld3dexample_appmodules.so	1b9d47ce48f7ba8e
+0	11	0	/Users/game/Documents/GitHub/react-native-wrld3d/example/android/app/.cxx/Debug/4h6r6r1n/x86/CMakeFiles/cmake.verify_globs	5098f4b42a7e1aa1
+11	77	1668218425	build.ninja	4203dc527403661
+1	10	0	/Users/game/Documents/GitHub/react-native-wrld3d/example/android/app/.cxx/Debug/4h6r6r1n/x86/CMakeFiles/cmake.verify_globs	5098f4b42a7e1aa1
+3	1686	1668218426	CMakeFiles/wrld3dexample_appmodules.dir/MainApplicationModuleProvider.cpp.o	8d74efb43ad8a691
+3	3555	1668218428	CMakeFiles/wrld3dexample_appmodules.dir/Users/game/Documents/GitHub/react-native-wrld3d/example/android/app/build/generated/rncli/src/main/jni/rncli.cpp.o	7dda60a7aef203c7
+4	4347	1668218429	CMakeFiles/wrld3dexample_appmodules.dir/MainComponentsRegistry.cpp.o	4e90ab87c2f60afe
+4348	4443	1668218429	/Users/game/Documents/GitHub/react-native-wrld3d/example/android/app/build/intermediates/cxx/Debug/4h6r6r1n/obj/x86/libwrld3dexample_appmodules.so	1b9d47ce48f7ba8e
+1	11	0	/Users/game/Documents/GitHub/react-native-wrld3d/example/android/app/.cxx/Debug/4h6r6r1n/x86/CMakeFiles/cmake.verify_globs	5098f4b42a7e1aa1
+11	62	1668218604	build.ninja	4203dc527403661
+0	10	0	/Users/game/Documents/GitHub/react-native-wrld3d/example/android/app/.cxx/Debug/4h6r6r1n/x86/CMakeFiles/cmake.verify_globs	5098f4b42a7e1aa1
+4	1653	1668218606	CMakeFiles/wrld3dexample_appmodules.dir/MainApplicationModuleProvider.cpp.o	8d74efb43ad8a691
+4	3488	1668218608	CMakeFiles/wrld3dexample_appmodules.dir/Users/game/Documents/GitHub/react-native-wrld3d/example/android/app/build/generated/rncli/src/main/jni/rncli.cpp.o	7dda60a7aef203c7
+4	4263	1668218608	CMakeFiles/wrld3dexample_appmodules.dir/MainComponentsRegistry.cpp.o	4e90ab87c2f60afe
+4263	4358	1668218608	/Users/game/Documents/GitHub/react-native-wrld3d/example/android/app/build/intermediates/cxx/Debug/4h6r6r1n/obj/x86/libwrld3dexample_appmodules.so	1b9d47ce48f7ba8e
