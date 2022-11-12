@@ -13,8 +13,12 @@ import com.facebook.react.bridge.WritableMap;
 import com.facebook.react.common.MapBuilder;
 import com.facebook.react.module.annotations.ReactModule;
 import com.facebook.react.uimanager.ThemedReactContext;
+import com.facebook.react.uimanager.UIManagerHelper;
+import com.facebook.react.uimanager.UIManagerModule;
 import com.facebook.react.uimanager.annotations.ReactProp;
+import com.facebook.react.uimanager.events.EventDispatcher;
 import com.facebook.react.uimanager.events.RCTEventEmitter;
+import com.wrld3d.events.MapReadyEvent;
 
 import java.util.Map;
 
@@ -59,6 +63,7 @@ public class Wrld3dViewManager extends com.wrld3d.Wrld3dViewManagerSpec<Wrld3dVi
   @Override
   @Nullable
   public Map getExportedCustomDirectEventTypeConstants() {
+
     Map<String, Map<String, String>> map = MapBuilder.of(
       "onMapReady", MapBuilder.of("registrationName", "onMapReady"),
       "onMapCacheCompleted", MapBuilder.of("registrationName", "onMapCacheCompleted")
@@ -67,8 +72,14 @@ public class Wrld3dViewManager extends com.wrld3d.Wrld3dViewManagerSpec<Wrld3dVi
     return map;
   }
 
-  public void pushEvent(ThemedReactContext context, String name, WritableMap data) {
-    context.getJSModule(RCTEventEmitter.class).receiveEvent(this.viewId, name, data);
+  public void pushEvent(ThemedReactContext context, String name, WritableMap data,View parent) {
+    EventDispatcher dispatcher =context.getNativeModule(UIManagerModule.class).getEventDispatcher(); //UIManagerHelper.getEventDispatcherForReactTag(context,this.viewId);
+    Log.w("LLLL",context.getSurfaceId()+"");
+
+    MapReadyEvent ready = new MapReadyEvent(this.viewId);
+    dispatcher.dispatchEvent(ready);
+
+//    context.getJSModule(RCTEventEmitter.class).receiveEvent(this.viewId, name, data);
   }
 
   @Override

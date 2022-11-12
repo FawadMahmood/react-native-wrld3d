@@ -47,7 +47,7 @@ public class Wrld3dView extends FrameLayout {
   }
 
   public void pushEvent(String name, WritableMap data) {
-   this.manager.pushEvent(this.context,name,data);
+   this.manager.pushEvent(this.context,name,data,this);
   }
 
 }
