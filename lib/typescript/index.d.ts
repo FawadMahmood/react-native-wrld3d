@@ -5,5 +5,5 @@ interface ModuleEvents {
         success: boolean;
     }) => void;
 }
-export declare const Wrld3dView: (props: NativeProps & ModuleEvents) => any;
+export declare const Wrld3dView: (props: NativeProps & ModuleEvents) => JSX.Element;
 //# sourceMappingURL=index.d.ts.map
