@@ -1,0 +1,13 @@
+# ninja log v5
+0	14	0	/Users/game/Documents/GitHub/react-native-wrld3d/example/android/app/.cxx/Debug/4h6r6r1n/arm64-v8a/CMakeFiles/cmake.verify_globs	d60d0810fda87a39
+7	4145	1668218052	Wrld3dView_autolinked_build/CMakeFiles/react_codegen_Wrld3dView.dir/react/renderer/components/Wrld3dView/EventEmitters.cpp.o	7f1cabb8321e2191
+6	4348	1668218052	Wrld3dView_autolinked_build/CMakeFiles/react_codegen_Wrld3dView.dir/Wrld3dView-generated.cpp.o	b31c8ea47e5f592a
+2	5061	1668218053	CMakeFiles/wrld3dexample_appmodules.dir/MainApplicationTurboModuleManagerDelegate.cpp.o	f2abeebfbb6b3060
+9	5224	1668218053	Wrld3dView_autolinked_build/CMakeFiles/react_codegen_Wrld3dView.dir/react/renderer/components/Wrld3dView/Props.cpp.o	4a450b0cebf8a10c
+1	5234	1668218053	CMakeFiles/wrld3dexample_appmodules.dir/MainApplicationModuleProvider.cpp.o	b10a2b9d8271137e
+5	6382	1668218054	CMakeFiles/wrld3dexample_appmodules.dir/OnLoad.cpp.o	89866e038976084f
+4147	7020	1668218055	Wrld3dView_autolinked_build/CMakeFiles/react_codegen_Wrld3dView.dir/react/renderer/components/Wrld3dView/ShadowNodes.cpp.o	9bc0f5d3b30c1b64
+7020	7108	1668218055	/Users/game/Documents/GitHub/react-native-wrld3d/example/android/app/build/intermediates/cxx/Debug/4h6r6r1n/obj/arm64-v8a/libreact_codegen_Wrld3dView.so	104a929815f5623
+0	8046	1668218056	CMakeFiles/wrld3dexample_appmodules.dir/Users/game/Documents/GitHub/react-native-wrld3d/example/android/app/build/generated/rncli/src/main/jni/rncli.cpp.o	3600a5214f33c280
+4	9011	1668218057	CMakeFiles/wrld3dexample_appmodules.dir/MainComponentsRegistry.cpp.o	82c8f2d92c4d643b
+9011	9170	1668218057	/Users/game/Documents/GitHub/react-native-wrld3d/example/android/app/build/intermediates/cxx/Debug/4h6r6r1n/obj/arm64-v8a/libwrld3dexample_appmodules.so	c1f1054edb4e1b48

@@ -1,0 +1,13 @@
+ninja: Entering directory `/Users/game/Documents/GitHub/react-native-wrld3d/example/android/app/.cxx/Debug/4h6r6r1n/x86'
+[0/2] Re-checking globbed directories...
+[1/11] Building CXX object Wrld3dView_autolinked_build/CMakeFiles/react_codegen_Wrld3dView.dir/react/renderer/components/Wrld3dView/EventEmitters.cpp.o
+[2/11] Building CXX object Wrld3dView_autolinked_build/CMakeFiles/react_codegen_Wrld3dView.dir/Wrld3dView-generated.cpp.o
+[3/11] Building CXX object Wrld3dView_autolinked_build/CMakeFiles/react_codegen_Wrld3dView.dir/react/renderer/components/Wrld3dView/Props.cpp.o
+[4/11] Building CXX object CMakeFiles/wrld3dexample_appmodules.dir/MainApplicationTurboModuleManagerDelegate.cpp.o
+[5/11] Building CXX object CMakeFiles/wrld3dexample_appmodules.dir/MainApplicationModuleProvider.cpp.o
+[6/11] Building CXX object CMakeFiles/wrld3dexample_appmodules.dir/OnLoad.cpp.o
+[7/11] Building CXX object Wrld3dView_autolinked_build/CMakeFiles/react_codegen_Wrld3dView.dir/react/renderer/components/Wrld3dView/ShadowNodes.cpp.o
+[8/11] Linking CXX shared library /Users/game/Documents/GitHub/react-native-wrld3d/example/android/app/build/intermediates/cxx/Debug/4h6r6r1n/obj/x86/libreact_codegen_Wrld3dView.so
+[9/11] Building CXX object CMakeFiles/wrld3dexample_appmodules.dir/Users/game/Documents/GitHub/react-native-wrld3d/example/android/app/build/generated/rncli/src/main/jni/rncli.cpp.o
+[10/11] Building CXX object CMakeFiles/wrld3dexample_appmodules.dir/MainComponentsRegistry.cpp.o
+[11/11] Linking CXX shared library /Users/game/Documents/GitHub/react-native-wrld3d/example/android/app/build/intermediates/cxx/Debug/4h6r6r1n/obj/x86/libwrld3dexample_appmodules.so

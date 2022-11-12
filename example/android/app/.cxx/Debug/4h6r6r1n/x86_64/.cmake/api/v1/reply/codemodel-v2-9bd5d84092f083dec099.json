@@ -1,0 +1,98 @@
+{
+	"configurations" : 
+	[
+		{
+			"directories" : 
+			[
+				{
+					"build" : ".",
+					"childIndexes" : 
+					[
+						1,
+						2
+					],
+					"minimumCMakeVersion" : 
+					{
+						"string" : "3.13"
+					},
+					"projectIndex" : 0,
+					"source" : ".",
+					"targetIndexes" : 
+					[
+						1
+					]
+				},
+				{
+					"build" : "fbjni_build",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "3.13"
+					},
+					"parentIndex" : 0,
+					"projectIndex" : 0,
+					"source" : "/Users/game/Documents/GitHub/react-native-wrld3d/example/node_modules/react-native/ReactAndroid/src/main/jni/first-party/fbjni"
+				},
+				{
+					"build" : "Wrld3dView_autolinked_build",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "3.13"
+					},
+					"parentIndex" : 0,
+					"projectIndex" : 0,
+					"source" : "/Users/game/Documents/GitHub/react-native-wrld3d/android/build/generated/source/codegen/jni",
+					"targetIndexes" : 
+					[
+						0
+					]
+				}
+			],
+			"name" : "Debug",
+			"projects" : 
+			[
+				{
+					"directoryIndexes" : 
+					[
+						0,
+						1,
+						2
+					],
+					"name" : "wrld3dexample_appmodules",
+					"targetIndexes" : 
+					[
+						0,
+						1
+					]
+				}
+			],
+			"targets" : 
+			[
+				{
+					"directoryIndex" : 2,
+					"id" : "react_codegen_Wrld3dView::@69d55c6cdbd89fd659de",
+					"jsonFile" : "target-react_codegen_Wrld3dView-Debug-a1cad7e1c7e8834f695d.json",
+					"name" : "react_codegen_Wrld3dView",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 0,
+					"id" : "wrld3dexample_appmodules::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-wrld3dexample_appmodules-Debug-23775c3a900c4dc99381.json",
+					"name" : "wrld3dexample_appmodules",
+					"projectIndex" : 0
+				}
+			]
+		}
+	],
+	"kind" : "codemodel",
+	"paths" : 
+	{
+		"build" : "/Users/game/Documents/GitHub/react-native-wrld3d/example/android/app/.cxx/Debug/4h6r6r1n/x86_64",
+		"source" : "/Users/game/Documents/GitHub/react-native-wrld3d/example/android/app/src/main/jni"
+	},
+	"version" : 
+	{
+		"major" : 2,
+		"minor" : 1
+	}
+}
