@@ -1,0 +1,8 @@
+Executable : /Users/Game/Library/Android/sdk/cmake/3.18.1/bin/ninja
+arguments : 
+-C
+/Users/game/Documents/react-native-wrld3d/example/android/app/.cxx/Debug/2p5e1l2w/x86
+react_codegen_Wrld3dView
+wrld3dexample_appmodules
+jvmArgs : 
+
