@@ -1,6 +1,7 @@
 package com.wrld3d;
 
 import android.graphics.Color;
+import android.os.Handler;
 import android.util.Log;
 import android.view.View;
 import android.widget.FrameLayout;
@@ -8,6 +9,8 @@ import android.widget.FrameLayout;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
+import com.eegeo.mapapi.camera.CameraPosition;
+import com.facebook.react.bridge.Arguments;
 import com.facebook.react.bridge.ReadableArray;
 import com.facebook.react.bridge.WritableMap;
 import com.facebook.react.common.MapBuilder;
@@ -67,9 +70,9 @@ public class Wrld3dViewManager extends com.wrld3d.Wrld3dViewManagerSpec<Wrld3dVi
   public Map getExportedCustomDirectEventTypeConstants() {
 
     Map<String, Map<String, String>> map = MapBuilder.of(
-      new MapReadyEvent(this.viewId).getEventName(), MapBuilder.of("registrationName", "onMapReady"),
+       MapReadyEvent.EVENT_NAME, MapBuilder.of("registrationName", "onMapReady"),
       "onMapCacheCompleted", MapBuilder.of("registrationName", "onMapCacheCompleted"),
-      new MapCameraMoveEvent(this.viewId).getEventName(), MapBuilder.of("registrationName", "onCameraMove")
+       MapCameraMoveEvent.EVENT_NAME, MapBuilder.of("registrationName", "onCameraMove")
     );
 
     return map;
@@ -109,6 +112,10 @@ public class Wrld3dViewManager extends com.wrld3d.Wrld3dViewManagerSpec<Wrld3dVi
     Log.d("REMOVED INSTANCE","onDropViewInstance");
     view.onDestroy();
     super.onDropViewInstance(view);
+  }
 
+  @Override
+  public void addView(Wrld3dView view, View child, int index) {
+    view.addView(child);
   }
 }

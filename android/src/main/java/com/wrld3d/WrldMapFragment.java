@@ -74,8 +74,8 @@ public class WrldMapFragment extends Fragment {
   private void emitMapReady(){
     WritableMap event = Arguments.createMap();
     event.putString("ready", "true");
-    MapReadyEvent _ = new MapReadyEvent(parent.manager.viewId,event);
-    parent.pushEvent(_,event);
+    MapReadyEvent ev = new MapReadyEvent(parent.manager.viewId,event);
+    parent.pushEvent(ev,event);
   }
 
   @Override

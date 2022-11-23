@@ -2,10 +2,11 @@ import codegenNativeComponent from 'react-native/Libraries/Utilities/codegenNati
 import type { ViewProps } from 'react-native';
 import codegenNativeCommands from 'react-native/Libraries/Utilities/codegenNativeCommands';
 import type { HostComponent } from 'react-native';
+import type { onMapCameraChangedType, onMapReadyType } from './types';
 
 export interface NativeProps extends ViewProps {
-  // onMapReady?: (_: NativeSyntheticEvent<MapReadyPayload>) => void;
-  // onCameraMove?: (_: NativeSyntheticEvent<Coordinates>) => void;
+  onMapReady?: (_: onMapReadyType) => void;
+  onCameraMove?: (_: onMapCameraChangedType) => void;
 }
 
 export default codegenNativeComponent<NativeProps>('Wrld3dView');

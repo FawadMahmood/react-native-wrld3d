@@ -10,6 +10,8 @@ public class MapReadyEvent extends Event<MapReadyEvent> {
     int viewId;
     WritableMap data;
 
+    public static String EVENT_NAME="topOnMapReady";
+
     public MapReadyEvent(int viewId,WritableMap data){
         super(viewId);
         this.viewId = viewId;
@@ -24,7 +26,7 @@ public class MapReadyEvent extends Event<MapReadyEvent> {
 
     @Override
     public String getEventName() {
-        return "topOnMapReady";
+        return EVENT_NAME;
     }
 
     @Override

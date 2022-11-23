@@ -38,7 +38,16 @@ export default function App() {
           onCameraMove={onCameraMove as any}
           onMapReady={onMapReady.bind(null)}
           style={styles.box}
-        />
+        >
+          {/* <View
+            style={{
+              width: 200,
+              height: 200,
+              backgroundColor: 'white',
+              position: 'absolute',
+            }}
+          /> */}
+        </Wrld3dView>
       </View>
 
       <TouchableOpacity onPress={dispatchNewScreen} style={styles.bottomBtn}>

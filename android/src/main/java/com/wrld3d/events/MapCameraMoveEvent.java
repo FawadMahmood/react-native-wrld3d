@@ -10,6 +10,8 @@ public class MapCameraMoveEvent extends Event<MapReadyEvent> {
     int viewId;
     WritableMap data;
 
+    public static String EVENT_NAME= "topOnCameraMove";
+
     public MapCameraMoveEvent(int viewId,WritableMap data){
         super(viewId);
         this.viewId = viewId;
@@ -24,7 +26,7 @@ public class MapCameraMoveEvent extends Event<MapReadyEvent> {
 
     @Override
     public String getEventName() {
-        return "topOnCameraMove";
+        return EVENT_NAME;
     }
 
     @Override

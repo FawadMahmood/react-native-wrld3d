@@ -4,6 +4,7 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.FragmentActivity;
 
 import android.content.Context;
+import android.os.Handler;
 import android.util.AttributeSet;
 
 import android.util.Log;
@@ -19,7 +20,7 @@ import com.facebook.react.uimanager.events.RCTEventEmitter;
 public class Wrld3dView extends FrameLayout {
   View parent;
   ThemedReactContext context;
-  private WrldMapFragment wrldMapFragment;
+  WrldMapFragment wrldMapFragment;
   Wrld3dViewManager manager;
   FragmentActivity activity;
 
@@ -45,7 +46,6 @@ public class Wrld3dView extends FrameLayout {
       .beginTransaction()
       .replace(reactNativeViewId, wrldMapFragment, String.valueOf(reactNativeViewId))
       .commit();
-
   }
 
   public void onDestroy(){
@@ -58,4 +58,21 @@ public class Wrld3dView extends FrameLayout {
    this.manager.pushEvent(this.context,event,data,this);
   }
 
+  @Override
+  public void addView(View child) {
+    if(wrldMapFragment.m_mapView != null){
+      wrldMapFragment.m_mapView.addView(child);
+    }else {
+      Runnable runnable;
+      Handler handler;
+
+      runnable = new Runnable() {
+        public void run() {
+          addView(child);
+        }
+      };
+      handler = new android.os.Handler();
+      handler.postDelayed(runnable, 1000);
+    }
+  }
 }
