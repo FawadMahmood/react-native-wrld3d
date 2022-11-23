@@ -18,7 +18,7 @@ export default function App() {
 
   const onCameraMove = useCallback(
     (_: { longitude: number; latitude: number }) => {
-      console.log('on camera moved', _);
+      console.log('on camera moved', _.latitude, _.longitude);
     },
     []
   );
@@ -35,7 +35,7 @@ export default function App() {
       </View>
       <View style={styles.mapContainer}>
         <Wrld3dView
-          onCameraMove={onCameraMove}
+          onCameraMove={onCameraMove as any}
           onMapReady={onMapReady.bind(null)}
           style={styles.box}
         />
