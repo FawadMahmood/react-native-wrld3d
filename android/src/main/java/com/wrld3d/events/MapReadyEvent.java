@@ -16,9 +16,15 @@ public class MapReadyEvent extends Event<MapReadyEvent> {
         this.data= data;
     }
 
+    public MapReadyEvent(int viewId){
+        super(viewId);
+        this.viewId = viewId;
+    }
+
+
     @Override
     public String getEventName() {
-        return "onMapReady";
+        return "topOnMapReady";
     }
 
     @Override

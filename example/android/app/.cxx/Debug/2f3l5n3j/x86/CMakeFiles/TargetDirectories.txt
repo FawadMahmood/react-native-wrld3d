@@ -1,0 +1,14 @@
+/Users/fawadmahmood/Documents/GitHub/react-native-wrld3d/example/android/app/.cxx/Debug/2f3l5n3j/x86/CMakeFiles/rebuild_cache.dir
+/Users/fawadmahmood/Documents/GitHub/react-native-wrld3d/example/android/app/.cxx/Debug/2f3l5n3j/x86/CMakeFiles/edit_cache.dir
+/Users/fawadmahmood/Documents/GitHub/react-native-wrld3d/example/android/app/.cxx/Debug/2f3l5n3j/x86/CMakeFiles/wrld3dexample_appmodules.dir
+/Users/fawadmahmood/Documents/GitHub/react-native-wrld3d/example/android/app/.cxx/Debug/2f3l5n3j/x86/fbjni_build/CMakeFiles/rebuild_cache.dir
+/Users/fawadmahmood/Documents/GitHub/react-native-wrld3d/example/android/app/.cxx/Debug/2f3l5n3j/x86/fbjni_build/CMakeFiles/edit_cache.dir
+/Users/fawadmahmood/Documents/GitHub/react-native-wrld3d/example/android/app/.cxx/Debug/2f3l5n3j/x86/Wrld3dView_autolinked_build/CMakeFiles/rebuild_cache.dir
+/Users/fawadmahmood/Documents/GitHub/react-native-wrld3d/example/android/app/.cxx/Debug/2f3l5n3j/x86/Wrld3dView_autolinked_build/CMakeFiles/edit_cache.dir
+/Users/fawadmahmood/Documents/GitHub/react-native-wrld3d/example/android/app/.cxx/Debug/2f3l5n3j/x86/Wrld3dView_autolinked_build/CMakeFiles/react_codegen_Wrld3dView.dir
+/Users/fawadmahmood/Documents/GitHub/react-native-wrld3d/example/android/app/.cxx/Debug/2f3l5n3j/x86/safeareacontext_autolinked_build/CMakeFiles/rebuild_cache.dir
+/Users/fawadmahmood/Documents/GitHub/react-native-wrld3d/example/android/app/.cxx/Debug/2f3l5n3j/x86/safeareacontext_autolinked_build/CMakeFiles/edit_cache.dir
+/Users/fawadmahmood/Documents/GitHub/react-native-wrld3d/example/android/app/.cxx/Debug/2f3l5n3j/x86/safeareacontext_autolinked_build/CMakeFiles/react_codegen_safeareacontext.dir
+/Users/fawadmahmood/Documents/GitHub/react-native-wrld3d/example/android/app/.cxx/Debug/2f3l5n3j/x86/rnscreens_autolinked_build/CMakeFiles/rebuild_cache.dir
+/Users/fawadmahmood/Documents/GitHub/react-native-wrld3d/example/android/app/.cxx/Debug/2f3l5n3j/x86/rnscreens_autolinked_build/CMakeFiles/edit_cache.dir
+/Users/fawadmahmood/Documents/GitHub/react-native-wrld3d/example/android/app/.cxx/Debug/2f3l5n3j/x86/rnscreens_autolinked_build/CMakeFiles/react_codegen_rnscreens.dir

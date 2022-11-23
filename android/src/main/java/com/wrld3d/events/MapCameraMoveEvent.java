@@ -4,6 +4,7 @@ import com.facebook.react.bridge.Arguments;
 import com.facebook.react.bridge.WritableMap;
 import com.facebook.react.uimanager.events.Event;
 import com.facebook.react.uimanager.events.RCTEventEmitter;
+import com.facebook.react.uimanager.events.RCTModernEventEmitter;
 
 public class MapCameraMoveEvent extends Event<MapReadyEvent> {
     int viewId;
@@ -15,13 +16,26 @@ public class MapCameraMoveEvent extends Event<MapReadyEvent> {
         this.data= data;
     }
 
+    public MapCameraMoveEvent(int viewId){
+        super(viewId);
+        this.viewId = viewId;
+    }
+
+
     @Override
     public String getEventName() {
-        return "onCameraMove";
+        return "topOnCameraMove";
     }
 
     @Override
     public void dispatch(RCTEventEmitter rctEventEmitter) {
         rctEventEmitter.receiveEvent(this.viewId,this.getEventName(),this.data);
     }
+
+    @Override
+    public void dispatchModern(RCTModernEventEmitter rctEventEmitter) {
+        super.dispatchModern(rctEventEmitter);
+    }
+
+
 }

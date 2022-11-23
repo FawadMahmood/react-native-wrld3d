@@ -4,11 +4,11 @@ import * as React from 'react';
 
 import {
   findNodeHandle,
-  NativeSyntheticEvent,
+  // NativeSyntheticEvent,useCallback
   Platform,
   ViewStyle,
 } from 'react-native';
-import { useCallback, useRef } from 'react';
+import { useRef } from 'react';
 
 interface ModuleEvents {
   onMapReady?: (props: { success: boolean }) => void;
@@ -30,13 +30,13 @@ export const Wrld3dView = (props: ModuleEvents) => {
     }
   });
 
-  const onCameraMove = useCallback((_: NativeSyntheticEvent<Coordinates>) => {
-    console.log(_.nativeEvent);
-  }, []);
+  // const onCameraMove = useCallback((_: NativeSyntheticEvent<Coordinates>) => {
+  //   console.log(_.nativeEvent);
+  // }, []);
 
-  const onMapReady = useCallback((_: NativeSyntheticEvent<MapReadyPayload>) => {
-    console.log(_.nativeEvent);
-  }, []);
+  // const onMapReady = useCallback((_: NativeSyntheticEvent<MapReadyPayload>) => {
+  //   console.log(_.nativeEvent);
+  // }, []);
 
   const createMapViewInstance = () => {
     mapNativeID.current = findNodeHandle(ref.current) as number;
@@ -47,8 +47,8 @@ export const Wrld3dView = (props: ModuleEvents) => {
     <MapView
       ref={ref}
       {...props}
-      onCameraMove={onCameraMove}
-      onMapReady={onMapReady}
+      // onCameraMove={onCameraMove}
+      // onMapReady={onMapReady}
     />
   );
 };

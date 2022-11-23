@@ -116,11 +116,11 @@ public class WrldMapFragment extends Fragment {
           final CameraPosition cameraPosition = eegeoMap.getCameraPosition();
           double latitude = (cameraPosition.target != null) ? cameraPosition.target.latitude : 0.0;
           double longitude = (cameraPosition.target != null) ? cameraPosition.target.longitude : 0.0;
-          WritableMap _ = Arguments.createMap();
-          _.putDouble("longitude",longitude);
-          _.putDouble("latitude",latitude);
-          MapCameraMoveEvent event = new MapCameraMoveEvent(parent.manager.viewId,_);
-          parent.pushEvent(event,_);
+          WritableMap data = Arguments.createMap();
+          data.putDouble("longitude",longitude);
+          data.putDouble("latitude",latitude);
+          MapCameraMoveEvent event = new MapCameraMoveEvent(parent.manager.viewId,data);
+          parent.pushEvent(event,data);
         }
       };
 
