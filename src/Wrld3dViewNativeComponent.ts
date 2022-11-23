@@ -3,14 +3,9 @@ import type { ViewProps } from 'react-native';
 import codegenNativeCommands from 'react-native/Libraries/Utilities/codegenNativeCommands';
 import type { HostComponent } from 'react-native';
 
-
-
-export interface NativeProps extends ViewProps {
-
-}
+export interface NativeProps extends ViewProps {}
 
 export default codegenNativeComponent<NativeProps>('Wrld3dView');
-
 
 type Wrld3dViewNativeComponentType = HostComponent<NativeProps>;
 

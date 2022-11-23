@@ -82,6 +82,7 @@ public class WrldMapFragment extends Fragment {
   @Override
   public void onDestroy() {
     super.onDestroy();
+//    m_mapView.onDestroy();
     // do any logic that should happen in an `onDestroy` method
     // e.g.: customView.onDestroy();
   }

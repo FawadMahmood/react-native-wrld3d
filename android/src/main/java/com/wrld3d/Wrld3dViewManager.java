@@ -95,11 +95,20 @@ public class Wrld3dViewManager extends com.wrld3d.Wrld3dViewManagerSpec<Wrld3dVi
 
   private void createFragment(Wrld3dView view, int reactNativeViewId){
     this.viewId = view.getId();
+    Log.d("RootID",this.viewId+"");
     view.createFragment(view.getId());
   }
 
   @Override
   public void create(Wrld3dView view,String viewId) {
     Log.w("create",view.getId()+"," + viewId);
+  }
+
+  @Override
+  public void onDropViewInstance(@NonNull Wrld3dView view) {
+    Log.d("REMOVED INSTANCE","onDropViewInstance");
+    view.onDestroy();
+    super.onDropViewInstance(view);
+
   }
 }

@@ -20,7 +20,7 @@ public class Wrld3dView extends FrameLayout {
   ThemedReactContext context;
   private WrldMapFragment wrldMapFragment;
   Wrld3dViewManager manager;
-
+  FragmentActivity activity;
 
   public Wrld3dView(ThemedReactContext context,Wrld3dViewManager manager) {
     super(context);
@@ -39,11 +39,20 @@ public class Wrld3dView extends FrameLayout {
 
   public void createFragment(int reactNativeViewId){
     parent = (View) this.findViewById(reactNativeViewId);
-    FragmentActivity activity = (FragmentActivity) this.context.getCurrentActivity();
+    activity = (FragmentActivity) this.context.getCurrentActivity();
     activity.getSupportFragmentManager()
       .beginTransaction()
       .replace(reactNativeViewId, wrldMapFragment, String.valueOf(reactNativeViewId))
       .commit();
+
+  }
+
+  public void onDestroy(){
+    activity.getSupportFragmentManager().beginTransaction().remove(wrldMapFragment).commit();
+//    Log.d("DESTROYING FRAGMENT","DESTROYED");
+
+    this.manager = null;
+    wrldMapFragment.onDestroy();
   }
 
   public void pushEvent(String name, WritableMap data) {
