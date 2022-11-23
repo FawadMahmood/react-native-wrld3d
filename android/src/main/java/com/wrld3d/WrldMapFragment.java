@@ -26,6 +26,7 @@ import com.eegeo.mapapi.positioner.Positioner;
 import com.facebook.react.bridge.Arguments;
 import com.facebook.react.bridge.WritableMap;
 import com.facebook.react.bridge.WritableNativeMap;
+import com.wrld3d.events.MapCameraMoveBeginEvent;
 import com.wrld3d.events.MapCameraMoveEvent;
 import com.wrld3d.events.MapReadyEvent;
 
@@ -100,13 +101,22 @@ public class WrldMapFragment extends Fragment {
     // e.g.: customView.onDestroy();
   }
 
-
+  boolean begin=false;
   private class OnScreenPointChangedListener implements EegeoMap.OnCameraMoveListener {
     Runnable runnable;
     Handler handler;
 
     @UiThread
     public void onCameraMove() {
+
+      if(begin == false){
+        begin = true;
+        WritableMap data = Arguments.createMap();
+        MapCameraMoveBeginEvent event = new MapCameraMoveBeginEvent(parent.manager.viewId,data);
+        parent.pushEvent(event,data);
+      }
+
+
       if(handler != null && runnable != null){
         handler.removeCallbacks(runnable);
       }
@@ -121,6 +131,7 @@ public class WrldMapFragment extends Fragment {
           data.putDouble("latitude",latitude);
           MapCameraMoveEvent event = new MapCameraMoveEvent(parent.manager.viewId,data);
           parent.pushEvent(event,data);
+          begin = false;
         }
       };
 

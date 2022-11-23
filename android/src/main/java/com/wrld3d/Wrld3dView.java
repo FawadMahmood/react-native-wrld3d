@@ -1,6 +1,7 @@
 package com.wrld3d;
 
 import androidx.annotation.Nullable;
+import androidx.annotation.UiThread;
 import androidx.fragment.app.FragmentActivity;
 
 import android.content.Context;
@@ -27,6 +28,7 @@ public class Wrld3dView extends FrameLayout {
   public Wrld3dView(ThemedReactContext context,Wrld3dViewManager manager) {
     super(context);
     this.context = context;
+    Log.d("NEW INSTANCE","NEW INSTANCE");
     wrldMapFragment = new WrldMapFragment(this);
     this.manager = manager;
   }
@@ -39,6 +41,7 @@ public class Wrld3dView extends FrameLayout {
     super(context, attrs, defStyleAttr);
   }
 
+  @UiThread
   public void createFragment(int reactNativeViewId){
     parent = (View) this.findViewById(reactNativeViewId);
     activity = (FragmentActivity) this.context.getCurrentActivity();

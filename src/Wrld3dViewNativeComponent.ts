@@ -6,7 +6,8 @@ import type { onMapCameraChangedType, onMapReadyType } from './types';
 
 export interface NativeProps extends ViewProps {
   onMapReady?: (_: onMapReadyType) => void;
-  onCameraMove?: (_: onMapCameraChangedType) => void;
+  onCameraMoveEnd?: (_: onMapCameraChangedType) => void;
+  onCameraMoveBegin: () => void;
 }
 
 export default codegenNativeComponent<NativeProps>('Wrld3dView');

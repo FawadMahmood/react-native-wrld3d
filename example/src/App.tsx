@@ -6,19 +6,33 @@ import { Wrld3dView } from 'react-native-wrld3d';
 // props: { navigation: any }
 export default function App() {
   const [ready, setReady] = React.useState(false);
+  const [moving, setMoving] = React.useState(false);
+  const [instance, setInstance] = React.useState(false);
+
+  const [location, setLocation] = React.useState({ latitude: 0, longitude: 0 });
+
   const [cache] = React.useState(false);
 
   const onMapReady = () => {
     setReady(true);
   };
 
+  const onCameraMoveBegin = useCallback(() => {
+    setMoving(true);
+  }, []);
+
   const dispatchNewScreen = useCallback(() => {
+    setInstance(true);
     // props.navigation.push('Home');
   }, []);
 
-  const onCameraMove = useCallback(
+  const onCameraMoveEnd = useCallback(
     (_: { longitude: number; latitude: number }) => {
-      console.log('on camera moved', _.latitude, _.longitude);
+      setMoving(false);
+      setLocation({
+        latitude: _.latitude,
+        longitude: _.longitude,
+      });
     },
     []
   );
@@ -33,22 +47,36 @@ export default function App() {
           {cache ? 'Cache Completed' : 'Cache In Progress'}
         </Text>
       </View>
+      <View style={styles.header}>
+        <Text style={styles.statusTxt}>
+          {moving ? 'Map Moving' : 'Map Not Moving'}
+        </Text>
+        <Text style={styles.statusTxt}>
+          {'LOCATION ' +
+            location.longitude.toFixed(2) +
+            ',' +
+            location.latitude.toFixed(2)}
+        </Text>
+      </View>
       <View style={styles.mapContainer}>
         <Wrld3dView
-          onCameraMove={onCameraMove as any}
+          onCameraMoveEnd={onCameraMoveEnd as any}
           onMapReady={onMapReady.bind(null)}
+          onCameraMoveBegin={onCameraMoveBegin}
           style={styles.box}
-        >
-          {/* <View
-            style={{
-              width: 200,
-              height: 200,
-              backgroundColor: 'white',
-              position: 'absolute',
-            }}
-          /> */}
-        </Wrld3dView>
+        />
       </View>
+
+      {instance && (
+        <View style={styles.mapContainer}>
+          <Wrld3dView
+            onCameraMoveEnd={onCameraMoveEnd as any}
+            onMapReady={onMapReady.bind(null)}
+            onCameraMoveBegin={onCameraMoveBegin}
+            style={styles.box}
+          />
+        </View>
+      )}
 
       <TouchableOpacity onPress={dispatchNewScreen} style={styles.bottomBtn}>
         <Text style={styles.lbl}>DISPATCH NEW SCREEN</Text>

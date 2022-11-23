@@ -8,7 +8,8 @@ import type { onMapCameraChangedType, onMapReadyType } from './types';
 
 interface ModuleEvents {
   onMapReady?: (props: { success: boolean }) => void;
-  onCameraMove?: (props: { longitude: number; latitude: number }) => void;
+  onCameraMoveEnd?: (props: { longitude: number; latitude: number }) => void;
+  onCameraMoveBegin?: () => void;
   style: ViewStyle;
   children?: Element;
 }
@@ -17,7 +18,11 @@ interface ModuleEvents {
 export const Wrld3dView = (props: ModuleEvents) => {
   const ref = useRef<any>(null);
 
-  const { onCameraMove: onMove, onMapReady: onReady } = props;
+  const {
+    onCameraMoveEnd: onMove,
+    onMapReady: onReady,
+    onCameraMoveBegin: onMoveBegin,
+  } = props;
 
   React.useEffect(() => {
     if (Platform.OS === 'android') {
@@ -27,7 +32,7 @@ export const Wrld3dView = (props: ModuleEvents) => {
     }
   });
 
-  const onCameraMove = useCallback(
+  const onCameraMoveEnd = useCallback(
     (_: onMapCameraChangedType) => {
       if (onMove) onMove(_.nativeEvent);
     },
@@ -41,6 +46,10 @@ export const Wrld3dView = (props: ModuleEvents) => {
     [onReady]
   );
 
+  const onCameraMoveBegin = useCallback(() => {
+    if (onMoveBegin) onMoveBegin();
+  }, [onMoveBegin]);
+
   const _getHandle = () => {
     return findNodeHandle(ref.current) as number;
   };
@@ -53,8 +62,9 @@ export const Wrld3dView = (props: ModuleEvents) => {
     <MapView
       ref={ref}
       {...props}
-      onCameraMove={onCameraMove}
+      onCameraMoveEnd={onCameraMoveEnd}
       onMapReady={onMapReady}
+      onCameraMoveBegin={onCameraMoveBegin}
     />
   );
 };

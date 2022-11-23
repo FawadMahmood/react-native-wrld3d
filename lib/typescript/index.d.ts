@@ -8,6 +8,7 @@ interface ModuleEvents {
         longitude: number;
         latitude: number;
     }) => void;
+    onCameraMoveBegin?: () => void;
     style: ViewStyle;
     children?: Element;
 }

@@ -6,11 +6,11 @@ import com.facebook.react.uimanager.events.Event;
 import com.facebook.react.uimanager.events.RCTEventEmitter;
 import com.facebook.react.uimanager.events.RCTModernEventEmitter;
 
-public class MapCameraMoveEvent extends Event<MapReadyEvent> {
+public class MapCameraMoveEvent extends Event<MapCameraMoveEvent> {
     int viewId;
     WritableMap data;
 
-    public static String EVENT_NAME= "topOnCameraMove";
+    public static String EVENT_NAME= "topOnCameraMoveEnd";
 
     public MapCameraMoveEvent(int viewId,WritableMap data){
         super(viewId);

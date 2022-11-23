@@ -22,6 +22,7 @@ import com.facebook.react.uimanager.annotations.ReactProp;
 import com.facebook.react.uimanager.events.Event;
 import com.facebook.react.uimanager.events.EventDispatcher;
 import com.facebook.react.uimanager.events.RCTEventEmitter;
+import com.wrld3d.events.MapCameraMoveBeginEvent;
 import com.wrld3d.events.MapCameraMoveEvent;
 import com.wrld3d.events.MapReadyEvent;
 
@@ -72,16 +73,15 @@ public class Wrld3dViewManager extends com.wrld3d.Wrld3dViewManagerSpec<Wrld3dVi
     Map<String, Map<String, String>> map = MapBuilder.of(
        MapReadyEvent.EVENT_NAME, MapBuilder.of("registrationName", "onMapReady"),
       "onMapCacheCompleted", MapBuilder.of("registrationName", "onMapCacheCompleted"),
-       MapCameraMoveEvent.EVENT_NAME, MapBuilder.of("registrationName", "onCameraMove")
+       MapCameraMoveEvent.EVENT_NAME, MapBuilder.of("registrationName", "onCameraMoveEnd"),
+       MapCameraMoveBeginEvent.EVENT_NAME, MapBuilder.of("registrationName", "onCameraMoveBegin")
     );
 
     return map;
   }
 
   public void pushEvent(ThemedReactContext context, Event event, WritableMap data, View parent) {
-//    EventDispatcher dispatcher =context.getNativeModule(UIManagerModule.class).getEventDispatcher();
     EventDispatcher dispatcher = UIManagerHelper.getEventDispatcherForReactTag(context,this.viewId);
-//    MapReadyEvent ready = new MapReadyEvent(this.viewId);
     dispatcher.dispatchEvent(event);
   }
 
@@ -98,7 +98,6 @@ public class Wrld3dViewManager extends com.wrld3d.Wrld3dViewManagerSpec<Wrld3dVi
 
   private void createFragment(Wrld3dView view, int reactNativeViewId){
     this.viewId = view.getId();
-    Log.d("RootID",this.viewId+"");
     view.createFragment(view.getId());
   }
 
