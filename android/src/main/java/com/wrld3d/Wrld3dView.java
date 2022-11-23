@@ -13,6 +13,7 @@ import android.widget.FrameLayout;
 
 import com.facebook.react.bridge.WritableMap;
 import com.facebook.react.uimanager.ThemedReactContext;
+import com.facebook.react.uimanager.events.Event;
 import com.facebook.react.uimanager.events.RCTEventEmitter;
 
 public class Wrld3dView extends FrameLayout {
@@ -49,14 +50,12 @@ public class Wrld3dView extends FrameLayout {
 
   public void onDestroy(){
     activity.getSupportFragmentManager().beginTransaction().remove(wrldMapFragment).commit();
-//    Log.d("DESTROYING FRAGMENT","DESTROYED");
-
     this.manager = null;
     wrldMapFragment.onDestroy();
   }
 
-  public void pushEvent(String name, WritableMap data) {
-   this.manager.pushEvent(this.context,name,data,this);
+  public void pushEvent(Event event, WritableMap data) {
+   this.manager.pushEvent(this.context,event,data,this);
   }
 
 }

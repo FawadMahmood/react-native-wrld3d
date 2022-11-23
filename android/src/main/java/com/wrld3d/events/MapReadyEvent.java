@@ -8,10 +8,12 @@ import com.facebook.react.uimanager.events.RCTEventEmitter;
 
 public class MapReadyEvent extends Event<MapReadyEvent> {
     int viewId;
+    WritableMap data;
 
-    public MapReadyEvent(int viewId){
+    public MapReadyEvent(int viewId,WritableMap data){
         super(viewId);
         this.viewId = viewId;
+        this.data= data;
     }
 
     @Override
@@ -21,8 +23,6 @@ public class MapReadyEvent extends Event<MapReadyEvent> {
 
     @Override
     public void dispatch(RCTEventEmitter rctEventEmitter) {
-        WritableMap map = Arguments.createMap();
-        map.putBoolean("ready",true);
-        rctEventEmitter.receiveEvent(this.viewId,this.getEventName(),map);
+        rctEventEmitter.receiveEvent(this.viewId,this.getEventName(),this.data);
     }
 }

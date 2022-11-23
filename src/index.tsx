@@ -6,6 +6,7 @@ import { useRef } from 'react';
 
 interface ModuleEvents {
   onMapReady?: (props: { success: boolean }) => void;
+  onCameraMove?: (props: { longitude: number; latitude: number }) => void;
 }
 
 export const Wrld3dView = (props: NativeProps & ModuleEvents) => {
@@ -17,7 +18,7 @@ export const Wrld3dView = (props: NativeProps & ModuleEvents) => {
     if (Platform.OS === 'android') {
       setTimeout(() => {
         createMapViewInstance();
-      }, 2000);
+      }, 500);
     }
   });
 

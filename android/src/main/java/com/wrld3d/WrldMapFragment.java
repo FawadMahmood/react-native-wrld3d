@@ -4,6 +4,8 @@ import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Looper;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -11,18 +13,26 @@ import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.annotation.UiThread;
 import androidx.fragment.app.Fragment;
 
 import com.eegeo.mapapi.EegeoApi;
 import com.eegeo.mapapi.EegeoMap;
 import com.eegeo.mapapi.MapView;
+import com.eegeo.mapapi.camera.CameraPosition;
 import com.eegeo.mapapi.map.OnMapReadyCallback;
+import com.eegeo.mapapi.positioner.OnPositionerChangedListener;
+import com.eegeo.mapapi.positioner.Positioner;
 import com.facebook.react.bridge.Arguments;
 import com.facebook.react.bridge.WritableMap;
+import com.facebook.react.bridge.WritableNativeMap;
+import com.wrld3d.events.MapCameraMoveEvent;
+import com.wrld3d.events.MapReadyEvent;
 
 public class WrldMapFragment extends Fragment {
   MapView m_mapView;
   Wrld3dView parent;
+  EegeoMap eegeoMap;
 
   public WrldMapFragment(Wrld3dView parent){
     this.parent = parent;
@@ -50,8 +60,10 @@ public class WrldMapFragment extends Fragment {
     m_mapView.getMapAsync(new OnMapReadyCallback() {
       @Override
       public void onMapReady(EegeoMap map) {
+        eegeoMap = map;
         Log.w("MAOVIEW READY","MAPVIEW READY");
         emitMapReady();
+        map.addOnCameraMoveListener(new OnScreenPointChangedListener());
       }
     });
     view.measure(View.MeasureSpec.makeMeasureSpec(container.getWidth(), View.MeasureSpec.EXACTLY), View.MeasureSpec.makeMeasureSpec(container.getHeight(), View.MeasureSpec.EXACTLY));
@@ -62,7 +74,8 @@ public class WrldMapFragment extends Fragment {
   private void emitMapReady(){
     WritableMap event = Arguments.createMap();
     event.putString("ready", "true");
-    parent.pushEvent("onMapReady",event);
+    MapReadyEvent _ = new MapReadyEvent(parent.manager.viewId,event);
+    parent.pushEvent(_,event);
   }
 
   @Override
@@ -86,4 +99,34 @@ public class WrldMapFragment extends Fragment {
     // do any logic that should happen in an `onDestroy` method
     // e.g.: customView.onDestroy();
   }
+
+
+  private class OnScreenPointChangedListener implements EegeoMap.OnCameraMoveListener {
+    Runnable runnable;
+    Handler handler;
+
+    @UiThread
+    public void onCameraMove() {
+      if(handler != null && runnable != null){
+        handler.removeCallbacks(runnable);
+      }
+
+      runnable = new Runnable() {
+        public void run() {
+          final CameraPosition cameraPosition = eegeoMap.getCameraPosition();
+          double latitude = (cameraPosition.target != null) ? cameraPosition.target.latitude : 0.0;
+          double longitude = (cameraPosition.target != null) ? cameraPosition.target.longitude : 0.0;
+          WritableMap _ = Arguments.createMap();
+          _.putDouble("longitude",longitude);
+          _.putDouble("latitude",latitude);
+          MapCameraMoveEvent event = new MapCameraMoveEvent(parent.manager.viewId,_);
+          parent.pushEvent(event,_);
+        }
+      };
+
+      handler = new android.os.Handler();
+      handler.postDelayed(runnable, 100);
+    }
+  }
+
 }
