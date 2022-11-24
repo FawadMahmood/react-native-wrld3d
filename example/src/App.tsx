@@ -41,7 +41,7 @@ export default function App(props: { navigation: any }) {
   }, [navigation]);
 
   const onClickBuilding = useCallback((_: BuildingInformationType) => {
-    Alert.alert('hey clicked on building?', _.buildingId);
+    Alert.alert('hey clicked on building?', JSON.stringify(_));
   }, []);
 
   const onCameraMoveEnd = useCallback(

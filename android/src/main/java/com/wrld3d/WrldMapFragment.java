@@ -203,21 +203,22 @@ public class WrldMapFragment extends Fragment {
                   if (pickResult.mapFeatureType == MapFeatureType.Building) {
 //                    Log.d("PICKED BUILDING AT", pickResult.intersectionPoint.longitude +","+pickResult.intersectionPoint.latitude + ",buildingId" + pickResult.collisionMaterialId);
 //
-//                    final BuildingHighlight highlight = eegeoMap.addBuildingHighlight(new BuildingHighlightOptions()
-//                            .highlightBuildingAtScreenPoint(screenPoint)
-//                            .color(ColorUtils.setAlphaComponent(Color.YELLOW, 128))
-//                    );
 
-                    eegeoMap.addBuildingHighlight(new BuildingHighlightOptions()
+
+                    final BuildingHighlight highlight =  eegeoMap.addBuildingHighlight(new BuildingHighlightOptions()
                             .highlightBuildingAtScreenPoint(screenPoint).informationOnly().buildingInformationReceivedListener(new OnBuildingInformationListerner(pickResult.intersectionPoint.longitude,pickResult.intersectionPoint.latitude))
                     );
 
-//                    m_timerHandler.postDelayed(new Runnable() {
-//                      @Override
-//                      public void run() {
-//                        eegeoMap.removeBuildingHighlight(highlight);
-//                      }
-//                    }, 3000);
+                    m_timerHandler.postDelayed(new Runnable() {
+                      @Override
+                      public void run() {
+                        eegeoMap.removeBuildingHighlight(highlight);
+//                        final BuildingHighlight highlight = eegeoMap.addBuildingHighlight(new BuildingHighlightOptions()
+//                                .highlightBuildingAtScreenPoint(screenPoint)
+//                                .color(ColorUtils.setAlphaComponent(Color.YELLOW, 128))
+//                        );
+                      }
+                    }, 300);
                   }
                 }
               });
