@@ -20,7 +20,15 @@ export interface NativeProps extends ViewProps {
       latitude: Double;
     }>
   >; // (_: onMapCameraChangedType) => void;
-  onCameraMoveBegin: BubblingEventHandler<Readonly<{}>>;
+  onCameraMoveBegin?: BubblingEventHandler<Readonly<{}>>;
+  onClickBuilding?: BubblingEventHandler<
+    Readonly<{
+      buildingId: string;
+      buildingHeight: Double;
+      longitude: Double;
+      latitude: Double;
+    }>
+  >;
 }
 
 export default codegenNativeComponent<NativeProps>('Wrld3dView');

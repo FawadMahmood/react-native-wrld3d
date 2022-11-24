@@ -58,8 +58,8 @@ public class Wrld3dView extends FrameLayout {
     wrldMapFragment.onDestroy();
   }
 
-  public void pushEvent(Event event, WritableMap data) {
-   this.manager.pushEvent(this.context,event,data,this);
+  public void pushEvent(Event event) {
+   this.manager.pushEvent(this.context,event,this);
   }
 
 

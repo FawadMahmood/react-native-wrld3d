@@ -5,19 +5,23 @@ import * as React from 'react';
 import { findNodeHandle, Platform, ViewStyle } from 'react-native';
 import { useCallback, useRef } from 'react';
 import type {
+  BuildingInformationType,
+  BuildingInformationTypeEvent,
   Coordinates,
+  MapReadyPayload,
   onMapCameraChangedType,
   onMapReadyType,
 } from './types';
 
 interface ModuleEvents {
-  onMapReady?: (props: { success: boolean }) => void;
-  onCameraMoveEnd?: (props: { longitude: number; latitude: number }) => void;
+  onMapReady?: (props: MapReadyPayload) => void;
+  onCameraMoveEnd?: (props: Coordinates) => void;
   onCameraMoveBegin?: () => void;
   style: ViewStyle;
   children?: Element;
   initialRegion?: Coordinates;
   zoomLevel?: number;
+  onClickBuilding?: (props: BuildingInformationType) => void;
 }
 
 // NativeProps &
@@ -29,6 +33,7 @@ export const Wrld3dView = (props: ModuleEvents) => {
     onCameraMoveEnd: onMove,
     onMapReady: onReady,
     onCameraMoveBegin: onMoveBegin,
+    onClickBuilding: clickBuildingUp,
   } = props;
 
   React.useEffect(() => {
@@ -47,6 +52,13 @@ export const Wrld3dView = (props: ModuleEvents) => {
       if (onMove) onMove(_.nativeEvent);
     },
     [onMove]
+  );
+
+  const onClickBuilding = useCallback(
+    (_: BuildingInformationTypeEvent) => {
+      if (clickBuildingUp) clickBuildingUp(_.nativeEvent);
+    },
+    [clickBuildingUp]
   );
 
   const onMapReady = useCallback(
@@ -75,6 +87,7 @@ export const Wrld3dView = (props: ModuleEvents) => {
       onCameraMoveEnd={onCameraMoveEnd as any}
       onMapReady={onMapReady as any}
       onCameraMoveBegin={onCameraMoveBegin as any}
+      onClickBuilding={onClickBuilding as any}
     />
   );
 };

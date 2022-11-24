@@ -3,33 +3,48 @@ package com.wrld3d;
 import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageManager;
 import android.graphics.Color;
+import android.graphics.Point;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
 import android.util.Log;
+import android.view.GestureDetector;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.annotation.UiThread;
+import androidx.core.graphics.ColorUtils;
+import androidx.core.view.GestureDetectorCompat;
 import androidx.fragment.app.Fragment;
 
 import com.eegeo.mapapi.EegeoApi;
 import com.eegeo.mapapi.EegeoMap;
 import com.eegeo.mapapi.MapView;
+import com.eegeo.mapapi.buildings.BuildingDimensions;
+import com.eegeo.mapapi.buildings.BuildingHighlight;
+import com.eegeo.mapapi.buildings.BuildingHighlightOptions;
+import com.eegeo.mapapi.buildings.BuildingInformation;
+import com.eegeo.mapapi.buildings.OnBuildingInformationReceivedListener;
 import com.eegeo.mapapi.camera.CameraPosition;
 import com.eegeo.mapapi.camera.CameraUpdateFactory;
+import com.eegeo.mapapi.geometry.LatLngAlt;
+import com.eegeo.mapapi.geometry.MapFeatureType;
 import com.eegeo.mapapi.map.OnMapReadyCallback;
+import com.eegeo.mapapi.picking.PickResult;
 import com.eegeo.mapapi.positioner.OnPositionerChangedListener;
 import com.eegeo.mapapi.positioner.Positioner;
+import com.eegeo.mapapi.util.Ready;
 import com.facebook.react.bridge.Arguments;
 import com.facebook.react.bridge.ReadableMap;
 import com.facebook.react.bridge.WritableMap;
 import com.facebook.react.bridge.WritableNativeMap;
 import com.wrld3d.events.MapCameraMoveBeginEvent;
 import com.wrld3d.events.MapCameraMoveEvent;
+import com.wrld3d.events.MapOnClickBuilding;
 import com.wrld3d.events.MapReadyEvent;
 
 public class WrldMapFragment extends Fragment {
@@ -38,6 +53,8 @@ public class WrldMapFragment extends Fragment {
   EegeoMap eegeoMap;
   private ReadableMap initailRegion;
   private int zoomLevel=10;
+  private GestureDetectorCompat m_detector;
+
 
   public WrldMapFragment(Wrld3dView parent){
     this.parent = parent;
@@ -70,12 +87,16 @@ public class WrldMapFragment extends Fragment {
 
     View view = inflater.inflate(R.layout.fragment_map_screen, container, false);
     m_mapView = (MapView)view.findViewById(R.id.mapView);
+    m_detector = new GestureDetectorCompat(this.parent.context, new TouchTapListener());
+
     m_mapView.getMapAsync(new OnMapReadyCallback() {
       @Override
       public void onMapReady(EegeoMap map) {
         eegeoMap = map;
         emitMapReady();
         map.addOnCameraMoveListener(new OnScreenPointChangedListener());
+        map.addOnMapClickListener(new OnMapClickListener());
+
         if(initailRegion != null){
           double latitude = initailRegion.getDouble("latitude");
           double longitude = initailRegion.getDouble("longitude");
@@ -83,6 +104,15 @@ public class WrldMapFragment extends Fragment {
         }
       }
     });
+
+    m_mapView.setOnTouchListener(new View.OnTouchListener() {
+      @Override
+      public boolean onTouch(View v, MotionEvent event) {
+        m_detector.onTouchEvent(event);
+        return false;
+      }
+    });
+
     view.measure(View.MeasureSpec.makeMeasureSpec(container.getWidth(), View.MeasureSpec.EXACTLY), View.MeasureSpec.makeMeasureSpec(container.getHeight(), View.MeasureSpec.EXACTLY));
     view.layout(0,0,container.getWidth(),container.getHeight());
     return view;
@@ -92,7 +122,7 @@ public class WrldMapFragment extends Fragment {
     WritableMap event = Arguments.createMap();
     event.putString("ready", "true");
     MapReadyEvent ev = new MapReadyEvent(parent.manager.viewId,event);
-    parent.pushEvent(ev,event);
+    parent.pushEvent(ev);
   }
 
   @Override
@@ -154,6 +184,83 @@ public class WrldMapFragment extends Fragment {
     }
   }
 
+
+  private class TouchTapListener extends GestureDetector.SimpleOnGestureListener {
+    private Handler m_timerHandler = new Handler();
+
+    @Override
+    public boolean onSingleTapUp(MotionEvent e) {
+      if (eegeoMap == null) {
+        return false;
+      }
+
+      final Point screenPoint = new Point((int) e.getX(), (int) e.getY());
+      eegeoMap.pickFeatureAtScreenPoint(screenPoint)
+              .then(new Ready<PickResult>() {
+                @UiThread
+                @Override
+                public void ready(PickResult pickResult) {
+                  if (pickResult.mapFeatureType == MapFeatureType.Building) {
+//                    Log.d("PICKED BUILDING AT", pickResult.intersectionPoint.longitude +","+pickResult.intersectionPoint.latitude + ",buildingId" + pickResult.collisionMaterialId);
+//
+//                    final BuildingHighlight highlight = eegeoMap.addBuildingHighlight(new BuildingHighlightOptions()
+//                            .highlightBuildingAtScreenPoint(screenPoint)
+//                            .color(ColorUtils.setAlphaComponent(Color.YELLOW, 128))
+//                    );
+
+                    eegeoMap.addBuildingHighlight(new BuildingHighlightOptions()
+                            .highlightBuildingAtScreenPoint(screenPoint).informationOnly().buildingInformationReceivedListener(new OnBuildingInformationListerner(pickResult.intersectionPoint.longitude,pickResult.intersectionPoint.latitude))
+                    );
+
+//                    m_timerHandler.postDelayed(new Runnable() {
+//                      @Override
+//                      public void run() {
+//                        eegeoMap.removeBuildingHighlight(highlight);
+//                      }
+//                    }, 3000);
+                  }
+                }
+              });
+
+      return false;
+    }
+  }
+
+  private class OnBuildingInformationListerner implements  OnBuildingInformationReceivedListener{
+    double longitude;
+    double latitude;
+    public OnBuildingInformationListerner(double longitude,double latitude){
+        this.longitude =longitude;
+        this.latitude = latitude;
+    }
+
+    @Override
+    public void onBuildingInformationReceived(BuildingHighlight buildingHighlight) {
+      BuildingInformation buildingInformation = buildingHighlight.getBuildingInformation();
+      if (buildingHighlight == null) {
+        return;
+      }
+
+      BuildingDimensions buildingDimensions = buildingInformation.buildingDimensions;
+      double buildingHeight = buildingDimensions.topAltitude - buildingDimensions.baseAltitude;
+      String buildingId = buildingInformation.buildingId;
+      WritableMap buildingInfo = Arguments.createMap();
+      buildingInfo.putString("buildingId",buildingId);
+      buildingInfo.putDouble("buildingHeight",buildingHeight);
+      buildingInfo.putDouble("longitude",this.longitude);
+      buildingInfo.putDouble("latitude",this.latitude);
+      MapOnClickBuilding ev = new MapOnClickBuilding(parent.manager.viewId,buildingInfo);
+      parent.pushEvent(ev);
+    }
+  }
+  private class OnMapClickListener implements EegeoMap.OnMapClickListener {
+    @Override
+    public void onMapClick(LatLngAlt point) {
+//      final Point screenPoint = new Point((int) point., (int) event.getY());
+//      eegeoMap.pickFeatureAtScreenPoint(point)
+    }
+  }
+
   private class OnScreenPointChangedListener implements EegeoMap.OnCameraMoveListener {
     Runnable runnable;
     Handler handler;
@@ -165,7 +272,7 @@ public class WrldMapFragment extends Fragment {
         begin = true;
         WritableMap data = Arguments.createMap();
         MapCameraMoveBeginEvent event = new MapCameraMoveBeginEvent(parent.manager.viewId,data);
-        parent.pushEvent(event,data);
+        parent.pushEvent(event);
       }
 
 
@@ -182,7 +289,7 @@ public class WrldMapFragment extends Fragment {
           data.putDouble("longitude",longitude);
           data.putDouble("latitude",latitude);
           MapCameraMoveEvent event = new MapCameraMoveEvent(parent.manager.viewId,data);
-          parent.pushEvent(event,data);
+          parent.pushEvent(event);
           begin = false;
         }
       };

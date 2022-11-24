@@ -25,6 +25,7 @@ import com.facebook.react.uimanager.events.EventDispatcher;
 import com.facebook.react.uimanager.events.RCTEventEmitter;
 import com.wrld3d.events.MapCameraMoveBeginEvent;
 import com.wrld3d.events.MapCameraMoveEvent;
+import com.wrld3d.events.MapOnClickBuilding;
 import com.wrld3d.events.MapReadyEvent;
 
 import java.util.Map;
@@ -84,13 +85,14 @@ public class Wrld3dViewManager extends com.wrld3d.Wrld3dViewManagerSpec<Wrld3dVi
        MapReadyEvent.EVENT_NAME, MapBuilder.of("registrationName", "onMapReady"),
       "onMapCacheCompleted", MapBuilder.of("registrationName", "onMapCacheCompleted"),
        MapCameraMoveEvent.EVENT_NAME, MapBuilder.of("registrationName", "onCameraMoveEnd"),
-       MapCameraMoveBeginEvent.EVENT_NAME, MapBuilder.of("registrationName", "onCameraMoveBegin")
+       MapCameraMoveBeginEvent.EVENT_NAME, MapBuilder.of("registrationName", "onCameraMoveBegin"),
+       MapOnClickBuilding.EVENT_NAME, MapBuilder.of("registrationName", "onClickBuilding")
     );
 
     return map;
   }
 
-  public void pushEvent(ThemedReactContext context, Event event, WritableMap data, View parent) {
+  public void pushEvent(ThemedReactContext context, Event event, View parent) {
     EventDispatcher dispatcher = UIManagerHelper.getEventDispatcherForReactTag(context,this.viewId);
     dispatcher.dispatchEvent(event);
   }

@@ -1,9 +1,10 @@
 import * as React from 'react';
 import { useCallback, useMemo, useRef } from 'react';
 
-import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import { Alert, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import { Wrld3dView } from 'react-native-wrld3d';
 import BottomSheet from '@gorhom/bottom-sheet';
+import type { BuildingInformationType } from 'src/types';
 
 // props: { navigation: any }
 export default function App(props: { navigation: any }) {
@@ -38,6 +39,10 @@ export default function App(props: { navigation: any }) {
   const dispatchNewScreen = useCallback(() => {
     navigation.push('Home');
   }, [navigation]);
+
+  const onClickBuilding = useCallback((_: BuildingInformationType) => {
+    Alert.alert('hey clicked on building?', _.buildingId);
+  }, []);
 
   const onCameraMoveEnd = useCallback(
     (_: { longitude: number; latitude: number }) => {
@@ -80,6 +85,7 @@ export default function App(props: { navigation: any }) {
             longitude: 67.05802695237224,
           }}
           zoomLevel={18}
+          onClickBuilding={onClickBuilding}
         />
       </View>
 
