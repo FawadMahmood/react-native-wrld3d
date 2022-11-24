@@ -48,9 +48,7 @@ export default function App() {
         </Text>
       </View>
       <View style={styles.header}>
-        <Text style={styles.statusTxt}>
-          {moving ? 'Map Moving' : 'Map Not Moving'}
-        </Text>
+        <Text style={styles.statusTxt}>{moving ? 'Moving' : 'Stopped'}</Text>
         <Text style={styles.statusTxt}>
           {'LOCATION ' +
             location.longitude.toFixed(2) +
