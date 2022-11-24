@@ -23,6 +23,7 @@ interface ModuleEvents {
 // NativeProps &
 export const Wrld3dView = (props: ModuleEvents) => {
   const ref = useRef<any>(null);
+  const mapCreated = useRef<boolean>(false);
 
   const {
     onCameraMoveEnd: onMove,
@@ -33,7 +34,10 @@ export const Wrld3dView = (props: ModuleEvents) => {
   React.useEffect(() => {
     if (Platform.OS === 'android') {
       setTimeout(() => {
-        createMapViewInstance();
+        if (!mapCreated.current) {
+          mapCreated.current = true;
+          createMapViewInstance();
+        }
       }, 500);
     }
   });

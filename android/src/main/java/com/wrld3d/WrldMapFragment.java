@@ -41,14 +41,14 @@ public class WrldMapFragment extends Fragment {
 
   public WrldMapFragment(Wrld3dView parent){
     this.parent = parent;
+    WritableMap records = Arguments.createMap();
+    records.putDouble("longitude",67.05802695237224);
+    records.putDouble("latitude", 67.05802695237224);
+    this.initailRegion = records;
   }
 
-  @Nullable
-  @Override
-  public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-    Log.w("VIEW CREATED","onCreateView WrldMapFragment");
-    super.onCreateView(inflater, container, savedInstanceState);
 
+  private void registerMapKey(){
     String API_KEY = "YOUR_API_KEY";
 
     try {
@@ -60,13 +60,20 @@ public class WrldMapFragment extends Fragment {
     }
 
     EegeoApi.init(this.getContext(), API_KEY);
+  }
+
+  @Nullable
+  @Override
+  public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+    super.onCreateView(inflater, container, savedInstanceState);
+    registerMapKey();
+
     View view = inflater.inflate(R.layout.fragment_map_screen, container, false);
     m_mapView = (MapView)view.findViewById(R.id.mapView);
     m_mapView.getMapAsync(new OnMapReadyCallback() {
       @Override
       public void onMapReady(EegeoMap map) {
         eegeoMap = map;
-        Log.w("MAOVIEW READY","MAPVIEW READY");
         emitMapReady();
         map.addOnCameraMoveListener(new OnScreenPointChangedListener());
         if(initailRegion != null){
@@ -121,7 +128,6 @@ public class WrldMapFragment extends Fragment {
     }else{
       eegeoMap.moveCamera(CameraUpdateFactory.newCameraPosition(position));
     }
-
   }
 
   boolean begin=false;
