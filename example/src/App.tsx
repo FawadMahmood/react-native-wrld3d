@@ -76,7 +76,7 @@ export default function App(props: { navigation: any }) {
           onCameraMoveBegin={onCameraMoveBegin}
           style={styles.box}
           initialRegion={{
-            latitude: 24.882613347789693,
+            latitude: 24.88261334778966,
             longitude: 67.05802695237224,
           }}
           zoomLevel={18}
