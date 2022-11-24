@@ -1,16 +1,18 @@
 import * as React from 'react';
 import { useCallback, useMemo, useRef } from 'react';
-
-import { Alert, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
-import { Wrld3dView } from 'react-native-wrld3d';
+import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import { Map3dDirectEvents, Wrld3dView } from 'react-native-wrld3d';
 import BottomSheet from '@gorhom/bottom-sheet';
 import type { BuildingInformationType } from 'src/types';
 
 // props: { navigation: any }
 export default function App(props: { navigation: any }) {
   const { navigation } = props;
+  const mapRef = React.createRef<Map3dDirectEvents>();
   const [ready, setReady] = React.useState(false);
   const [moving, setMoving] = React.useState(false);
+  const [building, setBuilding] = React.useState<BuildingInformationType>();
+
   const [cache] = React.useState(false);
   const currentIndex = useRef<number>(0);
   const bottomSheetRef = useRef<BottomSheet>(null);
@@ -41,8 +43,10 @@ export default function App(props: { navigation: any }) {
   }, [navigation]);
 
   const onClickBuilding = useCallback((_: BuildingInformationType) => {
-    Alert.alert('hey clicked on building?', JSON.stringify(_));
+    setBuilding(_);
   }, []);
+
+  const highlightSelectedBuilding = useCallback(() => {}, []);
 
   const onCameraMoveEnd = useCallback(
     (_: { longitude: number; latitude: number }) => {
@@ -76,6 +80,7 @@ export default function App(props: { navigation: any }) {
       </View>
       <View style={styles.mapContainer}>
         <Wrld3dView
+          ref={mapRef}
           onCameraMoveEnd={onCameraMoveEnd as any}
           onMapReady={onMapReady.bind(null)}
           onCameraMoveBegin={onCameraMoveBegin}
@@ -112,10 +117,18 @@ export default function App(props: { navigation: any }) {
           </TouchableOpacity>
 
           <TouchableOpacity
-            onPress={dispatchNewScreen}
-            style={[styles.bottomBtn, styles.blackBG, styles.innerBtn]}
+            disabled={!building}
+            onPress={highlightSelectedBuilding}
+            style={[
+              styles.bottomBtn,
+              styles.blackBG,
+              styles.innerBtn,
+              !building && styles.disabled,
+            ]}
           >
-            <Text style={[styles.lbl, styles.whiteLbl]}>NEW SCREEN</Text>
+            <Text style={[styles.lbl, styles.whiteLbl]}>
+              Highlight Picked Building
+            </Text>
           </TouchableOpacity>
         </View>
       </BottomSheet>
@@ -155,6 +168,7 @@ const styles = StyleSheet.create({
   },
   lbl: {
     color: 'black',
+    textAlign: 'center',
   },
   contentContainer: {
     flex: 1,
@@ -175,5 +189,8 @@ const styles = StyleSheet.create({
     flex: 1,
     margin: 5,
     borderRadius: 10,
+  },
+  disabled: {
+    opacity: 0.6,
   },
 });
