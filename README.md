@@ -1,4 +1,4 @@
-# react-native-wrld3d
+# react-native-wrld3d (Under Development)
 
 A dynamic 3D mapping platform for smart cities and buildings, gaming, AR/VR experiences, and more. checkout more at https://www.wrld3d.com/
 
