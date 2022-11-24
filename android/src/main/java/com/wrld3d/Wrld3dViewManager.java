@@ -37,6 +37,7 @@ public class Wrld3dViewManager extends com.wrld3d.Wrld3dViewManagerSpec<Wrld3dVi
   public final int COMMAND_CREATE = 1;
   public final int ANIMATE_TO_REGION = 2;
   public final int MOVE_TO_BUILDING=3;
+  public final int HIGHLIGHT_BUILDING=4;
   //*****************
   //***ALL COMMANDS CONSTANTS
 
@@ -75,7 +76,12 @@ public class Wrld3dViewManager extends com.wrld3d.Wrld3dViewManagerSpec<Wrld3dVi
   @Nullable
   @Override
   public Map<String, Integer> getCommandsMap() {
-    return  MapBuilder.of("create", COMMAND_CREATE,"animateToRegion",ANIMATE_TO_REGION,"moveToBuilding",MOVE_TO_BUILDING);
+    return  MapBuilder.of(
+            "create", COMMAND_CREATE,
+            "animateToRegion",ANIMATE_TO_REGION,
+            "moveToBuilding",MOVE_TO_BUILDING,
+            "setBuildingHighlight",HIGHLIGHT_BUILDING
+    );
   }
 
   @Override
@@ -100,10 +106,13 @@ public class Wrld3dViewManager extends com.wrld3d.Wrld3dViewManagerSpec<Wrld3dVi
   @Override
   public void receiveCommand(@NonNull Wrld3dView root, String commandId, @Nullable ReadableArray args) {
     super.receiveCommand(root, commandId, args);
-    Log.w("create command", args.toString() + "," +  commandId);
+    Log.d("create command", args.toString() + "," +  commandId);
     switch (commandId) {
       case "create":
         createFragment(root, root.getId());
+      break;
+      case "setBuildingHighlight":
+
       break;
     }
   }
@@ -116,6 +125,11 @@ public class Wrld3dViewManager extends com.wrld3d.Wrld3dViewManagerSpec<Wrld3dVi
   @Override
   public void create(Wrld3dView view,String viewId) {
     Log.w("create",view.getId()+"," + viewId);
+  }
+
+  @Override
+  public void setBuildingHighlight(Wrld3dView view, String buildingId, ReadableMap buildingCoordinates) {
+
   }
 
   @Override

@@ -7,6 +7,7 @@ import type {
   BubblingEventHandler,
   Double,
 } from 'react-native/Libraries/Types/CodegenTypes';
+import type { Coordinates } from './types';
 
 export interface NativeProps extends ViewProps {
   onMapReady?: BubblingEventHandler<
@@ -40,8 +41,13 @@ interface NativeCommands {
     viewRef: React.ElementRef<Wrld3dViewNativeComponentType>,
     viewId: string
   ) => void;
+  setBuildingHighlight: (
+    viewRef: React.ElementRef<Wrld3dViewNativeComponentType>,
+    buildingId: string,
+    buildingCoordinates: Coordinates
+  ) => void;
 }
 
 export const Commands: NativeCommands = codegenNativeCommands<NativeCommands>({
-  supportedCommands: ['create'],
+  supportedCommands: ['create', 'setBuildingHighlight'],
 });

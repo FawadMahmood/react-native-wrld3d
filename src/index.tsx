@@ -24,7 +24,12 @@ interface ModuleEvents {
   onClickBuilding?: (props: BuildingInformationType) => void;
 }
 
-export interface Map3dDirectEvents {}
+export interface Map3dDirectEvents {
+  setBuildingHighlight: (
+    buildingId: string,
+    buildingCoordinates: Coordinates
+  ) => void;
+}
 
 // NativeProps &
 export const Wrld3dView = forwardRef(
@@ -33,7 +38,16 @@ export const Wrld3dView = forwardRef(
     const mapCreated = useRef<boolean>(false);
 
     //mapevents
-    const publicRef = {};
+    const publicRef = {
+      setBuildingHighlight: (
+        buildingId: string,
+        buildingCoordinates: Coordinates
+      ) => {
+        console.log('setting building hi', buildingId, buildingCoordinates);
+
+        createBuildingHighlight(buildingId, buildingCoordinates);
+      },
+    };
 
     useImperativeHandle(forwardedRef, () => publicRef);
 
@@ -84,9 +98,26 @@ export const Wrld3dView = forwardRef(
       return findNodeHandle(ref.current) as number;
     };
 
-    const createMapViewInstance = () => {
+    const createBuildingHighlight = useCallback(
+      (buildingId: string, buildingCoordinates: Coordinates) => {
+        console.log(
+          'setting building hi command',
+          buildingId,
+          buildingCoordinates
+        );
+
+        Commands.setBuildingHighlight(
+          ref.current,
+          buildingId,
+          buildingCoordinates
+        );
+      },
+      []
+    );
+
+    const createMapViewInstance = useCallback(() => {
       Commands.create(ref.current, _getHandle() + '');
-    };
+    }, []);
 
     return (
       <MapView

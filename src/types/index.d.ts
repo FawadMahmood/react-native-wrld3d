@@ -12,8 +12,8 @@ type MapReadyPayload = {
 type BuildingInformationType = {
   buildingId: string;
   buildingHeight: number;
-  longitude: string;
-  latitude: string;
+  longitude: number;
+  latitude: number;
 };
 
 export type onMapCameraChangedType = NativeSyntheticEvent<Coordinates>;

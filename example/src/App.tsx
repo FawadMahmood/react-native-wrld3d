@@ -46,7 +46,14 @@ export default function App(props: { navigation: any }) {
     setBuilding(_);
   }, []);
 
-  const highlightSelectedBuilding = useCallback(() => {}, []);
+  const highlightSelectedBuilding = useCallback(() => {
+    if (building && building.latitude && building.longitude) {
+      mapRef.current?.setBuildingHighlight(building?.buildingId as string, {
+        latitude: building?.latitude,
+        longitude: building?.longitude,
+      });
+    }
+  }, [mapRef, building]);
 
   const onCameraMoveEnd = useCallback(
     (_: { longitude: number; latitude: number }) => {
