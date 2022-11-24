@@ -1,17 +1,31 @@
 import * as React from 'react';
-import { useCallback } from 'react';
+import { useCallback, useMemo, useRef } from 'react';
 
 import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import { Wrld3dView } from 'react-native-wrld3d';
+import BottomSheet from '@gorhom/bottom-sheet';
+
 // props: { navigation: any }
 export default function App(props: { navigation: any }) {
   const { navigation } = props;
   const [ready, setReady] = React.useState(false);
   const [moving, setMoving] = React.useState(false);
+  const [cache] = React.useState(false);
+  const currentIndex = useRef<number>(0);
+  const bottomSheetRef = useRef<BottomSheet>(null);
+  const snapPoints = useMemo(() => ['9.5%', '50%'], []);
+
+  const handleSheetChanges = useCallback((index: number) => {
+    currentIndex.current = index;
+  }, []);
+
+  const toggleSheet = useCallback(() => {
+    if (bottomSheetRef.current) {
+      bottomSheetRef.current.snapToIndex(currentIndex.current === 0 ? 1 : 0);
+    }
+  }, []);
 
   const [location, setLocation] = React.useState({ latitude: 0, longitude: 0 });
-
-  const [cache] = React.useState(false);
 
   const onMapReady = () => {
     setReady(true);
@@ -66,6 +80,23 @@ export default function App(props: { navigation: any }) {
       <TouchableOpacity onPress={dispatchNewScreen} style={styles.bottomBtn}>
         <Text style={styles.lbl}>DISPATCH NEW SCREEN</Text>
       </TouchableOpacity>
+
+      <BottomSheet
+        ref={bottomSheetRef}
+        index={0}
+        snapPoints={snapPoints}
+        onChange={handleSheetChanges}
+        enableOverDrag
+      >
+        <TouchableOpacity
+          activeOpacity={0.98}
+          onPress={toggleSheet}
+          style={[styles.bottomBtn, styles.blackBG]}
+        >
+          <Text style={[styles.lbl, styles.whiteLbl]}>EXPAND</Text>
+        </TouchableOpacity>
+        <View style={styles.contentContainer} />
+      </BottomSheet>
     </View>
   );
 }
@@ -102,5 +133,16 @@ const styles = StyleSheet.create({
   },
   lbl: {
     color: 'black',
+  },
+  contentContainer: {
+    flex: 1,
+    alignItems: 'center',
+  },
+  blackBG: {
+    backgroundColor: 'black',
+  },
+  whiteLbl: {
+    color: 'white',
+    fontWeight: '600',
   },
 });
