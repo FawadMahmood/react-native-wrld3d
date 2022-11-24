@@ -1,0 +1,79 @@
+{
+  "buildFiles": [
+    "/Users/game/Documents/react-native-wrld3d/android/build/generated/source/codegen/jni/CMakeLists.txt",
+    "/Users/game/Documents/react-native-wrld3d/example/android/app/src/main/jni/CMakeLists.txt",
+    "/Users/game/Documents/react-native-wrld3d/example/node_modules/react-native/ReactAndroid/src/main/jni/first-party/fbjni/CMakeLists.txt"
+  ],
+  "cleanCommandsComponents": [
+    [
+      "/Users/Game/Library/Android/sdk/cmake/3.18.1/bin/ninja",
+      "-C",
+      "/Users/game/Documents/react-native-wrld3d/example/android/app/.cxx/Debug/2p5e1l2w/armeabi-v7a",
+      "clean"
+    ]
+  ],
+  "buildTargetsCommandComponents": [
+    "/Users/Game/Library/Android/sdk/cmake/3.18.1/bin/ninja",
+    "-C",
+    "/Users/game/Documents/react-native-wrld3d/example/android/app/.cxx/Debug/2p5e1l2w/armeabi-v7a",
+    "{LIST_OF_TARGETS_TO_BUILD}"
+  ],
+  "libraries": {
+    "react_codegen_Wrld3dView::@69d55c6cdbd89fd659de": {
+      "toolchain": "toolchain",
+      "abi": "armeabi-v7a",
+      "artifactName": "react_codegen_Wrld3dView",
+      "output": "/Users/game/Documents/react-native-wrld3d/example/android/app/build/intermediates/cxx/Debug/2p5e1l2w/obj/armeabi-v7a/libreact_codegen_Wrld3dView.so",
+      "runtimeFiles": [
+        "/Users/game/Documents/react-native-wrld3d/example/node_modules/react-native/ReactAndroid/src/main/jni/first-party/fbjni/jni/armeabi-v7a/libfbjni.so",
+        "/Users/game/Documents/react-native-wrld3d/example/android/app/build/react-ndk/exported/armeabi-v7a/libglog.so",
+        "/Users/game/Documents/react-native-wrld3d/example/android/app/build/react-ndk/exported/armeabi-v7a/libjsi.so",
+        "/Users/game/Documents/react-native-wrld3d/example/android/app/build/react-ndk/exported/armeabi-v7a/libreact_codegen_rncore.so",
+        "/Users/game/Documents/react-native-wrld3d/example/android/app/build/react-ndk/exported/armeabi-v7a/libreact_debug.so",
+        "/Users/game/Documents/react-native-wrld3d/example/android/app/build/react-ndk/exported/armeabi-v7a/libreact_nativemodule_core.so",
+        "/Users/game/Documents/react-native-wrld3d/example/android/app/build/react-ndk/exported/armeabi-v7a/libreact_render_core.so",
+        "/Users/game/Documents/react-native-wrld3d/example/android/app/build/react-ndk/exported/armeabi-v7a/libreact_render_debug.so",
+        "/Users/game/Documents/react-native-wrld3d/example/android/app/build/react-ndk/exported/armeabi-v7a/libreact_render_graphics.so",
+        "/Users/game/Documents/react-native-wrld3d/example/android/app/build/react-ndk/exported/armeabi-v7a/librrc_view.so",
+        "/Users/game/Documents/react-native-wrld3d/example/android/app/build/react-ndk/exported/armeabi-v7a/libturbomodulejsijni.so",
+        "/Users/game/Documents/react-native-wrld3d/example/android/app/build/react-ndk/exported/armeabi-v7a/libyoga.so",
+        "/Users/game/Documents/react-native-wrld3d/example/android/app/build/react-ndk/exported/armeabi-v7a/libfolly_runtime.so"
+      ]
+    },
+    "wrld3dexample_appmodules::@6890427a1f51a3e7e1df": {
+      "toolchain": "toolchain",
+      "abi": "armeabi-v7a",
+      "artifactName": "wrld3dexample_appmodules",
+      "output": "/Users/game/Documents/react-native-wrld3d/example/android/app/build/intermediates/cxx/Debug/2p5e1l2w/obj/armeabi-v7a/libwrld3dexample_appmodules.so",
+      "runtimeFiles": [
+        "/Users/game/Documents/react-native-wrld3d/example/android/app/build/react-ndk/exported/armeabi-v7a/libfabricjni.so",
+        "/Users/game/Documents/react-native-wrld3d/example/android/app/build/react-ndk/exported/armeabi-v7a/libreact_render_componentregistry.so",
+        "/Users/game/Documents/react-native-wrld3d/example/android/app/build/react-ndk/exported/armeabi-v7a/libruntimeexecutor.so",
+        "/Users/game/Documents/react-native-wrld3d/example/android/app/build/intermediates/cxx/Debug/2p5e1l2w/obj/armeabi-v7a/libreact_codegen_Wrld3dView.so",
+        "/Users/game/Documents/react-native-wrld3d/example/node_modules/react-native/ReactAndroid/src/main/jni/first-party/fbjni/jni/armeabi-v7a/libfbjni.so",
+        "/Users/game/Documents/react-native-wrld3d/example/android/app/build/react-ndk/exported/armeabi-v7a/libglog.so",
+        "/Users/game/Documents/react-native-wrld3d/example/android/app/build/react-ndk/exported/armeabi-v7a/libjsi.so",
+        "/Users/game/Documents/react-native-wrld3d/example/android/app/build/react-ndk/exported/armeabi-v7a/libreact_codegen_rncore.so",
+        "/Users/game/Documents/react-native-wrld3d/example/android/app/build/react-ndk/exported/armeabi-v7a/libreact_debug.so",
+        "/Users/game/Documents/react-native-wrld3d/example/android/app/build/react-ndk/exported/armeabi-v7a/libreact_nativemodule_core.so",
+        "/Users/game/Documents/react-native-wrld3d/example/android/app/build/react-ndk/exported/armeabi-v7a/libfolly_runtime.so",
+        "/Users/game/Documents/react-native-wrld3d/example/android/app/build/react-ndk/exported/armeabi-v7a/libreact_render_core.so",
+        "/Users/game/Documents/react-native-wrld3d/example/android/app/build/react-ndk/exported/armeabi-v7a/libreact_render_debug.so",
+        "/Users/game/Documents/react-native-wrld3d/example/android/app/build/react-ndk/exported/armeabi-v7a/libreact_render_graphics.so",
+        "/Users/game/Documents/react-native-wrld3d/example/android/app/build/react-ndk/exported/armeabi-v7a/librrc_view.so",
+        "/Users/game/Documents/react-native-wrld3d/example/android/app/build/react-ndk/exported/armeabi-v7a/libturbomodulejsijni.so",
+        "/Users/game/Documents/react-native-wrld3d/example/android/app/build/react-ndk/exported/armeabi-v7a/libyoga.so"
+      ]
+    }
+  },
+  "toolchains": {
+    "toolchain": {
+      "cCompilerExecutable": "/Users/Game/Library/Android/sdk/ndk/21.4.7075529/toolchains/llvm/prebuilt/darwin-x86_64/bin/clang",
+      "cppCompilerExecutable": "/Users/Game/Library/Android/sdk/ndk/21.4.7075529/toolchains/llvm/prebuilt/darwin-x86_64/bin/clang++"
+    }
+  },
+  "cFileExtensions": [],
+  "cppFileExtensions": [
+    "cpp"
+  ]
+}

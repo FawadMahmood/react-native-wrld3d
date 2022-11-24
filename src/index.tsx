@@ -1,200 +1,149 @@
-import React, { useEffect, useImperativeHandle, useRef, useState } from 'react';
-import {
-  findNodeHandle,
-  LayoutChangeEvent,
-  PixelRatio,
-  Platform,
-  StyleSheet,
-  UIManager,
-  View,
-} from 'react-native';
-import { NativeModules } from 'react-native';
+import MapView, { Commands } from './Wrld3dViewNativeComponent';
+export * from './Wrld3dViewNativeComponent';
+import * as React from 'react';
 
-import { WrldMap3d, Marker as MarkerView, Wrld3dProps } from './MapViewManager';
-import { Commands, MapViewNativeComponentType, Region } from './type';
+import { findNodeHandle, Platform, ViewStyle } from 'react-native';
+import { forwardRef, useCallback, useImperativeHandle, useRef } from 'react';
+import type {
+  BuildingInformationType,
+  BuildingInformationTypeEvent,
+  Coordinates,
+  MapReadyPayload,
+  onMapCameraChangedType,
+  onMapReadyType,
+} from './types';
 
-const createFragment = (viewId: number) =>
-  UIManager.dispatchViewManagerCommand(
-    viewId,
-    // we are calling the 'create' command
-    // @ts-ignore
-    UIManager.Wrld3dView.Commands.create.toString(),
-    [viewId]
-  );
+interface ModuleEvents {
+  onMapReady?: (props: MapReadyPayload) => void;
+  onCameraMoveEnd?: (props: Coordinates) => void;
+  onCameraMoveBegin?: () => void;
+  style: ViewStyle;
+  children?: Element;
+  initialRegion?: Coordinates;
+  zoomLevel?: number;
+  onClickBuilding?: (props: BuildingInformationType) => void;
+}
 
-const processCommand = (viewId: number, command: string, args: any[]) =>
-  UIManager.dispatchViewManagerCommand(viewId, command, args);
+export interface Map3dDirectEvents {
+  setBuildingHighlight: (
+    buildingId: string,
+    color: string,
+    buildingCoordinates: Coordinates
+  ) => void;
+  removeBuildingHighlight: (buildingId: string) => void;
+}
 
-export const Marker = MarkerView;
+// NativeProps &
+export const Wrld3dView = forwardRef(
+  (props: ModuleEvents, forwardedRef: React.Ref<Map3dDirectEvents>) => {
+    const ref = useRef<any>(null);
+    const mapCreated = useRef<boolean>(false);
 
-export type MapViewRefPropsType = MapViewNativeComponentType;
+    //mapevents
+    const publicRef = {
+      setBuildingHighlight: (
+        buildingId: string,
+        color: string,
+        buildingCoordinates: Coordinates
+      ) => {
+        console.log(
+          'setting building hi',
+          buildingId,
+          color,
+          buildingCoordinates
+        );
 
-const MapComponent: React.ForwardRefRenderFunction<
-  MapViewNativeComponentType,
-  Wrld3dProps
-> = (props, forwardedRef) => {
-  const viewId = useRef<number>(0);
-  const isMapReady = useRef<boolean>();
+        createBuildingHighlight(buildingId, color, buildingCoordinates);
+      },
+      removeBuildingHighlight: (buildingId: string) => {
+        removeBuildingHighlightComand(buildingId);
+      },
+    };
 
-  const moveToRegion = ({
-    location,
-    animated = false,
-    duration = 5000,
-    zoomLevel = -1,
-  }: {
-    location: Region;
-    animated: boolean;
-    duration?: number;
-    zoomLevel?: number;
-  }) => {
-    if (Platform.OS === 'android') {
-      processCommand(viewId.current, Commands.animateToRegion, [
-        location,
-        animated,
-        duration,
-        zoomLevel,
-      ]);
-    }
-  };
+    useImperativeHandle(forwardedRef, () => publicRef);
 
-  const moveToBuilding = ({
-    location,
-    highlight = false,
-    zoomLevel = -1,
-    animated = false,
-    duration = 3000,
-  }: {
-    location: Region;
-    highlight?: boolean;
-    zoomLevel?: number;
-    animated?: boolean;
-    duration?: number;
-  }) => {
-    if (Platform.OS === 'android') {
-      processCommand(viewId.current, Commands.moveToBuilding, [
-        location,
-        highlight,
-        zoomLevel,
-        animated,
-        duration,
-      ]);
-    }
-  };
+    const {
+      onCameraMoveEnd: onMove,
+      onMapReady: onReady,
+      onCameraMoveBegin: onMoveBegin,
+      onClickBuilding: clickBuildingUp,
+    } = props;
 
-  const [dimensions, setDimensions] = useState({ width: 0, height: 0 });
-  const ref = useRef<any>(null);
-
-  useEffect(() => {
-    if (Platform.OS === 'android') {
-      viewId.current = findNodeHandle(ref.current) as number;
-      setTimeout(() => {
-        createFragment(viewId.current as number);
-      }, 2000);
-    }
-  }, []);
-
-  const mapStyles = {
-    // converts dpi to px, provide desired height
-    height: PixelRatio.getPixelSizeForLayoutSize(dimensions.height),
-    // converts dpi to px, provide desired width
-    width: PixelRatio.getPixelSizeForLayoutSize(dimensions.width),
-  };
-
-  const onlayout = (event: LayoutChangeEvent) => {
-    const { width, height } = event.nativeEvent.layout;
-    setDimensions({ width: width, height: height });
-  };
-
-  const getMapCenter = async () => {
-    const message = await NativeModules['MapViewModule'].getCameraBounds(
-      viewId.current
-    );
-    return message;
-  };
-
-  const getBuildingInformation = async ({
-    location,
-    animateToBuilding = false,
-    duration = 2000,
-    zoomLevel = 18,
-  }: {
-    location: Region;
-    animateToBuilding?: boolean;
-    duration?: number;
-    zoomLevel?: number;
-  }) => {
-    const message = await NativeModules['MapViewModule'].getBuildingInformation(
-      viewId.current,
-      location.longitude,
-      location.latitude,
-      animateToBuilding,
-      duration,
-      zoomLevel
-    );
-    return message;
-  };
-
-  const setBuildingHighlight = async ({ location }: { location: Region }) => {
-    const message = await NativeModules['MapViewModule'].addBuildingHighlight(
-      viewId.current,
-      location.longitude,
-      location.latitude
-    );
-    return message;
-  };
-
-  //mapevents
-  const publicRef = {
-    moveToRegion,
-    moveToBuilding,
-    getMapCenter,
-    getBuildingInformation,
-    setBuildingHighlight,
-  };
-
-  useImperativeHandle(forwardedRef, () => publicRef);
-
-  return (
-    // <ProviderContext.Provider value={{ provider: 'wrld3dMap' }}>
-    <View
-      onLayout={onlayout.bind(null)}
-      style={[
-        props.style ? props.style : { width: '100%', height: '100%' },
-        styles.hiddenOver,
-      ]}
-    >
-      <WrldMap3d
-        {...props}
-        key={new Date().toDateString()}
-        style={mapStyles}
-        // @ts-ignore
-        ref={ref}
-        zoomLevel={props.zoomLevel ? props.zoomLevel : 12}
-        initialCenter={
-          props.initialCenter
-            ? props.initialCenter
-            : {
-                latitude: 24.8620502,
-                longitude: 67.0708794,
-              }
-        }
-        onMapReady={() => {
-          isMapReady.current = true;
-          if (props.onMapReady) {
-            props.onMapReady();
+    React.useEffect(() => {
+      if (Platform.OS === 'android') {
+        setTimeout(() => {
+          if (!mapCreated.current) {
+            mapCreated.current = true;
+            createMapViewInstance();
           }
-        }}
-        precache={props.precache}
-        precacheDistance={props.precacheDistance}
-      >
-        {props.children}
-      </WrldMap3d>
-    </View>
-  );
-};
+        }, 500);
+      }
+    });
 
-export const Wrld3dView = React.forwardRef(MapComponent);
+    const onCameraMoveEnd = useCallback(
+      (_: onMapCameraChangedType) => {
+        if (onMove) onMove(_.nativeEvent);
+      },
+      [onMove]
+    );
 
-const styles = StyleSheet.create({
-  hiddenOver: { overflow: 'hidden' },
-});
+    const onClickBuilding = useCallback(
+      (_: BuildingInformationTypeEvent) => {
+        if (clickBuildingUp) clickBuildingUp(_.nativeEvent);
+      },
+      [clickBuildingUp]
+    );
+
+    const onMapReady = useCallback(
+      (_: onMapReadyType) => {
+        if (onReady) onReady(_.nativeEvent);
+      },
+      [onReady]
+    );
+
+    const onCameraMoveBegin = useCallback(() => {
+      if (onMoveBegin) onMoveBegin();
+    }, [onMoveBegin]);
+
+    const _getHandle = () => {
+      return findNodeHandle(ref.current) as number;
+    };
+
+    const createBuildingHighlight = useCallback(
+      (buildingId: string, color: string, buildingCoordinates: Coordinates) => {
+        console.log(
+          'setting building hi command',
+          buildingId,
+          buildingCoordinates
+        );
+
+        Commands.setBuildingHighlight(
+          ref.current,
+          buildingId,
+          color,
+          buildingCoordinates as any
+        );
+      },
+      []
+    );
+
+    const removeBuildingHighlightComand = useCallback((buildingId: string) => {
+      Commands.removeBuildingHighlight(ref.current, buildingId);
+    }, []);
+
+    const createMapViewInstance = useCallback(() => {
+      Commands.create(ref.current, _getHandle() + '');
+    }, []);
+
+    return (
+      <MapView
+        ref={ref}
+        {...props}
+        onCameraMoveEnd={onCameraMoveEnd as any}
+        onMapReady={onMapReady as any}
+        onCameraMoveBegin={onCameraMoveBegin as any}
+        onClickBuilding={onClickBuilding as any}
+      />
+    );
+  }
+);

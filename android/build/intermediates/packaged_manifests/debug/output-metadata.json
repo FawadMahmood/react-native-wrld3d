@@ -4,7 +4,7 @@
     "type": "PACKAGED_MANIFESTS",
     "kind": "Directory"
   },
-  "applicationId": "com.reactnativewrld3d",
+  "applicationId": "com.wrld3d",
   "variantName": "debug",
   "elements": [
     {

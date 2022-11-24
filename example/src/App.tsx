@@ -1,257 +1,214 @@
 import * as React from 'react';
+import { useCallback, useMemo, useRef } from 'react';
+import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import { Map3dDirectEvents, Wrld3dView } from 'react-native-wrld3d';
+import BottomSheet from '@gorhom/bottom-sheet';
+import type { BuildingInformationType } from 'src/types';
 
-import {
-  Image,
-  SafeAreaView,
-  StyleSheet,
-  Text,
-  TouchableOpacity,
-  View,
-} from 'react-native';
-import { Wrld3dView, Marker, MapViewRefPropsType } from 'react-native-wrld3d';
-// , 1, 2
-export default function App() {
-  const [visible, setVisible] = React.useState(true);
+// props: { navigation: any }
+export default function App(props: { navigation: any }) {
+  const { navigation } = props;
+  const mapRef = React.createRef<Map3dDirectEvents>();
   const [ready, setReady] = React.useState(false);
-  const [cache, setCache] = React.useState(false);
+  const [moving, setMoving] = React.useState(false);
+  const [building, setBuilding] = React.useState<BuildingInformationType>();
+  const [highlight, setHighlight] = React.useState(false);
 
-  const ref = React.useRef<MapViewRefPropsType>();
+  const [cache] = React.useState(false);
+  const currentIndex = useRef<number>(0);
+  const bottomSheetRef = useRef<BottomSheet>(null);
+  const snapPoints = useMemo(() => ['9.5%', '50%'], []);
 
-  let markers = [];
-  for (let i = 0; i < 100; i++) {
-    markers.push({
-      location: {
-        latitude: 37.802355,
-        longitude: -122.405848,
-      },
-      image:
-        'https://github.com/stasgora/round-spot/blob/master/assets/logo.png?raw=true',
-    });
-  }
+  const handleSheetChanges = useCallback((index: number) => {
+    currentIndex.current = index;
+  }, []);
 
-  const [markets, setMarkers] = React.useState([
-    ...markers,
-    {
-      location: {
-        latitude: 37.802355,
-        longitude: -122.405848,
-      },
-      image:
-        'https://github.com/stasgora/round-spot/blob/master/assets/logo.png?raw=true',
-    },
-    {
-      location: {
-        latitude: 37.80238,
-        longitude: -122.405848,
-      },
-      image:
-        'https://github.com/stasgora/round-spot/blob/master/assets/logo.png?raw=true',
-    },
-    {
-      location: {
-        latitude: 37.802395,
-        longitude: -122.405848,
-      },
-      image:
-        'https://github.com/stasgora/round-spot/blob/master/assets/logo.png?raw=true',
-    },
-  ]);
+  const toggleSheet = useCallback(() => {
+    if (bottomSheetRef.current) {
+      bottomSheetRef.current.snapToIndex(currentIndex.current === 0 ? 1 : 0);
+    }
+  }, []);
 
-  const onAddMarker = () => {
-    setMarkers([
-      {
-        location: {
-          latitude: 37.802355,
-          longitude: -122.405848,
-        },
-        image:
-          'https://images.unsplash.com/photo-1463453091185-61582044d556?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8MTl8fHJhbmRvbSUyMHBlb3BsZXxlbnwwfHwwfHw%3D&w=1000&q=80',
-      },
-      {
-        location: {
-          latitude: 39.802355,
-          longitude: -122.405848,
-        },
-        image:
-          'https://images.unsplash.com/photo-1485206412256-701ccc5b93ca?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8MTJ8fHJhbmRvbSUyMHBlb3BsZXxlbnwwfHwwfHw%3D&w=1000&q=80',
-      },
-      {
-        location: {
-          latitude: 40.802355,
-          longitude: -122.405848,
-        },
-        image:
-          'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTF_2O5ngxoY3B4Vb-d6MRsS_-F0moFSI39SQ&usqp=CAU',
-      },
-      {
-        location: {
-          latitude: 35.802355,
-          longitude: -122.405848,
-        },
-        image:
-          'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSrYCNlYpuNV9PfNMzlNT9SAHTvkPLjI_OmRw&usqp=CAU',
-      },
-      {
-        location: {
-          latitude: 42.802355,
-          longitude: -122.405848,
-        },
-        image:
-          'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTS9uSS5KRJCiR_cXunDz3hKtCLBzFsQAs3__yg0hkpt7kt4AJAxq1SwGg0250nGqDOLSc&usqp=CAU',
-      },
-    ]);
-  };
-
-  const removeMarker = () => {
-    // setMarkers([]);
-    setMarkers([
-      {
-        location: {
-          latitude: 65.802355,
-          longitude: -122.405848,
-        },
-        image:
-          'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTS9uSS5KRJCiR_cXunDz3hKtCLBzFsQAs3__yg0hkpt7kt4AJAxq1SwGg0250nGqDOLSc&usqp=CAU',
-      },
-      {
-        location: {
-          latitude: 62.802355,
-          longitude: -122.405848,
-        },
-        image:
-          'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSrYCNlYpuNV9PfNMzlNT9SAHTvkPLjI_OmRw&usqp=CAU',
-      },
-    ]);
-  };
+  const [location, setLocation] = React.useState({ latitude: 0, longitude: 0 });
 
   const onMapReady = () => {
     setReady(true);
   };
 
-  const onMapCacheCompleted = () => {
-    setCache(true);
-  };
+  const onCameraMoveBegin = useCallback(() => {
+    setMoving(true);
+  }, []);
 
-  const animateToRegion = async () => {
-    setVisible(false);
-  };
+  const dispatchNewScreen = useCallback(() => {
+    navigation.push('Home');
+  }, [navigation]);
+
+  const onClickBuilding = useCallback((_: BuildingInformationType) => {
+    setBuilding(_);
+  }, []);
+
+  const highlightSelectedBuilding = useCallback(() => {
+    if (building && building.latitude && building.longitude && !highlight) {
+      mapRef.current?.setBuildingHighlight(
+        building?.buildingId as string,
+        '#FFFF00',
+        {
+          latitude: building?.latitude,
+          longitude: building?.longitude,
+        }
+      );
+      setHighlight(true);
+    }
+
+    if (highlight) {
+      mapRef.current?.removeBuildingHighlight(building?.buildingId as string);
+      setHighlight(false);
+    }
+  }, [mapRef, building, highlight]);
+
+  const onCameraMoveEnd = useCallback(
+    (_: { longitude: number; latitude: number }) => {
+      setMoving(false);
+      setLocation({
+        latitude: _.latitude,
+        longitude: _.longitude,
+      });
+    },
+    []
+  );
 
   return (
-    <SafeAreaView>
-      <View>
-        <View style={styles.header}>
-          <Text style={styles.statusTxt}>
-            {ready ? 'Map Ready' : 'Map Not Ready'}
-          </Text>
-          <Text style={styles.statusTxt}>
-            {cache ? 'Cache Completed' : 'Cache In Progress'}
-          </Text>
-        </View>
-        {visible ? (
-          <Wrld3dView
-            ref={ref as { current: MapViewRefPropsType }}
-            initialCenter={{
-              latitude: 24.882613347789693,
-              longitude: 67.05802695237224,
-            }}
-            onMapReady={onMapReady.bind(null)}
-            onMapCacheCompleted={onMapCacheCompleted.bind(null)}
-            precache
-            precacheDistance={5000}
-            zoomLevel={15}
-            key={'Wrld3dView'}
-            style={styles.mapStyle}
-          >
-            {markets.map((marker, index) => {
-              if (index > 3) {
-                return (
-                  <Marker
-                    elevationMode="HeightAboveGround"
-                    elevation={150}
-                    key={index}
-                    location={marker.location}
-                    style={styles.marker}
-                  >
-                    <TouchableOpacity style={styles.btnStyle}>
-                      <Image
-                        resizeMode="cover"
-                        source={{ uri: marker.image }}
-                        style={styles.flexBox}
-                      />
-                    </TouchableOpacity>
-                  </Marker>
-                );
-              }
-
-              return (
-                <Marker
-                  elevationMode="HeightAboveGround"
-                  elevation={150}
-                  key={index}
-                  location={marker.location}
-                  style={styles.marker}
-                >
-                  <TouchableOpacity style={styles.btnStyle}>
-                    <Image
-                      resizeMode="cover"
-                      source={{ uri: marker.image }}
-                      style={styles.flexBox}
-                    />
-                  </TouchableOpacity>
-                </Marker>
-              );
-            })}
-          </Wrld3dView>
-        ) : null}
-
-        <TouchableOpacity
-          onPress={onAddMarker.bind(null)}
-          style={styles.btnStyle2}
-        >
-          <Text style={styles.txt}>{'Add a marker'}</Text>
-        </TouchableOpacity>
-
-        <TouchableOpacity
-          onPress={removeMarker.bind(null)}
-          style={styles.btnStyles23}
-        >
-          <Text style={styles.txt}>{'Add a marker'}</Text>
-        </TouchableOpacity>
-
-        <TouchableOpacity
-          onPress={animateToRegion.bind(null)}
-          style={styles.btnStyles23}
-        >
-          <Text style={styles.txt}>{'Animate to region'}</Text>
-        </TouchableOpacity>
+    <View style={styles.container}>
+      <View style={styles.header}>
+        <Text style={styles.statusTxt}>
+          {ready ? 'Map Ready' : 'Map Not Ready'}
+        </Text>
+        <Text style={styles.statusTxt}>
+          {cache ? 'Cache Completed' : 'Cache In Progress'}
+        </Text>
       </View>
-    </SafeAreaView>
+      <View style={styles.header}>
+        <Text style={styles.statusTxt}>{moving ? 'Moving' : 'Stopped'}</Text>
+        <Text style={styles.statusTxt}>
+          {'LOCATION ' +
+            location.longitude.toFixed(2) +
+            ',' +
+            location.latitude.toFixed(2)}
+        </Text>
+      </View>
+      <View style={styles.mapContainer}>
+        <Wrld3dView
+          ref={mapRef}
+          onCameraMoveEnd={onCameraMoveEnd as any}
+          onMapReady={onMapReady.bind(null)}
+          onCameraMoveBegin={onCameraMoveBegin}
+          style={styles.box}
+          initialRegion={{
+            latitude: 24.88261334778966,
+            longitude: 67.05802695237224,
+          }}
+          zoomLevel={18}
+          onClickBuilding={onClickBuilding}
+        />
+      </View>
+
+      <BottomSheet
+        ref={bottomSheetRef}
+        index={0}
+        snapPoints={snapPoints}
+        onChange={handleSheetChanges}
+        enableOverDrag
+      >
+        <TouchableOpacity
+          activeOpacity={0.98}
+          onPress={toggleSheet}
+          style={[styles.bottomBtn, styles.blackBG]}
+        >
+          <Text style={[styles.lbl, styles.whiteLbl]}>EXPAND</Text>
+        </TouchableOpacity>
+        <View style={styles.contentContainer}>
+          <TouchableOpacity
+            onPress={dispatchNewScreen}
+            style={[styles.bottomBtn, styles.blackBG, styles.innerBtn]}
+          >
+            <Text style={[styles.lbl, styles.whiteLbl]}>NEW SCREEN</Text>
+          </TouchableOpacity>
+
+          <TouchableOpacity
+            disabled={!building}
+            onPress={highlightSelectedBuilding}
+            style={[
+              styles.bottomBtn,
+              styles.blackBG,
+              styles.innerBtn,
+              !building && styles.disabled,
+            ]}
+          >
+            <Text style={[styles.lbl, styles.whiteLbl]}>
+              {highlight ? 'Remove Highlight' : 'Highlight Picked Building'}
+            </Text>
+          </TouchableOpacity>
+        </View>
+      </BottomSheet>
+    </View>
   );
 }
 
 const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+  },
+  box: {
+    width: '100%',
+    height: '100%',
+  },
   header: {
     height: 40,
     justifyContent: 'space-between',
     alignItems: 'center',
     flexDirection: 'row',
     paddingHorizontal: 10,
+    backgroundColor: 'white',
   },
   statusTxt: {
-    fontWeight: '400',
+    fontWeight: 'bold',
+    textTransform: 'uppercase',
+    color: 'black',
   },
-  flexBox: { width: '100%', height: '100%' },
-  btnStyle: {
-    overflow: 'hidden',
-    width: '100%',
-    height: '100%',
-    borderRadius: 50,
+  mapContainer: {
+    flex: 1,
+  },
+  bottomBtn: {
+    height: 50,
+    backgroundColor: 'white',
     justifyContent: 'center',
     alignItems: 'center',
   },
-  btnStyle2: { width: '100%', height: 45, backgroundColor: 'blue' },
-  mapStyle: { width: '100%', height: '80%' },
-  marker: { width: 90, height: 90 },
-  txt: { fontSize: 30, color: 'white' },
-  btnStyles23: { width: '100%', height: 45, backgroundColor: 'blue' },
+  lbl: {
+    color: 'black',
+    textAlign: 'center',
+  },
+  contentContainer: {
+    flex: 1,
+    flexWrap: 'wrap',
+    flexDirection: 'row',
+  },
+  blackBG: {
+    backgroundColor: 'black',
+  },
+  whiteLbl: {
+    color: 'white',
+    fontWeight: '600',
+  },
+  paddingBtn: {
+    padding: 0,
+  },
+  innerBtn: {
+    flex: 1,
+    margin: 5,
+    borderRadius: 10,
+  },
+  disabled: {
+    opacity: 0.6,
+  },
 });

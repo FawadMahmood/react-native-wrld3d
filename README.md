@@ -1,65 +1,31 @@
-# react-native-wrld3d (Work in Progress)
-# This is unofficial implementation (not powered by wrld3d) just to help others who are looking to integrate wrld3d maps in their React Native App.
+# react-native-wrld3d
 
+A dynamic 3D mapping platform for smart cities and buildings, gaming, AR/VR experiences, and more. checkout more at https://www.wrld3d.com/
 
-This repo is not production ready yet
- react-wrld3d Sdk integration
- 
- ![](https://www.wrld3d.com/ios/latest/static/images/iOS-Simulator.png)
- 
- 
- # Installation
-
-Install the library from npm:
+## Installation
 
 ```sh
-$ npm install react-native-wrld3d
-# --- or ---
-$ yarn add react-native-wrld3d
+npm install react-native-wrld3d
 ```
 
-## iOS
+## Usage
 
-After installing the npm package, we need to install the pod.
+```js
+import { Wrld3dView } from "react-native-wrld3d";
 
-# Add following in info.plist
+// ...
 
-```
-<key>WrldApiKey</key>
-<string>YOUR WRLD3D Map Api Key</string>
-```
-
-![](https://www.wrld3d.com/ios/latest/static/images/iOS-PList.gif)
-
-# Add following pod into podspec
-```
-<key>WrldApiKey</key>
-<string>YOUR WRLD3D Map Api Key</string>
+<Wrld3dView color="tomato" />
 ```
 
+## Contributing
 
-```sh
-$ (cd ios && pod install)
-# --- or ---
-$ npx pod-install
-```
-```
-Change ‘Enable Bitcode’ settings
-Currently the WRLD iOS SDK does not support Bitcode. Depending on the version of Xcode you are using, you may have to disable this in your project settings:
+See the [contributing guide](CONTRIBUTING.md) to learn how to contribute to the repository and the development workflow.
 
-Select Build Settings in Project Editor.
-Under Build Options ensure that Enable Bitcode is set to No.
-```
+## License
 
-![](https://www.wrld3d.com/ios/latest/static/images/iOS-EnableBitcode.gif)
+MIT
 
+---
 
-## Android
-
-**Add following meta-data into your android/app/src/main/AndroidManifest.xml**
-```
-<application ...>
- <meta-data android:name="com.wrld3d.API_KEY" android:value="YOUR MAP KEY HERE"/>
-</application>
-```
-
+Made with [create-react-native-library](https://github.com/callstack/react-native-builder-bob)

@@ -127,13 +127,10 @@ dist
 .pnp.*
 
 
-/example/android/app/src/main/AndroidManifest.xml
-
 /example/android/app/build
 /example/ios/Pods
-./example/android/app/src/main/AndroidManifest.xml
 
-AndroidManifest.xml
+example/ios/Wrld3dExample/Info.plist
+example/ios/Wrld3dExample/Info.plist
+example/android/local.properties
 example/android/app/src/main/AndroidManifest.xml
-example/ios/Wrld3dExample/Info.plist
-example/ios/Wrld3dExample/Info.plist

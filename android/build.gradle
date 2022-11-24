@@ -49,6 +49,20 @@ android {
     sourceCompatibility JavaVersion.VERSION_1_8
     targetCompatibility JavaVersion.VERSION_1_8
   }
+
+  sourceSets {
+    main {
+      if (isNewArchitectureEnabled()) {
+          java.srcDirs += [
+            "src/newarch",
+            // This is needed to build Kotlin project with NewArch enabled
+            "${project.buildDir}/generated/source/codegen/java"
+          ]
+      } else {
+          java.srcDirs += ["src/oldarch"]
+      }
+    }
+  }
 }
 
 repositories {
@@ -126,7 +140,7 @@ dependencies {
   //noinspection GradleDynamicVersion
   implementation "com.facebook.react:react-native:+"
   // From node_modules
-  
+
   //wrd3d sdk implementation
   implementation 'com.wrld3d:wrld-android-sdk:0.0.1421@aar'
 }
@@ -134,7 +148,7 @@ dependencies {
 if (isNewArchitectureEnabled()) {
   react {
     jsRootDir = file("../src/")
-    libraryName = "Wrld3d"
-    codegenJavaPackageName = "com.reactnativewrld3d"
+    libraryName = "Wrld3dView"
+    codegenJavaPackageName = "com.wrld3d"
   }
 }
