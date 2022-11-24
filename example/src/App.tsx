@@ -92,7 +92,7 @@ const styles = StyleSheet.create({
     color: 'black',
   },
   mapContainer: {
-    flex: 0.9,
+    flex: 1,
   },
   bottomBtn: {
     height: 50,
