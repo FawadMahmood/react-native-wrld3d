@@ -3,7 +3,7 @@ import type { HostComponent } from 'react-native';
 import type { onMapCameraChangedType, onMapReadyType } from './types';
 export interface NativeProps extends ViewProps {
     onMapReady?: (_: onMapReadyType) => void;
-    onCameraMove?: (_: onMapCameraChangedType) => void;
+    onCameraMoveEnd?: (_: onMapCameraChangedType) => void;
     onCameraMoveBegin: () => void;
 }
 declare const _default: import("react-native/Libraries/Utilities/codegenNativeComponent").NativeComponentType<NativeProps>;

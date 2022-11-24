@@ -4,7 +4,7 @@ interface ModuleEvents {
     onMapReady?: (props: {
         success: boolean;
     }) => void;
-    onCameraMove?: (props: {
+    onCameraMoveEnd?: (props: {
         longitude: number;
         latitude: number;
     }) => void;

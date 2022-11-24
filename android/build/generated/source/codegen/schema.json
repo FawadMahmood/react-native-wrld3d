@@ -1,0 +1,87 @@
+{
+  "modules": {
+    "Wrld3dView": {
+      "type": "Component",
+      "components": {
+        "Wrld3dView": {
+          "extendsProps": [
+            {
+              "type": "ReactNativeBuiltInType",
+              "knownTypeName": "ReactNativeCoreViewProps"
+            }
+          ],
+          "events": [
+            {
+              "name": "onMapReady",
+              "optional": true,
+              "bubblingType": "bubble",
+              "typeAnnotation": {
+                "type": "EventTypeAnnotation",
+                "argument": {
+                  "type": "ObjectTypeAnnotation",
+                  "properties": [
+                    {
+                      "name": "success",
+                      "optional": false,
+                      "typeAnnotation": {
+                        "type": "BooleanTypeAnnotation"
+                      }
+                    }
+                  ]
+                }
+              }
+            },
+            {
+              "name": "onCameraMoveEnd",
+              "optional": true,
+              "bubblingType": "bubble",
+              "typeAnnotation": {
+                "type": "EventTypeAnnotation",
+                "argument": {
+                  "type": "ObjectTypeAnnotation",
+                  "properties": [
+                    {
+                      "name": "longitude",
+                      "optional": false,
+                      "typeAnnotation": {
+                        "type": "DoubleTypeAnnotation"
+                      }
+                    },
+                    {
+                      "name": "latitude",
+                      "optional": false,
+                      "typeAnnotation": {
+                        "type": "DoubleTypeAnnotation"
+                      }
+                    }
+                  ]
+                }
+              }
+            }
+          ],
+          "props": [],
+          "commands": [
+            {
+              "name": "create",
+              "optional": false,
+              "typeAnnotation": {
+                "type": "FunctionTypeAnnotation",
+                "params": [
+                  {
+                    "name": "viewId",
+                    "typeAnnotation": {
+                      "type": "StringTypeAnnotation"
+                    }
+                  }
+                ],
+                "returnTypeAnnotation": {
+                  "type": "VoidTypeAnnotation"
+                }
+              }
+            }
+          ]
+        }
+      }
+    }
+  }
+}

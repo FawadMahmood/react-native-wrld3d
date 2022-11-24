@@ -62,9 +62,9 @@ export const Wrld3dView = (props: ModuleEvents) => {
     <MapView
       ref={ref}
       {...props}
-      onCameraMoveEnd={onCameraMoveEnd}
-      onMapReady={onMapReady}
-      onCameraMoveBegin={onCameraMoveBegin}
+      onCameraMoveEnd={onCameraMoveEnd as any}
+      onMapReady={onMapReady as any}
+      onCameraMoveBegin={onCameraMoveBegin as any}
     />
   );
 };
