@@ -4,7 +4,11 @@ import * as React from 'react';
 
 import { findNodeHandle, Platform, ViewStyle } from 'react-native';
 import { useCallback, useRef } from 'react';
-import type { onMapCameraChangedType, onMapReadyType } from './types';
+import type {
+  Coordinates,
+  onMapCameraChangedType,
+  onMapReadyType,
+} from './types';
 
 interface ModuleEvents {
   onMapReady?: (props: { success: boolean }) => void;
@@ -12,6 +16,8 @@ interface ModuleEvents {
   onCameraMoveBegin?: () => void;
   style: ViewStyle;
   children?: Element;
+  initialRegion?: Coordinates;
+  zoomLevel?: number;
 }
 
 // NativeProps &

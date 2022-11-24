@@ -12,6 +12,7 @@ import androidx.annotation.Nullable;
 import com.eegeo.mapapi.camera.CameraPosition;
 import com.facebook.react.bridge.Arguments;
 import com.facebook.react.bridge.ReadableArray;
+import com.facebook.react.bridge.ReadableMap;
 import com.facebook.react.bridge.WritableMap;
 import com.facebook.react.common.MapBuilder;
 import com.facebook.react.module.annotations.ReactModule;
@@ -60,6 +61,16 @@ public class Wrld3dViewManager extends com.wrld3d.Wrld3dViewManagerSpec<Wrld3dVi
     return new Wrld3dView(context,this);
   }
 
+  @ReactProp(name = "initialRegion")
+  public void setLocation(Wrld3dView view, ReadableMap region) {
+      view.setRegion(region);
+  }
+
+  @ReactProp(name = "zoomLevel", defaultFloat = 10)
+  public void setLocation(Wrld3dView view, int zoomLevel) {
+    view.setZoomLevel(zoomLevel);
+  }
+
   @Nullable
   @Override
   public Map<String, Integer> getCommandsMap() {
@@ -69,7 +80,6 @@ public class Wrld3dViewManager extends com.wrld3d.Wrld3dViewManagerSpec<Wrld3dVi
   @Override
   @Nullable
   public Map getExportedCustomDirectEventTypeConstants() {
-
     Map<String, Map<String, String>> map = MapBuilder.of(
        MapReadyEvent.EVENT_NAME, MapBuilder.of("registrationName", "onMapReady"),
       "onMapCacheCompleted", MapBuilder.of("registrationName", "onMapCacheCompleted"),

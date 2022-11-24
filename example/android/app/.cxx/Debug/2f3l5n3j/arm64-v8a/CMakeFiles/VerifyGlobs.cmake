@@ -47,6 +47,28 @@ if(NOT "${NEW_GLOB}" STREQUAL "${OLD_GLOB}")
   file(TOUCH_NOCREATE "/Users/fawadmahmood/Documents/GitHub/react-native-wrld3d/example/android/app/.cxx/Debug/2f3l5n3j/arm64-v8a/CMakeFiles/cmake.verify_globs")
 endif()
 
+# react_codegen_SRCS at /Users/fawadmahmood/Documents/GitHub/react-native-wrld3d/example/node_modules/react-native-gesture-handler/android/build/generated/source/codegen/jni/CMakeLists.txt:9 (file)
+file(GLOB NEW_GLOB LIST_DIRECTORIES true "/Users/fawadmahmood/Documents/GitHub/react-native-wrld3d/example/node_modules/react-native-gesture-handler/android/build/generated/source/codegen/jni/*.cpp")
+set(OLD_GLOB
+  "/Users/fawadmahmood/Documents/GitHub/react-native-wrld3d/example/node_modules/react-native-gesture-handler/android/build/generated/source/codegen/jni/rngesturehandler_codegen-generated.cpp"
+  )
+if(NOT "${NEW_GLOB}" STREQUAL "${OLD_GLOB}")
+  message("-- GLOB mismatch!")
+  file(TOUCH_NOCREATE "/Users/fawadmahmood/Documents/GitHub/react-native-wrld3d/example/android/app/.cxx/Debug/2f3l5n3j/arm64-v8a/CMakeFiles/cmake.verify_globs")
+endif()
+
+# react_codegen_SRCS at /Users/fawadmahmood/Documents/GitHub/react-native-wrld3d/example/node_modules/react-native-gesture-handler/android/build/generated/source/codegen/jni/CMakeLists.txt:9 (file)
+file(GLOB NEW_GLOB LIST_DIRECTORIES true "/Users/fawadmahmood/Documents/GitHub/react-native-wrld3d/example/node_modules/react-native-gesture-handler/android/build/generated/source/codegen/jni/react/renderer/components/rngesturehandler_codegen/*.cpp")
+set(OLD_GLOB
+  "/Users/fawadmahmood/Documents/GitHub/react-native-wrld3d/example/node_modules/react-native-gesture-handler/android/build/generated/source/codegen/jni/react/renderer/components/rngesturehandler_codegen/EventEmitters.cpp"
+  "/Users/fawadmahmood/Documents/GitHub/react-native-wrld3d/example/node_modules/react-native-gesture-handler/android/build/generated/source/codegen/jni/react/renderer/components/rngesturehandler_codegen/Props.cpp"
+  "/Users/fawadmahmood/Documents/GitHub/react-native-wrld3d/example/node_modules/react-native-gesture-handler/android/build/generated/source/codegen/jni/react/renderer/components/rngesturehandler_codegen/ShadowNodes.cpp"
+  )
+if(NOT "${NEW_GLOB}" STREQUAL "${OLD_GLOB}")
+  message("-- GLOB mismatch!")
+  file(TOUCH_NOCREATE "/Users/fawadmahmood/Documents/GitHub/react-native-wrld3d/example/android/app/.cxx/Debug/2f3l5n3j/arm64-v8a/CMakeFiles/cmake.verify_globs")
+endif()
+
 # LIB_CUSTOM_SRCS at /Users/fawadmahmood/Documents/GitHub/react-native-wrld3d/example/node_modules/react-native-safe-area-context/android/src/main/jni/CMakeLists.txt:21 (file)
 file(GLOB NEW_GLOB LIST_DIRECTORIES true "/Users/fawadmahmood/Documents/GitHub/react-native-wrld3d/example/node_modules/react-native-safe-area-context/android/src/main/jni/*.cpp")
 set(OLD_GLOB

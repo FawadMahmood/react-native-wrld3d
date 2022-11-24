@@ -20,10 +20,12 @@ import com.eegeo.mapapi.EegeoApi;
 import com.eegeo.mapapi.EegeoMap;
 import com.eegeo.mapapi.MapView;
 import com.eegeo.mapapi.camera.CameraPosition;
+import com.eegeo.mapapi.camera.CameraUpdateFactory;
 import com.eegeo.mapapi.map.OnMapReadyCallback;
 import com.eegeo.mapapi.positioner.OnPositionerChangedListener;
 import com.eegeo.mapapi.positioner.Positioner;
 import com.facebook.react.bridge.Arguments;
+import com.facebook.react.bridge.ReadableMap;
 import com.facebook.react.bridge.WritableMap;
 import com.facebook.react.bridge.WritableNativeMap;
 import com.wrld3d.events.MapCameraMoveBeginEvent;
@@ -34,6 +36,8 @@ public class WrldMapFragment extends Fragment {
   MapView m_mapView;
   Wrld3dView parent;
   EegeoMap eegeoMap;
+  private ReadableMap initailRegion;
+  private int zoomLevel=10;
 
   public WrldMapFragment(Wrld3dView parent){
     this.parent = parent;
@@ -65,6 +69,11 @@ public class WrldMapFragment extends Fragment {
         Log.w("MAOVIEW READY","MAPVIEW READY");
         emitMapReady();
         map.addOnCameraMoveListener(new OnScreenPointChangedListener());
+        if(initailRegion != null){
+          double latitude = initailRegion.getDouble("latitude");
+          double longitude = initailRegion.getDouble("longitude");
+          moveToRegion(longitude,latitude,false,0);
+        }
       }
     });
     view.measure(View.MeasureSpec.makeMeasureSpec(container.getWidth(), View.MeasureSpec.EXACTLY), View.MeasureSpec.makeMeasureSpec(container.getHeight(), View.MeasureSpec.EXACTLY));
@@ -101,7 +110,46 @@ public class WrldMapFragment extends Fragment {
     // e.g.: customView.onDestroy();
   }
 
+  private void moveToRegion(double longitude,double latitude,boolean animate,int duration){
+    CameraPosition position = new CameraPosition.Builder()
+            .target(latitude, longitude)
+            .zoom(zoomLevel)
+            .build();
+
+    if(animate){
+      eegeoMap.animateCamera(CameraUpdateFactory.newCameraPosition(position),duration);
+    }else{
+      eegeoMap.moveCamera(CameraUpdateFactory.newCameraPosition(position));
+    }
+
+  }
+
   boolean begin=false;
+
+  public void setInitialRegion(ReadableMap region) {
+    double latitude = region.getDouble("latitude");
+    double longitude = region.getDouble("longitude");
+    if(eegeoMap != null){
+      moveToRegion(longitude,latitude,true,2000);
+      this.initailRegion = region;
+    }else{
+      this.initailRegion = region;
+    }
+ }
+
+  public void setZoomLevel(int zoomLevel) {
+    if(eegeoMap != null){
+      if(this.initailRegion != null){
+        this.zoomLevel = zoomLevel;
+        double latitude = this.initailRegion.getDouble("latitude");
+        double longitude = this.initailRegion.getDouble("longitude");
+        moveToRegion(longitude,latitude,true,2000);
+      }
+    }else{
+      this.zoomLevel = zoomLevel;
+    }
+  }
+
   private class OnScreenPointChangedListener implements EegeoMap.OnCameraMoveListener {
     Runnable runnable;
     Handler handler;

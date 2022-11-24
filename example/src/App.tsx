@@ -75,11 +75,13 @@ export default function App(props: { navigation: any }) {
           onMapReady={onMapReady.bind(null)}
           onCameraMoveBegin={onCameraMoveBegin}
           style={styles.box}
+          initialRegion={{
+            latitude: 24.882613347789693,
+            longitude: 67.05802695237224,
+          }}
+          zoomLevel={18}
         />
       </View>
-      <TouchableOpacity onPress={dispatchNewScreen} style={styles.bottomBtn}>
-        <Text style={styles.lbl}>DISPATCH NEW SCREEN</Text>
-      </TouchableOpacity>
 
       <BottomSheet
         ref={bottomSheetRef}
@@ -95,7 +97,21 @@ export default function App(props: { navigation: any }) {
         >
           <Text style={[styles.lbl, styles.whiteLbl]}>EXPAND</Text>
         </TouchableOpacity>
-        <View style={styles.contentContainer} />
+        <View style={styles.contentContainer}>
+          <TouchableOpacity
+            onPress={dispatchNewScreen}
+            style={[styles.bottomBtn, styles.blackBG, styles.innerBtn]}
+          >
+            <Text style={[styles.lbl, styles.whiteLbl]}>NEW SCREEN</Text>
+          </TouchableOpacity>
+
+          <TouchableOpacity
+            onPress={dispatchNewScreen}
+            style={[styles.bottomBtn, styles.blackBG, styles.innerBtn]}
+          >
+            <Text style={[styles.lbl, styles.whiteLbl]}>NEW SCREEN</Text>
+          </TouchableOpacity>
+        </View>
       </BottomSheet>
     </View>
   );
@@ -136,7 +152,8 @@ const styles = StyleSheet.create({
   },
   contentContainer: {
     flex: 1,
-    alignItems: 'center',
+    flexWrap: 'wrap',
+    flexDirection: 'row',
   },
   blackBG: {
     backgroundColor: 'black',
@@ -144,5 +161,13 @@ const styles = StyleSheet.create({
   whiteLbl: {
     color: 'white',
     fontWeight: '600',
+  },
+  paddingBtn: {
+    padding: 0,
+  },
+  innerBtn: {
+    flex: 1,
+    margin: 5,
+    borderRadius: 10,
   },
 });

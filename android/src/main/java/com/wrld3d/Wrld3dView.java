@@ -13,6 +13,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
 
+import com.facebook.react.bridge.ReadableMap;
 import com.facebook.react.bridge.WritableMap;
 import com.facebook.react.uimanager.ThemedReactContext;
 import com.facebook.react.uimanager.events.Event;
@@ -61,6 +62,8 @@ public class Wrld3dView extends FrameLayout {
    this.manager.pushEvent(this.context,event,data,this);
   }
 
+
+
   @Override
   public void addView(View child) {
     if(wrldMapFragment.m_mapView != null){
@@ -77,5 +80,13 @@ public class Wrld3dView extends FrameLayout {
       handler = new android.os.Handler();
       handler.postDelayed(runnable, 1000);
     }
+  }
+
+  public void setRegion(ReadableMap region) {
+    wrldMapFragment.setInitialRegion(region);
+  }
+
+  public void setZoomLevel(int zoomLevel) {
+    wrldMapFragment.setZoomLevel(zoomLevel);
   }
 }

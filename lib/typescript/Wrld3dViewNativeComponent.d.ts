@@ -1,10 +1,15 @@
 import type { ViewProps } from 'react-native';
 import type { HostComponent } from 'react-native';
-import type { onMapCameraChangedType, onMapReadyType } from './types';
+import type { BubblingEventHandler, Double } from 'react-native/Libraries/Types/CodegenTypes';
 export interface NativeProps extends ViewProps {
-    onMapReady?: (_: onMapReadyType) => void;
-    onCameraMoveEnd?: (_: onMapCameraChangedType) => void;
-    onCameraMoveBegin: () => void;
+    onMapReady?: BubblingEventHandler<Readonly<{
+        success: boolean;
+    }>>;
+    onCameraMoveEnd?: BubblingEventHandler<Readonly<{
+        longitude: Double;
+        latitude: Double;
+    }>>;
+    onCameraMoveBegin: BubblingEventHandler<Readonly<{}>>;
 }
 declare const _default: import("react-native/Libraries/Utilities/codegenNativeComponent").NativeComponentType<NativeProps>;
 export default _default;
