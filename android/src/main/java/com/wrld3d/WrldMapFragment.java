@@ -200,26 +200,30 @@ public class WrldMapFragment extends Fragment {
                 @UiThread
                 @Override
                 public void ready(PickResult pickResult) {
-                  if (pickResult.mapFeatureType == MapFeatureType.Building) {
-//                    Log.d("PICKED BUILDING AT", pickResult.intersectionPoint.longitude +","+pickResult.intersectionPoint.latitude + ",buildingId" + pickResult.collisionMaterialId);
-//
-
-
-                    final BuildingHighlight highlight =  eegeoMap.addBuildingHighlight(new BuildingHighlightOptions()
-                            .highlightBuildingAtScreenPoint(screenPoint).informationOnly().buildingInformationReceivedListener(new OnBuildingInformationListerner(pickResult.intersectionPoint.longitude,pickResult.intersectionPoint.latitude))
-                    );
-
-                    m_timerHandler.postDelayed(new Runnable() {
-                      @Override
-                      public void run() {
-                        eegeoMap.removeBuildingHighlight(highlight);
-//                        final BuildingHighlight highlight = eegeoMap.addBuildingHighlight(new BuildingHighlightOptions()
-//                                .highlightBuildingAtScreenPoint(screenPoint)
-//                                .color(ColorUtils.setAlphaComponent(Color.YELLOW, 128))
-//                        );
-                      }
-                    }, 300);
+                  switch(pickResult.mapFeatureType){
+                    case Building:
+                      OnBuildingInformationListerner listener =  new OnBuildingInformationListerner(pickResult.intersectionPoint.longitude,pickResult.intersectionPoint.latitude);
+                      final BuildingHighlight highlight =  eegeoMap.addBuildingHighlight(new BuildingHighlightOptions()
+                              .highlightBuildingAtScreenPoint(screenPoint).informationOnly().buildingInformationReceivedListener(listener)
+                      );
+                    break;
                   }
+//                  if (pickResult.mapFeatureType == MapFeatureType.Building) {
+////                    Log.d("PICKED BUILDING AT", pickResult.intersectionPoint.longitude +","+pickResult.intersectionPoint.latitude + ",buildingId" + pickResult.collisionMaterialId);
+////
+//
+//
+////                    m_timerHandler.postDelayed(new Runnable() {
+////                      @Override
+////                      public void run() {
+//////                        eegeoMap.removeBuildingHighlight(highlight);
+////                        final BuildingHighlight highlight = eegeoMap.addBuildingHighlight(new BuildingHighlightOptions()
+////                                .highlightBuildingAtScreenPoint(screenPoint)
+////                                .color(ColorUtils.setAlphaComponent(Color.YELLOW, 128))
+////                        );
+////                      }
+////                    }, 300);
+//                  }
                 }
               });
 
@@ -230,6 +234,8 @@ public class WrldMapFragment extends Fragment {
   private class OnBuildingInformationListerner implements  OnBuildingInformationReceivedListener{
     double longitude;
     double latitude;
+
+
     public OnBuildingInformationListerner(double longitude,double latitude){
         this.longitude =longitude;
         this.latitude = latitude;
@@ -237,6 +243,7 @@ public class WrldMapFragment extends Fragment {
 
     @Override
     public void onBuildingInformationReceived(BuildingHighlight buildingHighlight) {
+      eegeoMap.removeBuildingHighlight(buildingHighlight);
       BuildingInformation buildingInformation = buildingHighlight.getBuildingInformation();
       if (buildingHighlight == null) {
         return;
@@ -252,6 +259,7 @@ public class WrldMapFragment extends Fragment {
       buildingInfo.putDouble("latitude",this.latitude);
       MapOnClickBuilding ev = new MapOnClickBuilding(parent.manager.viewId,buildingInfo);
       parent.pushEvent(ev);
+
     }
   }
   private class OnMapClickListener implements EegeoMap.OnMapClickListener {
