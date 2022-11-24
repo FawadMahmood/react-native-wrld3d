@@ -4,10 +4,10 @@ import { useCallback } from 'react';
 import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import { Wrld3dView } from 'react-native-wrld3d';
 // props: { navigation: any }
-export default function App() {
+export default function App(props: { navigation: any }) {
+  const { navigation } = props;
   const [ready, setReady] = React.useState(false);
   const [moving, setMoving] = React.useState(false);
-  const [instance, setInstance] = React.useState(false);
 
   const [location, setLocation] = React.useState({ latitude: 0, longitude: 0 });
 
@@ -22,9 +22,8 @@ export default function App() {
   }, []);
 
   const dispatchNewScreen = useCallback(() => {
-    setInstance(true);
-    // props.navigation.push('Home');
-  }, []);
+    navigation.push('Home');
+  }, [navigation]);
 
   const onCameraMoveEnd = useCallback(
     (_: { longitude: number; latitude: number }) => {
@@ -64,18 +63,6 @@ export default function App() {
           style={styles.box}
         />
       </View>
-
-      {instance && (
-        <View style={styles.mapContainer}>
-          <Wrld3dView
-            onCameraMoveEnd={onCameraMoveEnd as any}
-            onMapReady={onMapReady.bind(null)}
-            onCameraMoveBegin={onCameraMoveBegin}
-            style={styles.box}
-          />
-        </View>
-      )}
-
       <TouchableOpacity onPress={dispatchNewScreen} style={styles.bottomBtn}>
         <Text style={styles.lbl}>DISPATCH NEW SCREEN</Text>
       </TouchableOpacity>
@@ -105,7 +92,7 @@ const styles = StyleSheet.create({
     color: 'black',
   },
   mapContainer: {
-    flex: 1,
+    flex: 0.9,
   },
   bottomBtn: {
     height: 50,
