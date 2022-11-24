@@ -129,13 +129,11 @@ public class WrldMapFragment extends Fragment {
   public void setInitialRegion(ReadableMap region) {
     double latitude = region.getDouble("latitude");
     double longitude = region.getDouble("longitude");
+    this.initailRegion = region;
     if(eegeoMap != null){
       moveToRegion(longitude,latitude,true,2000);
-      this.initailRegion = region;
-    }else{
-      this.initailRegion = region;
     }
- }
+  }
 
   public void setZoomLevel(int zoomLevel) {
     if(eegeoMap != null){
