@@ -1,6 +1,6 @@
 {
   "name": "react-native-wrld3d",
-  "version": "0.1.13",
+  "version": "0.2.1",
   "description": "test",
   "main": "lib/commonjs/index",
   "module": "lib/module/index",
