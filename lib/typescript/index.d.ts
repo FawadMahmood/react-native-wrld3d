@@ -13,7 +13,8 @@ interface ModuleEvents {
     onClickBuilding?: (props: BuildingInformationType) => void;
 }
 export interface Map3dDirectEvents {
-    setBuildingHighlight: (buildingId: string, buildingCoordinates: Coordinates) => void;
+    setBuildingHighlight: (buildingId: string, color: string, buildingCoordinates: Coordinates) => void;
+    removeBuildingHighlight: (buildingId: string) => void;
 }
 export declare const Wrld3dView: React.ForwardRefExoticComponent<ModuleEvents & React.RefAttributes<Map3dDirectEvents>>;
 //# sourceMappingURL=index.d.ts.map

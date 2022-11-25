@@ -8,6 +8,7 @@ import type {
   Double,
 } from 'react-native/Libraries/Types/CodegenTypes';
 import type { Coordinates } from './types';
+// import type { Coordinates } from './types';
 
 export interface NativeProps extends ViewProps {
   onMapReady?: BubblingEventHandler<
@@ -32,7 +33,9 @@ export interface NativeProps extends ViewProps {
   >;
 }
 
-export default codegenNativeComponent<NativeProps>('Wrld3dView');
+export default codegenNativeComponent<NativeProps>(
+  'Wrld3dView'
+) as HostComponent<NativeProps>;
 
 type Wrld3dViewNativeComponentType = HostComponent<NativeProps>;
 

@@ -1,7 +1,6 @@
 import type { ViewProps } from 'react-native';
 import type { HostComponent } from 'react-native';
 import type { BubblingEventHandler, Double } from 'react-native/Libraries/Types/CodegenTypes';
-import type { Coordinates } from './types';
 export interface NativeProps extends ViewProps {
     onMapReady?: BubblingEventHandler<Readonly<{
         success: boolean;
@@ -18,12 +17,13 @@ export interface NativeProps extends ViewProps {
         latitude: Double;
     }>>;
 }
-declare const _default: import("react-native/Libraries/Utilities/codegenNativeComponent").NativeComponentType<NativeProps>;
+declare const _default: HostComponent<NativeProps>;
 export default _default;
 declare type Wrld3dViewNativeComponentType = HostComponent<NativeProps>;
 interface NativeCommands {
     create: (viewRef: React.ElementRef<Wrld3dViewNativeComponentType>, viewId: string) => void;
-    setBuildingHighlight: (viewRef: React.ElementRef<Wrld3dViewNativeComponentType>, buildingId: string, buildingCoordinates: Coordinates) => void;
+    setBuildingHighlight: (viewRef: React.ElementRef<Wrld3dViewNativeComponentType>, buildingId: string, color: string, buildingCoordinates: string) => void;
+    removeBuildingHighlight: (viewRef: React.ElementRef<Wrld3dViewNativeComponentType>, buildingId: string) => void;
 }
 export declare const Commands: NativeCommands;
 //# sourceMappingURL=Wrld3dViewNativeComponent.d.ts.map

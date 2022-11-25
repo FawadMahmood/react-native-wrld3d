@@ -1,15 +1,16 @@
 import { NativeSyntheticEvent } from 'react-native';
+import type { Double } from 'react-native/Libraries/Types/CodegenTypes';
 
-type Coordinates = {
-  longitude: number;
-  latitude: number;
+export type Coordinates = {
+  longitude: Number;
+  latitude: Number;
 };
 
-type MapReadyPayload = {
+export type MapReadyPayload = {
   success: boolean;
 };
 
-type BuildingInformationType = {
+export type BuildingInformationType = {
   buildingId: string;
   buildingHeight: number;
   longitude: number;

@@ -46,6 +46,7 @@ if(NOT CMAKE_INSTALL_LOCAL_ONLY)
   # Include the install script for each subdirectory.
   include("/Users/fawadmahmood/Documents/GitHub/react-native-wrld3d/example/android/app/.cxx/Debug/2f3l5n3j/x86/fbjni_build/cmake_install.cmake")
   include("/Users/fawadmahmood/Documents/GitHub/react-native-wrld3d/example/android/app/.cxx/Debug/2f3l5n3j/x86/Wrld3dView_autolinked_build/cmake_install.cmake")
+  include("/Users/fawadmahmood/Documents/GitHub/react-native-wrld3d/example/android/app/.cxx/Debug/2f3l5n3j/x86/rngesturehandler_codegen_autolinked_build/cmake_install.cmake")
   include("/Users/fawadmahmood/Documents/GitHub/react-native-wrld3d/example/android/app/.cxx/Debug/2f3l5n3j/x86/safeareacontext_autolinked_build/cmake_install.cmake")
   include("/Users/fawadmahmood/Documents/GitHub/react-native-wrld3d/example/android/app/.cxx/Debug/2f3l5n3j/x86/rnscreens_autolinked_build/cmake_install.cmake")
 

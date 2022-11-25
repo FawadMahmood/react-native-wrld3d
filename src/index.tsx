@@ -121,7 +121,7 @@ export const Wrld3dView = forwardRef(
           ref.current,
           buildingId,
           color,
-          buildingCoordinates
+          buildingCoordinates as any
         );
       },
       []

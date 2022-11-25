@@ -152,7 +152,12 @@ public class Wrld3dViewManager extends com.wrld3d.Wrld3dViewManagerSpec<Wrld3dVi
 
   @Override
   public void setBuildingHighlight(Wrld3dView view, String buildingId, String color, ReadableMap buildingCoordinates) {
+    Log.w("setBuildingHighlight",view.getId()+"," + viewId);
+  }
 
+  @Override
+  public void removeBuildingHighlight(Wrld3dView view, String buildingId) {
+    Log.w("removeBuildingHighlight",view.getId()+"," + viewId);
   }
 
   @Override

@@ -38,3 +38,7 @@
 11	6929	1669304667	CMakeFiles/wrld3dexample_appmodules.dir/MainComponentsRegistry.cpp.o	5d9db7cdd3c28342
 8	12693	1669304673	CMakeFiles/wrld3dexample_appmodules.dir/Users/fawadmahmood/Documents/GitHub/react-native-wrld3d/example/android/app/build/generated/rncli/src/main/jni/rncli.cpp.o	31cd7934f8b9f255
 12693	13069	1669304673	/Users/fawadmahmood/Documents/GitHub/react-native-wrld3d/example/android/app/build/intermediates/cxx/Debug/2f3l5n3j/obj/arm64-v8a/libwrld3dexample_appmodules.so	9a193bf755617923
+0	15	0	/Users/fawadmahmood/Documents/GitHub/react-native-wrld3d/example/android/app/.cxx/Debug/2f3l5n3j/arm64-v8a/CMakeFiles/cmake.verify_globs	52fcf4cf41c8a48a
+15	107	1669376380	build.ninja	47bdc38c0868f4eb
+0	13	0	/Users/fawadmahmood/Documents/GitHub/react-native-wrld3d/example/android/app/.cxx/Debug/2f3l5n3j/arm64-v8a/CMakeFiles/cmake.verify_globs	52fcf4cf41c8a48a
+0	12	0	clean	40389cff627459cb
