@@ -48,11 +48,9 @@ public class Wrld3dLibraryModule extends com.wrld3d.Wrld3dLibrarySpec {
 
   @ReactMethod
   public void findBuildingOnCoordinates(final int tag,ReadableMap coordinates, Promise promise) {
-    Log.d("FIND_BUILDING",coordinates.toString() + "tag:" + tag +"" );
     double latitude = coordinates.getDouble("latitude");
     double longitude = coordinates.getDouble("longitude");
     UIManagerModule uiManager = reactContext.getNativeModule(UIManagerModule.class);
-
     uiManager.addUIBlock(new UIBlock()
     {
       @Override
@@ -102,6 +100,5 @@ public class Wrld3dLibraryModule extends com.wrld3d.Wrld3dLibrarySpec {
         }
       }
     });
-
   }
 }

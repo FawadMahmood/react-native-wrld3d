@@ -12,9 +12,11 @@ interface ModuleEvents {
     zoomLevel?: number;
     onClickBuilding?: (props: BuildingInformationType) => void;
 }
-export interface Map3dDirectEvents {
+interface Map3dDirectEvents {
     setBuildingHighlight: (buildingId: string, color: string, buildingCoordinates: Coordinates) => void;
     removeBuildingHighlight: (buildingId: string) => void;
+    findBuildingOnCoordinates: (coordinates: Coordinates) => Promise<BuildingInformationType>;
 }
+export declare type MapDirectEventsType = Map3dDirectEvents;
 export declare const Wrld3dView: React.ForwardRefExoticComponent<ModuleEvents & React.RefAttributes<Map3dDirectEvents>>;
 //# sourceMappingURL=index.d.ts.map

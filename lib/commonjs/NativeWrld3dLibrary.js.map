@@ -1,1 +1,1 @@
-{"version":3,"names":["TurboModuleRegistry","getEnforcing"],"sourceRoot":"../../src","sources":["NativeWrld3dLibrary.ts"],"mappings":";;;;;;AACA;AAAmD,eAMpCA,gCAAmB,CAACC,YAAY,CAAO,eAAe,CAAC;AAAA"}
+{"version":3,"names":["TurboModuleRegistry","getEnforcing"],"sourceRoot":"../../src","sources":["NativeWrld3dLibrary.ts"],"mappings":";;;;;;AACA;AAAmD,eAUpCA,gCAAmB,CAACC,YAAY,CAC7C,eAAe,CAChB;AAAA"}

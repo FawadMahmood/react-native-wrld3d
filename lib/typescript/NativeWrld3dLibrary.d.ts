@@ -1,7 +1,8 @@
 import type { TurboModule } from 'react-native';
-export interface Spec extends TurboModule {
-    multiply(a: number, b: number): Promise<number>;
+import type { BuildingInformationType, Coordinates } from './types';
+export interface Wrld3dModuleSpec extends TurboModule {
+    findBuildingOnCoordinates: (tag: number, coordinates: Coordinates) => Promise<BuildingInformationType>;
 }
-declare const _default: Spec;
+declare const _default: Wrld3dModuleSpec;
 export default _default;
 //# sourceMappingURL=NativeWrld3dLibrary.d.ts.map
