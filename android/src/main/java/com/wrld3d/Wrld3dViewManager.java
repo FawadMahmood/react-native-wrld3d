@@ -32,6 +32,8 @@ import java.util.Map;
 
 @ReactModule(name = Wrld3dViewManager.NAME)
 public class Wrld3dViewManager extends com.wrld3d.Wrld3dViewManagerSpec<Wrld3dView> {
+  Wrld3dView mapChild;
+
   //*****************
   //***ALL COMMANDS CONSTANTS
   public final int COMMAND_CREATE = 1;
@@ -143,6 +145,7 @@ public class Wrld3dViewManager extends com.wrld3d.Wrld3dViewManagerSpec<Wrld3dVi
   private void createFragment(Wrld3dView view, int reactNativeViewId){
     this.viewId = view.getId();
     view.createFragment(view.getId());
+    mapChild = view;
   }
 
   @Override

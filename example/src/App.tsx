@@ -1,14 +1,20 @@
 import * as React from 'react';
 import { useCallback, useMemo, useRef } from 'react';
-import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
-import { Map3dDirectEvents, Wrld3dView } from 'react-native-wrld3d';
+import {
+  Dimensions,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  View,
+} from 'react-native';
+import { MapDirectEventsType, Wrld3dView } from 'react-native-wrld3d';
 import BottomSheet from '@gorhom/bottom-sheet';
 import type { BuildingInformationType } from 'src/types';
 
 // props: { navigation: any }
 export default function App(props: { navigation: any }) {
   const { navigation } = props;
-  const mapRef = React.createRef<Map3dDirectEvents>();
+  const mapRef = React.createRef<MapDirectEventsType>();
   const [ready, setReady] = React.useState(false);
   const [moving, setMoving] = React.useState(false);
   const [building, setBuilding] = React.useState<BuildingInformationType>();
@@ -76,6 +82,21 @@ export default function App(props: { navigation: any }) {
     },
     []
   );
+
+  const findBuildingAtCoordinates = useCallback(async () => {
+    if (location) {
+      const builddingInfo = await mapRef.current
+        ?.findBuildingOnCoordinates({
+          latitude: location.latitude,
+          longitude: location.longitude,
+        })
+        .catch((err) => {
+          console.log('buildingInfo Got error', err);
+        });
+
+      console.log('buildingInfo Got', builddingInfo);
+    }
+  }, [location]);
 
   return (
     <View style={styles.container}>
@@ -145,8 +166,15 @@ export default function App(props: { navigation: any }) {
             ]}
           >
             <Text style={[styles.lbl, styles.whiteLbl]}>
-              {highlight ? 'Remove Highlight' : 'Highlight Picked Building'}
+              {highlight ? 'Remove Highlight' : 'Highlight Building'}
             </Text>
+          </TouchableOpacity>
+
+          <TouchableOpacity
+            onPress={findBuildingAtCoordinates}
+            style={[styles.bottomBtn, styles.blackBG, styles.innerBtn]}
+          >
+            <Text style={[styles.lbl, styles.whiteLbl]}>FIND BUILDING</Text>
           </TouchableOpacity>
         </View>
       </BottomSheet>
@@ -204,7 +232,7 @@ const styles = StyleSheet.create({
     padding: 0,
   },
   innerBtn: {
-    flex: 1,
+    width: Dimensions.get('screen').width / 2.15,
     margin: 5,
     borderRadius: 10,
   },

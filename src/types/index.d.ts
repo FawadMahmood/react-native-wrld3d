@@ -23,3 +23,7 @@ export type onMapReadyType = NativeSyntheticEvent<MapReadyPayload>;
 
 export type BuildingInformationTypeEvent =
   NativeSyntheticEvent<BuildingInformationType>;
+
+interface Wrld3dModuleTypes {
+  findBuildingOnCoordinates: () => Promise<BuildingInformationType>;
+}

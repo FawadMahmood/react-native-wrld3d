@@ -12,6 +12,10 @@ import type {
   onMapCameraChangedType,
   onMapReadyType,
 } from './types';
+import Wrld3dLibrary from './module/Wrld3dLibrary';
+import type { Wrld3dModuleSpec } from './NativeWrld3dLibrary';
+
+const Wrld3dModule = Wrld3dLibrary as Wrld3dModuleSpec;
 
 interface ModuleEvents {
   onMapReady?: (props: MapReadyPayload) => void;
@@ -24,14 +28,19 @@ interface ModuleEvents {
   onClickBuilding?: (props: BuildingInformationType) => void;
 }
 
-export interface Map3dDirectEvents {
+interface Map3dDirectEvents {
   setBuildingHighlight: (
     buildingId: string,
     color: string,
     buildingCoordinates: Coordinates
   ) => void;
   removeBuildingHighlight: (buildingId: string) => void;
+  findBuildingOnCoordinates: (
+    coordinates: Coordinates
+  ) => Promise<BuildingInformationType>;
 }
+
+export type MapDirectEventsType = Map3dDirectEvents;
 
 // NativeProps &
 export const Wrld3dView = forwardRef(
@@ -46,17 +55,16 @@ export const Wrld3dView = forwardRef(
         color: string,
         buildingCoordinates: Coordinates
       ) => {
-        console.log(
-          'setting building hi',
-          buildingId,
-          color,
-          buildingCoordinates
-        );
-
         createBuildingHighlight(buildingId, color, buildingCoordinates);
       },
       removeBuildingHighlight: (buildingId: string) => {
         removeBuildingHighlightComand(buildingId);
+      },
+      findBuildingOnCoordinates: (coordinates: Coordinates) => {
+        return Wrld3dModule.findBuildingOnCoordinates(
+          _getHandle(),
+          coordinates
+        );
       },
     };
 

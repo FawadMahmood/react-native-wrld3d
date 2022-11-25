@@ -193,7 +193,6 @@ public class WrldMapFragment extends Fragment {
     double latitude = region.getDouble("latitude");
     double longitude = region.getDouble("longitude");
 
-    Log.d("COLOR APPYING", color);
     final BuildingHighlight highlight = eegeoMap.addBuildingHighlight(new BuildingHighlightOptions()
             .highlightBuildingAtLocation(new LatLng(latitude, longitude))
             .color(ColorUtils.setAlphaComponent(Color.parseColor(color), 128))
@@ -233,19 +232,6 @@ public class WrldMapFragment extends Fragment {
                       );
                     break;
                   }
-//                  if (pickResult.mapFeatureType == MapFeatureType.Building) {
-////                    Log.d("PICKED BUILDING AT", pickResult.intersectionPoint.longitude +","+pickResult.intersectionPoint.latitude + ",buildingId" + pickResult.collisionMaterialId);
-////
-//
-//
-////                    m_timerHandler.postDelayed(new Runnable() {
-////                      @Override
-////                      public void run() {
-//                        eegeoMap.removeBuildingHighlight(highlight);
-
-////                      }
-////                    }, 300);
-//                  }
                 }
               });
 
