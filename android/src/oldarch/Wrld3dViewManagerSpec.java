@@ -11,5 +11,5 @@ import com.facebook.react.uimanager.ViewGroupManager;
 
 public abstract class Wrld3dViewManagerSpec<T extends ViewGroup> extends ViewGroupManager<T> {
   public abstract void create(T view,String viewId);
-  public abstract void setBuildingHighlight(T view, String buildingId, ReadableMap buildingCoordinates);
+  public abstract void setBuildingHighlight(T view, String buildingId, String color, ReadableMap buildingCoordinates);
 }

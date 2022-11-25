@@ -31,6 +31,7 @@ import com.eegeo.mapapi.buildings.BuildingInformation;
 import com.eegeo.mapapi.buildings.OnBuildingInformationReceivedListener;
 import com.eegeo.mapapi.camera.CameraPosition;
 import com.eegeo.mapapi.camera.CameraUpdateFactory;
+import com.eegeo.mapapi.geometry.LatLng;
 import com.eegeo.mapapi.geometry.LatLngAlt;
 import com.eegeo.mapapi.geometry.MapFeatureType;
 import com.eegeo.mapapi.map.OnMapReadyCallback;
@@ -46,6 +47,8 @@ import com.wrld3d.events.MapCameraMoveBeginEvent;
 import com.wrld3d.events.MapCameraMoveEvent;
 import com.wrld3d.events.MapOnClickBuilding;
 import com.wrld3d.events.MapReadyEvent;
+
+import java.util.Hashtable;
 
 public class WrldMapFragment extends Fragment {
   MapView m_mapView;
@@ -184,6 +187,28 @@ public class WrldMapFragment extends Fragment {
     }
   }
 
+  Hashtable<String, BuildingHighlight> highlights = new Hashtable<String, BuildingHighlight>();
+
+  public void setBuildingHighlight(String buildingId,String color, ReadableMap region) {
+    double latitude = region.getDouble("latitude");
+    double longitude = region.getDouble("longitude");
+
+    Log.d("COLOR APPYING", color);
+    final BuildingHighlight highlight = eegeoMap.addBuildingHighlight(new BuildingHighlightOptions()
+            .highlightBuildingAtLocation(new LatLng(latitude, longitude))
+            .color(ColorUtils.setAlphaComponent(Color.parseColor(color), 128))
+    );
+
+    highlights.put(buildingId,highlight);
+  }
+
+  public void removeBuildingHighlight(String buildingId) {
+      if(highlights.containsKey(buildingId)){
+        final BuildingHighlight highlight = highlights.get(buildingId);
+        eegeoMap.removeBuildingHighlight(highlight);
+      }
+  }
+
 
   private class TouchTapListener extends GestureDetector.SimpleOnGestureListener {
     private Handler m_timerHandler = new Handler();
@@ -216,11 +241,8 @@ public class WrldMapFragment extends Fragment {
 ////                    m_timerHandler.postDelayed(new Runnable() {
 ////                      @Override
 ////                      public void run() {
-//////                        eegeoMap.removeBuildingHighlight(highlight);
-////                        final BuildingHighlight highlight = eegeoMap.addBuildingHighlight(new BuildingHighlightOptions()
-////                                .highlightBuildingAtScreenPoint(screenPoint)
-////                                .color(ColorUtils.setAlphaComponent(Color.YELLOW, 128))
-////                        );
+//                        eegeoMap.removeBuildingHighlight(highlight);
+
 ////                      }
 ////                    }, 300);
 //                  }

@@ -12,6 +12,7 @@ export default function App(props: { navigation: any }) {
   const [ready, setReady] = React.useState(false);
   const [moving, setMoving] = React.useState(false);
   const [building, setBuilding] = React.useState<BuildingInformationType>();
+  const [highlight, setHighlight] = React.useState(false);
 
   const [cache] = React.useState(false);
   const currentIndex = useRef<number>(0);
@@ -47,13 +48,23 @@ export default function App(props: { navigation: any }) {
   }, []);
 
   const highlightSelectedBuilding = useCallback(() => {
-    if (building && building.latitude && building.longitude) {
-      mapRef.current?.setBuildingHighlight(building?.buildingId as string, {
-        latitude: building?.latitude,
-        longitude: building?.longitude,
-      });
+    if (building && building.latitude && building.longitude && !highlight) {
+      mapRef.current?.setBuildingHighlight(
+        building?.buildingId as string,
+        '#FFFF00',
+        {
+          latitude: building?.latitude,
+          longitude: building?.longitude,
+        }
+      );
+      setHighlight(true);
     }
-  }, [mapRef, building]);
+
+    if (highlight) {
+      mapRef.current?.removeBuildingHighlight(building?.buildingId as string);
+      setHighlight(false);
+    }
+  }, [mapRef, building, highlight]);
 
   const onCameraMoveEnd = useCallback(
     (_: { longitude: number; latitude: number }) => {
@@ -134,7 +145,7 @@ export default function App(props: { navigation: any }) {
             ]}
           >
             <Text style={[styles.lbl, styles.whiteLbl]}>
-              Highlight Picked Building
+              {highlight ? 'Remove Highlight' : 'Highlight Picked Building'}
             </Text>
           </TouchableOpacity>
         </View>

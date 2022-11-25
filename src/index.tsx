@@ -27,8 +27,10 @@ interface ModuleEvents {
 export interface Map3dDirectEvents {
   setBuildingHighlight: (
     buildingId: string,
+    color: string,
     buildingCoordinates: Coordinates
   ) => void;
+  removeBuildingHighlight: (buildingId: string) => void;
 }
 
 // NativeProps &
@@ -41,11 +43,20 @@ export const Wrld3dView = forwardRef(
     const publicRef = {
       setBuildingHighlight: (
         buildingId: string,
+        color: string,
         buildingCoordinates: Coordinates
       ) => {
-        console.log('setting building hi', buildingId, buildingCoordinates);
+        console.log(
+          'setting building hi',
+          buildingId,
+          color,
+          buildingCoordinates
+        );
 
-        createBuildingHighlight(buildingId, buildingCoordinates);
+        createBuildingHighlight(buildingId, color, buildingCoordinates);
+      },
+      removeBuildingHighlight: (buildingId: string) => {
+        removeBuildingHighlightComand(buildingId);
       },
     };
 
@@ -99,7 +110,7 @@ export const Wrld3dView = forwardRef(
     };
 
     const createBuildingHighlight = useCallback(
-      (buildingId: string, buildingCoordinates: Coordinates) => {
+      (buildingId: string, color: string, buildingCoordinates: Coordinates) => {
         console.log(
           'setting building hi command',
           buildingId,
@@ -109,11 +120,16 @@ export const Wrld3dView = forwardRef(
         Commands.setBuildingHighlight(
           ref.current,
           buildingId,
+          color,
           buildingCoordinates
         );
       },
       []
     );
+
+    const removeBuildingHighlightComand = useCallback((buildingId: string) => {
+      Commands.removeBuildingHighlight(ref.current, buildingId);
+    }, []);
 
     const createMapViewInstance = useCallback(() => {
       Commands.create(ref.current, _getHandle() + '');

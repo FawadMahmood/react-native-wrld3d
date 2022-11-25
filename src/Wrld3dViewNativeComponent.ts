@@ -44,10 +44,19 @@ interface NativeCommands {
   setBuildingHighlight: (
     viewRef: React.ElementRef<Wrld3dViewNativeComponentType>,
     buildingId: string,
+    color: string,
     buildingCoordinates: Coordinates
+  ) => void;
+  removeBuildingHighlight: (
+    viewRef: React.ElementRef<Wrld3dViewNativeComponentType>,
+    buildingId: string
   ) => void;
 }
 
 export const Commands: NativeCommands = codegenNativeCommands<NativeCommands>({
-  supportedCommands: ['create', 'setBuildingHighlight'],
+  supportedCommands: [
+    'create',
+    'setBuildingHighlight',
+    'removeBuildingHighlight',
+  ],
 });

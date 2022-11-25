@@ -89,4 +89,12 @@ public class Wrld3dView extends FrameLayout {
   public void setZoomLevel(int zoomLevel) {
     wrldMapFragment.setZoomLevel(zoomLevel);
   }
+
+  public void setBuildingHighlight(String buildingId,String color, ReadableMap region) {
+    wrldMapFragment.setBuildingHighlight(buildingId,color,region);
+  }
+
+  public void removeBuildingHighlight(String buildingId) {
+    wrldMapFragment.removeBuildingHighlight(buildingId);
+  }
 }

@@ -38,6 +38,7 @@ public class Wrld3dViewManager extends com.wrld3d.Wrld3dViewManagerSpec<Wrld3dVi
   public final int ANIMATE_TO_REGION = 2;
   public final int MOVE_TO_BUILDING=3;
   public final int HIGHLIGHT_BUILDING=4;
+  public final int REMOVE_BUILDING_HIGHLIGHT=5;
   //*****************
   //***ALL COMMANDS CONSTANTS
 
@@ -80,7 +81,8 @@ public class Wrld3dViewManager extends com.wrld3d.Wrld3dViewManagerSpec<Wrld3dVi
             "create", COMMAND_CREATE,
             "animateToRegion",ANIMATE_TO_REGION,
             "moveToBuilding",MOVE_TO_BUILDING,
-            "setBuildingHighlight",HIGHLIGHT_BUILDING
+            "setBuildingHighlight",HIGHLIGHT_BUILDING,
+            "removeBuildingHighlight",REMOVE_BUILDING_HIGHLIGHT
     );
   }
 
@@ -105,6 +107,19 @@ public class Wrld3dViewManager extends com.wrld3d.Wrld3dViewManagerSpec<Wrld3dVi
 
   @Override
   public void receiveCommand(@NonNull Wrld3dView root, String commandId, @Nullable ReadableArray args) {
+    int duration;
+    double lat;
+    double lng;
+    double lngDelta;
+    double latDelta;
+    ReadableMap region;
+    ReadableMap camera;
+    String buildingId;
+    String color;
+
+
+
+
     super.receiveCommand(root, commandId, args);
     Log.d("create command", args.toString() + "," +  commandId);
     switch (commandId) {
@@ -112,7 +127,15 @@ public class Wrld3dViewManager extends com.wrld3d.Wrld3dViewManagerSpec<Wrld3dVi
         createFragment(root, root.getId());
       break;
       case "setBuildingHighlight":
-        
+        buildingId = args.getString(0);
+        color = args.getString(1);
+        Log.d("color",color);
+        region = args.getMap(2);
+        root.setBuildingHighlight(buildingId,color,region);
+      break;
+      case "removeBuildingHighlight":
+        buildingId = args.getString(0);
+        root.removeBuildingHighlight(buildingId);
       break;
     }
   }
@@ -128,7 +151,7 @@ public class Wrld3dViewManager extends com.wrld3d.Wrld3dViewManagerSpec<Wrld3dVi
   }
 
   @Override
-  public void setBuildingHighlight(Wrld3dView view, String buildingId, ReadableMap buildingCoordinates) {
+  public void setBuildingHighlight(Wrld3dView view, String buildingId, String color, ReadableMap buildingCoordinates) {
 
   }
 
