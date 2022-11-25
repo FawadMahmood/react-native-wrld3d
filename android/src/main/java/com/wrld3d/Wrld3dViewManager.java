@@ -112,7 +112,7 @@ public class Wrld3dViewManager extends com.wrld3d.Wrld3dViewManagerSpec<Wrld3dVi
         createFragment(root, root.getId());
       break;
       case "setBuildingHighlight":
-
+        
       break;
     }
   }
