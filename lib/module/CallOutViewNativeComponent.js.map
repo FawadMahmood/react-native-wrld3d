@@ -1,0 +1,1 @@
+{"version":3,"names":["codegenNativeComponent","codegenNativeCommands","Commands","supportedCommands"],"sourceRoot":"../../src","sources":["CallOutViewNativeComponent.ts"],"mappings":"AAAA,OAAOA,sBAAsB,MAAM,yDAAyD;AAE5F,OAAOC,qBAAqB,MAAM,wDAAwD;AAK1F,eAAeD,sBAAsB,CACnC,mBAAmB,CACpB;AAMD,OAAO,MAAME,QAAwB,GAAGD,qBAAqB,CAAiB;EAC5EE,iBAAiB,EAAE;AACrB,CAAC,CAAC"}

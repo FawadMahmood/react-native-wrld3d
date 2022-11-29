@@ -1,4 +1,5 @@
 export * from './Wrld3dViewNativeComponent';
+import { CallOutView } from './CalloutView';
 import * as React from 'react';
 import { ViewStyle } from 'react-native';
 import type { BuildingInformationType, Coordinates, MapReadyPayload } from './types';
@@ -19,4 +20,5 @@ interface Map3dDirectEvents {
 }
 export declare type MapDirectEventsType = Map3dDirectEvents;
 export declare const Wrld3dView: React.ForwardRefExoticComponent<ModuleEvents & React.RefAttributes<Map3dDirectEvents>>;
+export { CallOutView };
 //# sourceMappingURL=index.d.ts.map

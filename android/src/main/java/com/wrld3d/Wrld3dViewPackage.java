@@ -16,6 +16,7 @@ public class Wrld3dViewPackage implements ReactPackage {
   public List<ViewManager> createViewManagers(ReactApplicationContext reactContext) {
     List<ViewManager> viewManagers = new ArrayList<>();
     viewManagers.add(new Wrld3dViewManager());
+    viewManagers.add(new CallOutViewManager());
     return viewManagers;
   }
 

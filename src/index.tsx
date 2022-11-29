@@ -1,5 +1,6 @@
 import MapView, { Commands } from './Wrld3dViewNativeComponent';
 export * from './Wrld3dViewNativeComponent';
+import { CallOutView } from './CalloutView';
 import * as React from 'react';
 
 import { findNodeHandle, Platform, ViewStyle } from 'react-native';
@@ -155,3 +156,5 @@ export const Wrld3dView = forwardRef(
     );
   }
 );
+
+export { CallOutView };

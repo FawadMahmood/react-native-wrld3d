@@ -57,6 +57,7 @@ public class WrldMapFragment extends Fragment {
   private ReadableMap initailRegion;
   private int zoomLevel=10;
   private GestureDetectorCompat m_detector;
+  public boolean isReady=false;
 
 
   public WrldMapFragment(Wrld3dView parent){
@@ -99,7 +100,7 @@ public class WrldMapFragment extends Fragment {
         emitMapReady();
         map.addOnCameraMoveListener(new OnScreenPointChangedListener());
         map.addOnMapClickListener(new OnMapClickListener());
-
+        isReady = true;
         if(initailRegion != null){
           double latitude = initailRegion.getDouble("latitude");
           double longitude = initailRegion.getDouble("longitude");

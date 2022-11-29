@@ -20,7 +20,7 @@ import com.facebook.react.uimanager.events.Event;
 import com.facebook.react.uimanager.events.RCTEventEmitter;
 
 public class Wrld3dView extends FrameLayout {
-  View parent;
+  ViewGroup parent;
   ThemedReactContext context;
   WrldMapFragment wrldMapFragment;
   Wrld3dViewManager manager;
@@ -44,7 +44,7 @@ public class Wrld3dView extends FrameLayout {
 
   @UiThread
   public void createFragment(int reactNativeViewId){
-    parent = (View) this.findViewById(reactNativeViewId);
+    parent = (ViewGroup) this.findViewById(reactNativeViewId);
     activity = (FragmentActivity) this.context.getCurrentActivity();
     activity.getSupportFragmentManager()
       .beginTransaction()
@@ -63,11 +63,38 @@ public class Wrld3dView extends FrameLayout {
   }
 
 
+  @Override
+  public void removeView(View child) {
+    if(wrldMapFragment.m_mapView != null && wrldMapFragment.isReady){
+      wrldMapFragment.m_mapView.removeView(child);
+    }else{
+      Runnable runnable;
+      Handler handler;
+
+      runnable = new Runnable() {
+        public void run() {
+          removeView(child);
+        }
+      };
+      handler = new android.os.Handler();
+      handler.postDelayed(runnable, 1000);
+    }
+  }
+
+//  @Override
+//  public void removeViewAt(int index) {
+//
+//  }
 
   @Override
   public void addView(View child) {
-    if(wrldMapFragment.m_mapView != null){
-      wrldMapFragment.m_mapView.addView(child);
+    if(wrldMapFragment.m_mapView != null && wrldMapFragment.isReady){
+      if(child instanceof CallOutView){
+        ((CallOutView) child).setReferences(this.wrldMapFragment.eegeoMap);
+      }
+//      parent.addView(child);
+//      wrldMapFragment.m_mapView.addView(child);
+      super.addView(child);
     }else {
       Runnable runnable;
       Handler handler;
@@ -96,5 +123,24 @@ public class Wrld3dView extends FrameLayout {
 
   public void removeBuildingHighlight(String buildingId) {
     wrldMapFragment.removeBuildingHighlight(buildingId);
+  }
+
+  public void removeViewAtIndex(int index) {
+    if(wrldMapFragment.m_mapView != null && wrldMapFragment.isReady){
+      Log.d("CHILD CAME TO DELETE", wrldMapFragment.m_mapView.getChildCount()+","+index + "LALALA");
+      super.removeViewAt(index+1);
+//      wrldMapFragment.m_mapView.removeViewAt((wrldMapFragment.m_mapView.getChildCount()-index));
+    }else{
+      Runnable runnable;
+      Handler handler;
+
+      runnable = new Runnable() {
+        public void run() {
+          removeViewAt(index);
+        }
+      };
+      handler = new android.os.Handler();
+      handler.postDelayed(runnable, 1000);
+    }
   }
 }

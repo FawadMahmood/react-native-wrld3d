@@ -7,18 +7,23 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native';
-import { MapDirectEventsType, Wrld3dView } from 'react-native-wrld3d';
+import {
+  CallOutView,
+  MapDirectEventsType,
+  Wrld3dView,
+} from 'react-native-wrld3d';
 import BottomSheet from '@gorhom/bottom-sheet';
 import type { BuildingInformationType } from 'src/types';
 
 // props: { navigation: any }
 export default function App(props: { navigation: any }) {
   const { navigation } = props;
-  const mapRef = React.createRef<MapDirectEventsType>();
+  const mapRef = React.useRef<MapDirectEventsType>();
   const [ready, setReady] = React.useState(false);
   const [moving, setMoving] = React.useState(false);
   const [building, setBuilding] = React.useState<BuildingInformationType>();
   const [highlight, setHighlight] = React.useState(false);
+  const [callouts, setCallouts] = React.useState<any>([]);
 
   const [cache] = React.useState(false);
   const currentIndex = useRef<number>(0);
@@ -98,6 +103,34 @@ export default function App(props: { navigation: any }) {
     }
   }, [location]);
 
+  const addCallouts = useCallback(() => {
+    setCallouts([
+      {
+        region: {
+          latitude: 24.88261334778966,
+          longitude: 67.05802695237224,
+        },
+      },
+      {
+        region: {
+          latitude: 25.882613347,
+          longitude: 68.05802695,
+        },
+      },
+    ]);
+  }, []);
+
+  const removeCallouts = useCallback(() => {
+    setCallouts([
+      {
+        region: {
+          latitude: 25.882613347,
+          longitude: 68.05802695,
+        },
+      },
+    ]);
+  }, []);
+
   return (
     <View style={styles.container}>
       <View style={styles.header}>
@@ -119,6 +152,7 @@ export default function App(props: { navigation: any }) {
       </View>
       <View style={styles.mapContainer}>
         <Wrld3dView
+          // @ts-ignore
           ref={mapRef}
           onCameraMoveEnd={onCameraMoveEnd as any}
           onMapReady={onMapReady.bind(null)}
@@ -130,7 +164,20 @@ export default function App(props: { navigation: any }) {
           }}
           zoomLevel={18}
           onClickBuilding={onClickBuilding}
-        />
+        >
+          {callouts &&
+            callouts.map((_: any, i: number) => {
+              return (
+                <CallOutView
+                  key={i + 'marker'}
+                  region={_.region}
+                  style={styles.callout}
+                >
+                  <View></View>
+                </CallOutView>
+              );
+            })}
+        </Wrld3dView>
       </View>
 
       <BottomSheet
@@ -175,6 +222,20 @@ export default function App(props: { navigation: any }) {
             style={[styles.bottomBtn, styles.blackBG, styles.innerBtn]}
           >
             <Text style={[styles.lbl, styles.whiteLbl]}>FIND BUILDING</Text>
+          </TouchableOpacity>
+
+          <TouchableOpacity
+            onPress={addCallouts}
+            style={[styles.bottomBtn, styles.blackBG, styles.innerBtn]}
+          >
+            <Text style={[styles.lbl, styles.whiteLbl]}>ADD CALLOUTS</Text>
+          </TouchableOpacity>
+
+          <TouchableOpacity
+            onPress={removeCallouts}
+            style={[styles.bottomBtn, styles.blackBG, styles.innerBtn]}
+          >
+            <Text style={[styles.lbl, styles.whiteLbl]}>REMOVE CALLOUTS</Text>
           </TouchableOpacity>
         </View>
       </BottomSheet>
@@ -239,4 +300,5 @@ const styles = StyleSheet.create({
   disabled: {
     opacity: 0.6,
   },
+  callout: { width: 100, height: 100, backgroundColor: 'white' },
 });

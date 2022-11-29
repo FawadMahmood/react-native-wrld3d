@@ -174,4 +174,26 @@ public class Wrld3dViewManager extends com.wrld3d.Wrld3dViewManagerSpec<Wrld3dVi
   public void addView(Wrld3dView view, View child, int index) {
     view.addView(child);
   }
+
+
+  @Override
+  public void removeViewAt(Wrld3dView parent, int index) {
+//      Log.d("REMOVE THE VIEW CALLED", index+" AT INDEX");
+//      View child = parent.wrldMapFragment.m_mapView.getChildAt(parent.wrldMapFragment.m_mapView.getChildCount()-index);
+//      if(child != null){
+        parent.removeViewAtIndex(index);
+//      }
+  }
+
+
+//  @Override
+//  public void removeView(View child) {
+//    mapChild.removeView(child);
+//  }
+
+//  @Override
+//  public void removeView(Wrld3dView view, View child, int index) {
+//    view.removeView(child);
+//  }
+
 }
