@@ -92,6 +92,11 @@ public class Wrld3dView extends FrameLayout {
       if(child instanceof CallOutView){
         ((CallOutView) child).setReferences(this.wrldMapFragment.eegeoMap);
       }
+
+      if(child.getParent() !=null){
+        ((ViewGroup)child.getParent()).removeView(child);
+      }
+
       super.addView(child);
     }else {
       Runnable runnable;
