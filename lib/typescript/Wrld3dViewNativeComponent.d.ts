@@ -9,6 +9,7 @@ export interface NativeProps extends ViewProps {
     onCameraMoveEnd?: BubblingEventHandler<Readonly<{
         longitude: Double;
         latitude: Double;
+        zoomLevel: Double;
     }>>;
     onCameraMoveBegin?: BubblingEventHandler<Readonly<{}>>;
     onClickBuilding?: BubblingEventHandler<Readonly<{

@@ -6,6 +6,12 @@ export type Coordinates = {
   latitude: Number;
 };
 
+export type CoordinatesWithZoomLevelPayload = {
+  longitude: Number;
+  latitude: Number;
+  zoomLevel: Double;
+};
+
 export type MapReadyPayload = {
   success: boolean;
 };

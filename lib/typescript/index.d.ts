@@ -2,10 +2,10 @@ export * from './Wrld3dViewNativeComponent';
 import { CallOutView } from './CalloutView';
 import * as React from 'react';
 import { ViewStyle } from 'react-native';
-import type { BuildingInformationType, Coordinates, MapReadyPayload } from './types';
+import type { BuildingInformationType, Coordinates, CoordinatesWithZoomLevelPayload, MapReadyPayload } from './types';
 interface ModuleEvents {
     onMapReady?: (props: MapReadyPayload) => void;
-    onCameraMoveEnd?: (props: Coordinates) => void;
+    onCameraMoveEnd?: (props: CoordinatesWithZoomLevelPayload) => void;
     onCameraMoveBegin?: () => void;
     style: ViewStyle;
     children?: Element;

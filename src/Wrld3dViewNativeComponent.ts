@@ -8,7 +8,6 @@ import type {
   Double,
 } from 'react-native/Libraries/Types/CodegenTypes';
 import type { Coordinates } from './types';
-// import type { Coordinates } from './types';
 
 export interface NativeProps extends ViewProps {
   onMapReady?: BubblingEventHandler<
@@ -20,8 +19,9 @@ export interface NativeProps extends ViewProps {
     Readonly<{
       longitude: Double;
       latitude: Double;
+      zoomLevel: Double;
     }>
-  >; // (_: onMapCameraChangedType) => void;
+  >;
   onCameraMoveBegin?: BubblingEventHandler<Readonly<{}>>;
   onClickBuilding?: BubblingEventHandler<
     Readonly<{

@@ -309,6 +309,8 @@ public class WrldMapFragment extends Fragment {
           WritableMap data = Arguments.createMap();
           data.putDouble("longitude",longitude);
           data.putDouble("latitude",latitude);
+          data.putDouble("zoomLevel",cameraPosition.zoom);
+
           MapCameraMoveEvent event = new MapCameraMoveEvent(parent.manager.viewId,data);
           parent.pushEvent(event);
           begin = false;

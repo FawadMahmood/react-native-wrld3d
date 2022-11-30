@@ -9,8 +9,8 @@ import type {
   BuildingInformationType,
   BuildingInformationTypeEvent,
   Coordinates,
+  CoordinatesWithZoomLevelPayload,
   MapReadyPayload,
-  onMapCameraChangedType,
   onMapReadyType,
 } from './types';
 import Wrld3dLibrary from './module/Wrld3dLibrary';
@@ -20,7 +20,7 @@ const Wrld3dModule = Wrld3dLibrary as Wrld3dModuleSpec;
 
 interface ModuleEvents {
   onMapReady?: (props: MapReadyPayload) => void;
-  onCameraMoveEnd?: (props: Coordinates) => void;
+  onCameraMoveEnd?: (props: CoordinatesWithZoomLevelPayload) => void;
   onCameraMoveBegin?: () => void;
   style: ViewStyle;
   children?: Element;
@@ -90,7 +90,7 @@ export const Wrld3dView = forwardRef(
     });
 
     const onCameraMoveEnd = useCallback(
-      (_: onMapCameraChangedType) => {
+      (_: { nativeEvent: CoordinatesWithZoomLevelPayload }) => {
         if (onMove) onMove(_.nativeEvent);
       },
       [onMove]
