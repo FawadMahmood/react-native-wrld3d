@@ -93,11 +93,15 @@ public class Wrld3dView extends FrameLayout {
         ((CallOutView) child).setReferences(this.wrldMapFragment.eegeoMap);
       }
 
-      if(child.getParent() !=null){
+      if(child.getParent() != null){
         ((ViewGroup)child.getParent()).removeView(child);
       }
 
-      super.addView(child);
+      try{
+        super.addView(child);
+      }catch (Exception e){
+        Log.d("EXCEPTION_ADDING",e.toString());
+      }
     }else {
       Runnable runnable;
       Handler handler;
@@ -132,7 +136,11 @@ public class Wrld3dView extends FrameLayout {
     if(wrldMapFragment.m_mapView != null && wrldMapFragment.isReady){
         View _isexist = super.getChildAt(index+1);
         if(_isexist != null){
-          super.removeViewAt(index+1);
+          try{
+            super.removeViewAt(index+1);
+          }catch (Exception e) {
+            Log.d("EXCEPTION_REMOVING",e.toString());
+          }
         }
     }else{
       Runnable runnable;
