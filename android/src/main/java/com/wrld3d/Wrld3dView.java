@@ -92,8 +92,6 @@ public class Wrld3dView extends FrameLayout {
       if(child instanceof CallOutView){
         ((CallOutView) child).setReferences(this.wrldMapFragment.eegeoMap);
       }
-//      parent.addView(child);
-//      wrldMapFragment.m_mapView.addView(child);
       super.addView(child);
     }else {
       Runnable runnable;
@@ -131,9 +129,6 @@ public class Wrld3dView extends FrameLayout {
         if(_isexist != null){
           super.removeViewAt(index+1);
         }
-//      Log.d("CHILD CAME TO DELETE", wrldMapFragment.m_mapView.getChildCount()+","+index + "LALALA");
-//      super.removeViewAt(index+1);
-//      wrldMapFragment.m_mapView.removeViewAt((wrldMapFragment.m_mapView.getChildCount()-index));
     }else{
       Runnable runnable;
       Handler handler;

@@ -58,6 +58,8 @@ public class WrldMapFragment extends Fragment {
   private int zoomLevel=10;
   private GestureDetectorCompat m_detector;
   public boolean isReady=false;
+  private OnScreenPointChangedListener _screenPointListener;
+  private OnMapClickListener _mapClickListener;
 
 
   public WrldMapFragment(Wrld3dView parent){
@@ -98,8 +100,10 @@ public class WrldMapFragment extends Fragment {
       public void onMapReady(EegeoMap map) {
         eegeoMap = map;
         emitMapReady();
-        map.addOnCameraMoveListener(new OnScreenPointChangedListener());
-        map.addOnMapClickListener(new OnMapClickListener());
+        _screenPointListener = new OnScreenPointChangedListener();
+        _mapClickListener = new OnMapClickListener();
+        map.addOnCameraMoveListener(_screenPointListener);
+        map.addOnMapClickListener(_mapClickListener);
         isReady = true;
         if(initailRegion != null){
           double latitude = initailRegion.getDouble("latitude");
@@ -146,9 +150,8 @@ public class WrldMapFragment extends Fragment {
   @Override
   public void onDestroy() {
     super.onDestroy();
-//    m_mapView.onDestroy();
-    // do any logic that should happen in an `onDestroy` method
-    // e.g.: customView.onDestroy();
+    if(_screenPointListener != null) eegeoMap.removeOnCameraMoveListener(_screenPointListener);
+    if(_mapClickListener != null) eegeoMap.removeOnMapClickListener(_mapClickListener);
   }
 
   private void moveToRegion(double longitude,double latitude,boolean animate,int duration){
