@@ -127,8 +127,12 @@ public class Wrld3dView extends FrameLayout {
 
   public void removeViewAtIndex(int index) {
     if(wrldMapFragment.m_mapView != null && wrldMapFragment.isReady){
-      Log.d("CHILD CAME TO DELETE", wrldMapFragment.m_mapView.getChildCount()+","+index + "LALALA");
-      super.removeViewAt(index+1);
+        View _isexist = super.getChildAt(index+1);
+        if(_isexist != null){
+          super.removeViewAt(index+1);
+        }
+//      Log.d("CHILD CAME TO DELETE", wrldMapFragment.m_mapView.getChildCount()+","+index + "LALALA");
+//      super.removeViewAt(index+1);
 //      wrldMapFragment.m_mapView.removeViewAt((wrldMapFragment.m_mapView.getChildCount()-index));
     }else{
       Runnable runnable;
