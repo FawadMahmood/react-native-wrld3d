@@ -110,12 +110,14 @@ export default function App(props: { navigation: any }) {
           latitude: 24.88261334778966,
           longitude: 67.05802695237224,
         },
+        bg: 'red',
       },
       {
         region: {
           latitude: 25.882613347,
           longitude: 68.05802695,
         },
+        bg: 'green',
       },
     ]);
   }, []);
@@ -127,6 +129,47 @@ export default function App(props: { navigation: any }) {
           latitude: 25.882613347,
           longitude: 68.05802695,
         },
+        bg: 'red',
+      },
+    ]);
+  }, []);
+
+  const addMoreCallouts = useCallback(() => {
+    setCallouts([
+      {
+        region: {
+          latitude: 25.882613347,
+          longitude: 68.05802695,
+        },
+        bg: 'red',
+      },
+      {
+        region: {
+          latitude: 24.88261334778966,
+          longitude: 67.05802695237224,
+        },
+        bg: 'blue',
+      },
+      {
+        region: {
+          latitude: 25.88261334778966,
+          longitude: 68.05802695237224,
+        },
+        bg: 'green',
+      },
+      {
+        region: {
+          latitude: 28.88261334778966,
+          longitude: 62.05802695237224,
+        },
+        bg: 'purple',
+      },
+      {
+        region: {
+          latitude: 28.88261334778966,
+          longitude: 70.05802695237224,
+        },
+        bg: 'orange',
       },
     ]);
   }, []);
@@ -171,7 +214,10 @@ export default function App(props: { navigation: any }) {
                 <CallOutView
                   key={i + 'marker'}
                   region={_.region}
-                  style={styles.callout}
+                  style={StyleSheet.flatten([
+                    styles.callout,
+                    { backgroundColor: _.bg },
+                  ])}
                 >
                   <View></View>
                 </CallOutView>
@@ -236,6 +282,12 @@ export default function App(props: { navigation: any }) {
             style={[styles.bottomBtn, styles.blackBG, styles.innerBtn]}
           >
             <Text style={[styles.lbl, styles.whiteLbl]}>REMOVE CALLOUTS</Text>
+          </TouchableOpacity>
+          <TouchableOpacity
+            onPress={addMoreCallouts}
+            style={[styles.bottomBtn, styles.blackBG, styles.innerBtn]}
+          >
+            <Text style={[styles.lbl, styles.whiteLbl]}>ADD MORE CALLOUTS</Text>
           </TouchableOpacity>
         </View>
       </BottomSheet>
