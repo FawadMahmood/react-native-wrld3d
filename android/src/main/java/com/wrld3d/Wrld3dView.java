@@ -94,14 +94,15 @@ public class Wrld3dView extends FrameLayout {
       }
 
       if(child.getParent() != null){
-        ((ViewGroup)child.getParent()).removeView(child);
+        super.addView(child);
+//        super.removeView(child);
       }
 
-      try{
-        super.addView(child);
-      }catch (Exception e){
-        Log.d("EXCEPTION_ADDING",e.toString());
-      }
+//      try{
+//
+//      }catch (Exception e){
+//        Log.d("EXCEPTION_ADDING",e.toString());
+//      }
     }else {
       Runnable runnable;
       Handler handler;

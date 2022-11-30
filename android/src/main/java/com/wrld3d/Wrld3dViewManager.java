@@ -179,4 +179,5 @@ public class Wrld3dViewManager extends com.wrld3d.Wrld3dViewManagerSpec<Wrld3dVi
   public void removeViewAt(Wrld3dView parent, int index) {
          parent.removeViewAtIndex(index);
   }
+
 }
