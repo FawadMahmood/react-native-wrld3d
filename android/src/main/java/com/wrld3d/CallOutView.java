@@ -45,7 +45,6 @@ public class CallOutView extends LinearLayout {
     public CallOutView(ThemedReactContext context, CallOutViewManager manager) {
         super(context);
         this.context = context;
-        this.setBackgroundColor(Color.BLUE);
         this.setVisibility(View.INVISIBLE);
     }
 
