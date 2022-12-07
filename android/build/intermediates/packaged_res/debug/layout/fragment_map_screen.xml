@@ -12,5 +12,6 @@
         eegeo:camera_target_latitude="37.7858"
         eegeo:camera_target_longitude="-122.398"
         eegeo:camera_zoom="2"
+
     />
 </RelativeLayout>

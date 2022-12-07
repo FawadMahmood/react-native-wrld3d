@@ -45,9 +45,13 @@ export type MapDirectEventsType = Map3dDirectEvents;
 
 // NativeProps &
 export const Wrld3dView = forwardRef(
-  (props: ModuleEvents, forwardedRef: React.Ref<Map3dDirectEvents>) => {
+  (
+    { children, ...props }: ModuleEvents,
+    forwardedRef: React.Ref<Map3dDirectEvents>
+  ) => {
     const ref = useRef<any>(null);
     const mapCreated = useRef<boolean>(false);
+    const [ready, setReady] = React.useState(false);
 
     //mapevents
     const publicRef = {
@@ -106,6 +110,7 @@ export const Wrld3dView = forwardRef(
     const onMapReady = useCallback(
       (_: onMapReadyType) => {
         if (onReady) onReady(_.nativeEvent);
+        setReady(true);
       },
       [onReady]
     );
@@ -152,7 +157,9 @@ export const Wrld3dView = forwardRef(
         onMapReady={onMapReady as any}
         onCameraMoveBegin={onCameraMoveBegin as any}
         onClickBuilding={onClickBuilding as any}
-      />
+      >
+        {ready && children}
+      </MapView>
     );
   }
 );
